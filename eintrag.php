@@ -7,17 +7,10 @@
     <main>
 
         <section>
+            <img src="someImg" alt="someImg">
             <h2>Titel</h2>
 
-            <div>
-                <span>EMail:</span>
-                <span>meier@gmail.com</span>
-            </div>
-
-            <div>
-                <span>Datum:</span>
-                <span>18.03.2020</span>
-            </div>
+            
 
             <div>
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
@@ -26,6 +19,15 @@
                 dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
                 magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
                 clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            </div>
+
+            <div>
+                <span>Nutzer</span>
+                <span>Nutzer1</span>
+            </div>
+            <div>
+                <span>Datum:</span>
+                <span>18.03.2020</span>
             </div>
 
             <div>

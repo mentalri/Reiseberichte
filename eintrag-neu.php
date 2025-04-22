@@ -21,7 +21,7 @@
                     <textarea id="text" name="text" cols="20" rows="10" maxlength="2000"></textarea>
                 </div>
                 <div>
-                    <input type="submit" id="eintragen" name="eintragen" value="Eintragen bzw. Ändern">
+                    <input type="submit" id="eintragen" name="eintragen" value="Speichern">
                     <button>Löschen</button>
                 </div>
                 

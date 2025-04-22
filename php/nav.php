@@ -1,17 +1,15 @@
 <nav>
     <div>
-        <a href="index.php">Gästebuch</a>
+        <a href="index.php">Reiseberichte</a>
     </div>
     <div>
-        <a href="eintrag-neu.php">Neuer Eintrag</a>
+        <a href="eintrag-neu.php">Bericht erstellen</a>
     </div>
     <div>
         <a href="nutzerliste.php">Nutzerliste</a>
     </div>
     <div>
-        <a href="anmeldung.php">Anmelden/Abmelden</a>
+        <a href="anmeldung.php">Anmelden</a>
     </div>
-    <div>
-        <a href="registrierung.php">Registrieren</a>
-    </div>
+   
 </nav>

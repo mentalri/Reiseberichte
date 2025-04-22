@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Gästebuch Beispiel">
-    <meta name="author" content="Dietrich Boles">
-    <title>Gästebuch</title>
+    <meta name="description" content="Reiseberichte">
+    <meta name="author" content="Thore Ritterhoff, Fanping Zhou-Schulze, Bayan Alhawari">
+    <title>Reiseberichte</title>
 </head>

@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="index.php">Abbrechen</a>
+                    <Button>Registrieren</Button>
                     <button type="submit">Anmelden</button>
                 </div>
             </form>
