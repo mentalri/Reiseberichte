@@ -2,11 +2,11 @@
    Layout: Container & Sections
 --------------------------- */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    margin: 0 0 auto 0;
+    padding: 1rem 1rem;
+    width: 100%;
+    
 }
-
 /* Optional: kleinere Container für z. B. Blog, Formulare etc. */
 .container-sm {
     max-width: 768px;
@@ -15,15 +15,14 @@
 /* --------------------------
    Layout: Header, Main, Footer
 --------------------------- */
-header {
-    background-color: #fff;
-    padding: 1rem 0;
-    border-bottom: 1px solid #ddd;
-}
-
 main {
-    padding: 2rem 0;
-    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 .page-wrapper {
     min-height: 100%;
@@ -31,11 +30,11 @@ main {
     flex-direction: column;
 }
 footer {
-    background-color: #f0f0f0;
+    background-color: var(--color-footer-bg);
     padding: 1rem;
     text-align: center;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--color-footer-text);
 }
 
 /* --------------------------
