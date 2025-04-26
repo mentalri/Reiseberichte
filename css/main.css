@@ -1,0 +1,80 @@
+/* --------------------------
+   CSS Reset / Normalize
+--------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+    color: #222;
+    background-color: #f9f9f9;
+    height: 100%;
+    margin: 0;
+}
+
+/* --------------------------
+   Links
+--------------------------- */
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------
+   Typografie
+--------------------------- */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #111;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+/* --------------------------
+   Bilder & Medien
+--------------------------- */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --------------------------
+   Formulare
+--------------------------- */
+input, textarea, select, button {
+    font-family: inherit;
+    font-size: 1em;
+}
+
+/* --------------------------
+   Utilities (optional)
+--------------------------- */
+.text-center {
+    text-align: center;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }

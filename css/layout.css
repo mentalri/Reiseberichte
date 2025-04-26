@@ -1,0 +1,85 @@
+/* --------------------------
+   Layout: Container & Sections
+--------------------------- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Optional: kleinere Container für z. B. Blog, Formulare etc. */
+.container-sm {
+    max-width: 768px;
+}
+
+/* --------------------------
+   Layout: Header, Main, Footer
+--------------------------- */
+header {
+    background-color: #fff;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+main {
+    padding: 2rem 0;
+    flex: 1;
+}
+.page-wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+footer {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* --------------------------
+   Layout: Grid System
+--------------------------- */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -1rem;
+}
+
+.col {
+    padding: 0 1rem;
+    flex: 1;
+}
+
+.col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.col-4 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+}
+
+.col-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+/* --------------------------
+   Layout: Responsive
+--------------------------- */
+@media (max-width: 768px) {
+    .col,
+    .col-6,
+    .col-4,
+    .col-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    header, footer {
+        text-align: center;
+    }
+}
