@@ -13,11 +13,9 @@
         </div>
         <!-- Navigation Links -->
         <div class="nav-links" id="navLinks">
-            <a href="index.php">Reiseberichte</a>
             <a href="eintrag-neu.php">Bericht erstellen</a>
-            <a href="nutzerliste.php">Nutzerliste</a>
+            <a href="profil.php">Profil</a>
             <a href="anmeldung.php">Anmelden</a>
-            
         </div>
     </div>
 </nav>
