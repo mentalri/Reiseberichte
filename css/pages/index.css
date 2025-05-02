@@ -13,13 +13,24 @@
     border: 5px solid var(--color-border);
     border-radius: 8px;
     display: flex;
+    background-color: lightgray;
 
+}
+.preview-meta {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: white;
+}
+.preview-meta > p{
+    margin-bottom: 0;
+}
+.preview-text {
+    padding: 15px;
 }
 .preview-bild {
    
     height: 100%;
-    width: 250px;
-    
+    width: 300px;
     background-color: dimgray;
 }
 .preview-liste {

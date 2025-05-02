@@ -1,3 +1,6 @@
+<?php
+$cssFiles = array("css/pages/bericht.css");
+?>
 <?php include_once "php/head.php" ?>
 
 <body>
