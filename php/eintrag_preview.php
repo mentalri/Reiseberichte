@@ -1,6 +1,6 @@
-<div class="preview-eintrag">
+<div class="preview-eintrag flex-shrink">
     <div class="preview-bild">
-        <img src="bilder/placeholder.jpg" alt="Bild 1" loading="lazy">
+        <img src="resources/picture_icon.png" alt="Bild 1" loading="lazy">
     </div>
     <div class="preview-meta">
         <p class="titel"><a href="eintrag.php">Titel 1</a></p>

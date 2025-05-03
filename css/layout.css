@@ -2,30 +2,21 @@
    Layout: Container & Sections
 --------------------------- */
 .container {
-    margin: 0 0 auto 0;
+    margin: 0 0 0 0;
     padding: 1rem 1rem;
     width: 100%;
-    
+    flex: 1 1 auto;
 }
-/* Optional: kleinere Container für z. B. Blog, Formulare etc. */
-.container-sm {
-    max-width: 768px;
-}
-
 /* --------------------------
    Layout: Header, Main, Footer
 --------------------------- */
-main {
-    display: flex;
-    flex-direction: row;
-}
+
 section{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 .page-wrapper {
-    min-height: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -35,8 +26,25 @@ footer {
     text-align: center;
     font-size: 0.9rem;
     color: var(--color-footer-text);
+    flex: 0 1 auto;
+    border-top: 3px solid var(--color-footer-text);
 }
-
+.flex-grow{
+    flex: 1 1 auto;
+}
+.flex-shrink{
+    flex: 0 0 auto;
+}
+.flex-column{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
 /* --------------------------
    Layout: Grid System
 --------------------------- */

@@ -5,14 +5,14 @@ $cssFiles = array("css/pages/index.css");
 <?php include_once "php/head.php" ?>
 
 <input type="checkbox" class="sidebar-toggle-checkbox" id="sidebarToggleCheckbox"/>
-<body>
+<body class="flex-column">
 
     
-    <div class="page-wrapper">
+    <div class="page-wrapper flex-column">
     <?php include_once "php/nav.php" ?>
-        <main class="container">
+        <main class="container flex-row ">
             
-            <section class="sidebar">                
+            <section class="sidebar flex-shrink">                
                 <div class="sidebar-content">
                 <h2 class="m0 h2 fit-width">Filter</h2> 
                     <div class="filter-container">
@@ -61,21 +61,23 @@ $cssFiles = array("css/pages/index.css");
                     </div>
                 </div>                
             </section>
-            <section class="content">
-                <div class="content-header">                    
+            <section class="content flex-column flex-grow">
+                <div class="content-header flex-shrink">                    
                     <label for="sidebarToggleCheckbox" class="sidebar-toggle" id="sidebarToggle">
                         <span class="sidebar-toggle-arrow">&#8594</span>
                     </label>
                     <h2 class="m0 h2 fit-width">Einträge</h2>
                 </div>
-                <div class="preview-liste">
+                <div class="preview-liste flex-grow">
                     <?php for($x=0;$x<10;$x++)
                     {
                         include "php/eintrag_preview.php";
                     }
                     ?>
                 </div>
+                
             </section>
+            
             
         </main>
 

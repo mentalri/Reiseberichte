@@ -16,7 +16,10 @@
             sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
             sea takimata sanctus est Lorem ipsum dolor sit amet.
         </p>
-
+        <p>
+            Credit: <br>
+            <a href="https://www.flaticon.com/free-icons/picture" title="picture icons">Picture icons created by Freepik - Flaticon</a>
+        </p>
     </main>
     <?php include_once "php/footer.php" ?>
 </body>

@@ -3,7 +3,8 @@
 --------------------------- */
 nav {
     background-color: var(--color-nav-bg);
-    border-bottom: 1px solid #ddd;
+    border-bottom: 3px solid var(--color-nav-text);
+    flex: 0 1 auto;
 }
 
 .nav-container {
@@ -23,7 +24,7 @@ nav {
    Navigation: Logo
 --------------------------- */
 .nav-logo {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
     color: var(--color-nav-text);
     text-decoration: none;
