@@ -4,12 +4,15 @@
     --color-text: #111111;
     --color-border: #444;
     --color-accent: #0066cc;
+    --color-text-accent: #fff;
     --color-nav-bg: #f1c232;
     --color-nav-text: #333333;
     --color-footer-bg: #f1c232;
     --color-footer-text: #333333;
     --color-content-bg: #ffd966;
     --color-content-text: #000000;
+    --color-button-bg: #ffffff;
+    --color-button-text: #000000;
 }
 
 /* Dark Theme */

@@ -18,11 +18,12 @@ $cssFiles = array("css/pages/index.css");
                     <div class="filter-container">
                         <div class="filter-item">
                             <label for="ort">Ort</label>
-                            <input type="text" id="ort" name="ort" placeholder="Ort eingeben...">
+                            <input type="text" id="ort" name="ort" placeholder="Stadt, PLZ, Land">
                         </div>
                         <div class="filter-item">
-                            <label for="datum">Datum</label>
-                            <input type="date" id="datum" name="datum">
+                            <label for="umkreis">Umkreis: <span>50km</span></label> 
+                            <input type="range" id="umkreis" name="umkreis" min="0" max="100" value="50" step="1">
+                           
                         </div>
                         <div class="filter-item">
                             <label for="bewertung">Bewertung</label>
@@ -37,8 +38,21 @@ $cssFiles = array("css/pages/index.css");
                         </div>
                         <div class="filter-item">
                             <label for="tags">Tags</label>
-                            <input type="text" id="tags" name="tags" placeholder="Tags eingeben...">
+                            <button>Select Tags</button>
                         </div>
+                        <div class="filter-item">
+                            <label for="datum">Zeitraum</label>
+                            <div class="datum-container">
+                                <div>                                    
+                                    <span>von</span><input type="date" id="datum" name="datum">
+                                </div>
+                                <div>
+                                    <span>bis</span><input type="date" id="datum" name="datum">
+                                </div>
+                            </div>
+                        </div>
+                        
+                       
                         <div class="filter-item">
                             <label for="sortierung">Sortierung</label>
                             <select id="sortierung" name="sortierung">

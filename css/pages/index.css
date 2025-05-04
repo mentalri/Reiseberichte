@@ -25,6 +25,8 @@
     padding-left: 15px;
     padding-right: 15px;
     background-color: white;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
 }
 .preview-meta > p{
     margin-bottom: 0;
@@ -117,7 +119,27 @@
     border: 3px solid var(--color-content-text);
 
 }
-
+.filter-item{
+    margin-bottom: 0.8rem;
+}
+.filter-item > label{
+    font-size: 1.2em;
+    margin-bottom: 0.1rem;
+    display: block;
+}
+.filter-item > input{
+    margin-right: 0.5rem;
+}
+.datum-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.datum-container > div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 @media (max-width: 900px) {
     .sidebar-content{
         display: none;
@@ -131,5 +153,9 @@
     .preview-liste{
         margin-left: 15px;
     }
-    
+    .preview-eintrag{
+        flex-direction: column;
+        width: fit-content;
+        height: auto;
+    }
 }

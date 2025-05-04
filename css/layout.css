@@ -19,6 +19,7 @@ section{
 .page-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 footer {
     background-color: var(--color-footer-bg);

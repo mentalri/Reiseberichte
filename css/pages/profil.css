@@ -1,0 +1,42 @@
+.sidebar {
+    height: inherit;
+}
+.sidebar-content {
+    height: 100%;
+    background-color: var(--color-content-bg);
+    margin-right: 1rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-right: 3px solid var(--color-content-text);
+}
+.sidebar-content > button{
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.sidebar-content > button:hover , .active {
+    background-color: var(--color-accent);
+    color: var(--color-text-accent);
+}
+
+.sidebar-content:first-child {
+    padding-top: 1rem;
+}
+.sidebar-content:last-child {
+    padding-bottom: 1rem;
+}
+.content {
+    margin-bottom: auto;
+}
+.konto-field {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
