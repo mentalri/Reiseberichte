@@ -16,7 +16,7 @@ $cssFiles = array("css/pages/profil.css","css/preview.css");
                     <a href="profil_freunde.php">Freunde</a>
                 </div>
             </section>
-            <section class="content flex-grow">
+            <section class="content flex-column flex-grow">
                 <?php include_once "php/profil_bewertete_berichte.php" ?>
             </section>
         </main>

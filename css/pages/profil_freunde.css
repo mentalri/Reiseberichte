@@ -1,0 +1,47 @@
+.content > div, .profil-list {
+    width: 100%;
+}
+.profil-list > div {
+    gap: 1rem;
+}
+.profil-list:first-child{
+    border-right: 3px solid black;
+}
+.profil-list > div:first-child{
+    border-bottom: 3px solid black;
+    text-align: center;
+    background-color: var(--color-profil-title-bg);
+}
+.profil-list > div:nth-child(2){
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: inherit;
+}
+.profil-list  .profil{
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.profil-list .profil:first-child{
+    margin-top: 15px;
+}
+.profil {
+    border-radius: 5px;
+    border: 3px solid black;
+    padding: 5px;
+    background-color: var(--color-profil-bg);
+}
+.profil > div {
+    justify-content: space-between;
+    align-items: center;
+}
+.profil > div > * {
+    margin-bottom: 0;
+}
+.sidebar-content{
+    margin-right: 0;
+}
+.profil button{
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}

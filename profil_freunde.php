@@ -1,5 +1,5 @@
 <?php
-$cssFiles = array("css/pages/profil.css");
+$cssFiles = array("css/pages/profil.css","css/pages/profil_freunde.css");
 #$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
 ?>
 <?php include_once "php/head.php" ?>

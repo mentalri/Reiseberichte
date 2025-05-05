@@ -1,5 +1,5 @@
 <?php
-$cssFiles = array("css/pages/profil.css","css/preview.css");
+$cssFiles = array("css/pages/profil.css","css/preview.css", "css/pages/profil_eigene_berichte.css");
 #$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
 ?>
 <?php include_once "php/head.php" ?>
@@ -16,7 +16,7 @@ $cssFiles = array("css/pages/profil.css","css/preview.css");
                     <a href="profil_freunde.php">Freunde</a>
                 </div>
             </section>
-            <section class="content flex-grow">
+            <section class="content flex-column flex-grow">
                 <?php include_once "php/profil_eigene_berichte.php" ?>
             </section>
         </main>
