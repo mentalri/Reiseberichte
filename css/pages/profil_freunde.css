@@ -45,3 +45,6 @@
     border-radius: 5px;
     padding: 5px;
 }
+.profil button:hover{
+    background-color: #ccc;
+}

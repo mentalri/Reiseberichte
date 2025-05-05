@@ -8,6 +8,7 @@
     border-radius: 8px;
     display: flex;
     background-color: lightgray;
+    flex: 0 1 auto;
 }
 .preview-eintrag:hover {
     cursor: pointer;
@@ -55,5 +56,8 @@
         width: fit-content;
         height: auto;
     }
-    
+    .preview-bild{
+        width: auto;
+        max-width: 300px;
+    }
 }

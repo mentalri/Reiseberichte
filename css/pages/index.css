@@ -4,8 +4,6 @@
     align-items: center;
     margin-bottom: 1rem;
 }
-
-
 .content{
     width: 100%;
     background-color: var(--color-content-bg);
@@ -102,7 +100,7 @@
 
 @media (max-width: 900px) {
     .preview-liste{
-        margin-left: 15px;
+        margin-left: 0;
         align-items: center;
     }
     .sidebar-content{
