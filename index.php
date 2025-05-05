@@ -1,5 +1,5 @@
 <?php
-$cssFiles = array("css/pages/index.css");
+$cssFiles = array("css/pages/index.css","css/preview.css");
 #$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
 ?>
 <?php include_once "php/head.php" ?>
