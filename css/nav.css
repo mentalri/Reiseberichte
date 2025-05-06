@@ -89,6 +89,9 @@ nav {
 .nav-toggle-checkbox:checked ~ .nav-logo-container span:nth-child(3) {
     transform: translate(0, -11px) rotate(-45deg);
 }
+#profil-nav{
+    display: none;
+}
 /* --------------------------
    Responsive
 --------------------------- */
@@ -113,5 +116,11 @@ nav {
 
     .nav-toggle {
         display: flex;
+    }
+    #profil-nav{
+        display: inline;
+    }
+    #profil-konto{
+        display: none;
     }
 }

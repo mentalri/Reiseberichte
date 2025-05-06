@@ -14,7 +14,8 @@
         <!-- Navigation Links -->
         <div class="nav-links" id="navLinks">
             <a href="eintrag-neu.php">Bericht erstellen</a>
-            <a href="profil.php">Profil</a>
+            <a href="profil.php" id="profil-nav">Profil</a>
+            <a href="profil_konto.php" id="profil-konto">Profil</a>
             <a href="anmeldung.php">Anmelden</a>
         </div>
     </div>

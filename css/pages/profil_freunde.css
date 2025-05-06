@@ -48,3 +48,8 @@
 .profil button:hover{
     background-color: #ccc;
 }
+@media (max-width: 900px){
+    .profil > div {
+        flex-direction: column;
+    }
+}

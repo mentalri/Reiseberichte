@@ -1,5 +1,5 @@
 <?php
-$cssFiles = array("css/pages/profil.css","css/pages/profil_freunde.css","css/pages/profil-sidebar.css");
+$cssFiles = array("css/pages/profil.css","css/pages/profil-sidebar.css");
 #$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
 ?>
 <?php include_once "php/head.php" ?>
@@ -9,8 +9,8 @@ $cssFiles = array("css/pages/profil.css","css/pages/profil_freunde.css","css/pag
         <?php include_once "php/nav.php" ?>
         <main class="flex-row flex-grow">
             <?php include_once "php/profil_sidebar.php" ?>
-            <section class="content flex-grow">
-                <?php include_once "php/profil_freunde.php" ?>
+            <section class="content flex-column flex-grow">
+                <?php include_once "php/profil_konto.php" ?>
             </section>
         </main>
         <?php include_once "php/footer.php" ?>
