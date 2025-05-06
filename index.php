@@ -37,7 +37,7 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
                             </select>
                         </div>
                         <div class="filter-item">
-                            <label for="tags">Tags</label>
+                            <p>Tags</p>
                             <button>Select Tags</button>
                         </div>
                         <div class="filter-item">
@@ -47,7 +47,7 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
                                     <span>von</span><input type="date" id="datum" name="datum">
                                 </div>
                                 <div>
-                                    <span>bis</span><input type="date" id="datum" name="datum">
+                                    <span>bis</span><input type="date" id="datum2" name="datum2">
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
             <section class="content flex-column flex-grow">
                 <div class="content-header flex-shrink">                    
                     <label for="sidebarToggleCheckbox" class="sidebar-toggle" id="sidebarToggle">
-                        <span class="sidebar-toggle-arrow">&#8594</span>
+                        <span class="sidebar-toggle-arrow">&#8594;</span>
                     </label>
                     <h2 class="m0 h2 fit-width">Einträge</h2>
                 </div>
