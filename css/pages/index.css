@@ -109,6 +109,9 @@
     .sidebar-toggle {
         display: flex;
     }
+    .sidebar-content{
+        overflow-y: scroll;
+    }
     
     
 }
