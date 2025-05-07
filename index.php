@@ -6,12 +6,9 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
 
 <input type="checkbox" class="sidebar-toggle-checkbox" id="sidebarToggleCheckbox"/>
 <body class="flex-column">
-
-    
     <div class="page-wrapper flex-column">
     <?php include_once "php/nav.php" ?>
         <main class="container flex-row ">
-            ghj
             <section class="sidebar flex-shrink">                
                 <div class="sidebar-content">
                 <h2 class="m0 h2 fit-width">Filter</h2> 
