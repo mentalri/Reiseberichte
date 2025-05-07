@@ -116,13 +116,12 @@ button:hover {
 }
 
 button[type="submit"] {
-    background-color: #ff8c00;
+    background-color: #f5d140; /* Darker golden color */
 }
 
 button[type="submit"]:hover {
-    background-color: #e67e00;
+    background-color: #cc9900; /* Even darker for hover effect */
 }
-
 /* Links in den Anmelde/Registrierungsformularen */
 form > div:last-child a {
     display: inline-block;
