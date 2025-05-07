@@ -1,0 +1,97 @@
+/* css/pages/bericht-formular.css */
+
+.bericht-formular {
+    max-width: 800px;
+    width: 80%;
+    margin: auto;
+    padding: 2rem;
+    background-color: #fdfdfd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 0 1 auto;
+}
+#submit{
+    margin-top: 5px;
+}
+
+.bericht-formular h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+textarea{
+    
+    aspect-ratio: 2/1;
+}
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+input[type="submit"],
+button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="reset"] {
+    background-color: #999;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    opacity: 0.9;
+}
+@media (max-width:550px) {
+    .bericht-formular{
+        width: 100%;
+        margin: 0;
+    }
+}
+@media (max-width:350px){
+    
+    
+    .page-wrapper{
+        overflow-y: scroll;
+    }
+    .container{
+        flex: 0 0 auto;
+    }
+}
+@media (max-height:750px){
+    .page-wrapper{
+        overflow-y: scroll;
+    }
+    .container{
+        flex: 0 0 auto;
+    }
+    textarea{
+        aspect-ratio: 3/1;
+    }
+}

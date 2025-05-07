@@ -1,37 +1,36 @@
+<?php
+$cssFiles = array("css/pages/bericht-formular.css");  
+?>
 <?php include_once "php/head.php" ?>
 
 <body>
-
+    <div class="page-wrapper">
     <?php include_once "php/nav.php" ?>
 
-    <main class="container">
+        <main class="container flex-column">
+            <section class="neu-container flex-column flex-grow">
+                <h2>Neuen Reisebericht erstellen</h2>
 
-        <section>
-            <h2 class="h2">Neuer Reisebericht</h2>
+                <form class="bericht-formular flex-column" action="eintrag.php" method="post" enctype="multipart/form-data">
+                    
+                    <label for="titel">Titel</label>
+                    <input type="text" id="titel" name="titel" required>
 
-            <form method="post">
-                <button> Bilder Hochladen</button>
-                <div>
-                    <label for="titel">Titel:</label>
-                    <input type="text" id="titel" name="titel" maxlength="100" required>
-                </div>
-                
-                <div>
-                    <label for="text">Text:</label>
-                    <textarea id="text" name="text" cols="20" rows="10" maxlength="2000"></textarea>
-                </div>
-                <div>
-                    <input type="submit" id="eintragen" name="eintragen" value="Speichern">
-                    <button>Löschen</button>
-                </div>
-                
-            </form>
+                    <label for="ort">Ort</label>
+                    <input type="text" id="ort" name="ort" required>
 
-        </section>
+                    <label for="bild">Bilder hochladen</label>
+                    <input type="file" id="bild" name="bild" accept="image/*" multiple required>
 
-    </main>
 
-    <?php include_once "php/footer.php" ?>
+                    <label for="beschreibung">Beschreibung</label>
+                    <textarea id="beschreibung" name="beschreibung"  required></textarea>
+
+                    <button type="submit" id="submit">Eintragen</button>
+                </form>
+            </section>
+        </main>
+        <?php include_once "php/footer.php" ?>
+    </div>    
 </body>
-
 </html>
