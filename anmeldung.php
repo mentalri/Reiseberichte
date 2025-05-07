@@ -1,3 +1,4 @@
+<?php $cssFiles = array("css/pages/formular.css");?>
 <?php include_once "php/head.php" ?>
 
 <body>
@@ -11,22 +12,26 @@
 
             <form action="index.php" method="POST">
                 <div>
-                    <label for="email">E-Mail:</label>
+                    <label for="benutzername">Benutzername:</label>
                     <div>
-                        <input type="email" id="email" name="email" maxlength="100" required>
-                        <div>E-Mail ist erforderlich.</div>
+                    <input type="text" id="benutzername" name="benutzername" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
+                            required minlength="5" maxlength="8">
+                       
                     </div>
                 </div>
                 <div>
                     <label for="password">Passwort:</label>
                     <div>
-                        <input type="password" id="password" name="password" maxlength="100" required>
-                        <div>Passwort ist erforderlich.</div>
+                    <input type="password" id="pwd" name="pwd"  placeholder="Passwort eingeben"
+                            pattern=".{8,}"
+                            title="Bitte geben Sie Ihr Passwort ein." minlength="8" maxlength="12"
+                            required>
+                        
                     </div>
                 </div>
                 <div>
-                    <Button>Registrieren</Button>
                     <button type="submit">Anmelden</button>
+                    <a href= "registrierung.php">Registrieren</a>
                 </div>
             </form>
 

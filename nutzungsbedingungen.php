@@ -1,3 +1,6 @@
+<?php
+$cssFiles = array("css/pages/footer-elements.css");
+?>
 <?php include_once "php/head.php" ?>
 
 <body>
@@ -6,24 +9,54 @@
 
     <main>
 
-        <h1>Disclaimer</h1>
+       
+    <h1>Nutzungsbedingungen</h1>
+    <div class="datenschutz-container">
+<div class="content">
+<div class="preview-liste">
+<p>
+  <section>
+    <h2>Geltungsbereich</h2>
+    <p>Diese Nutzungsbedingungen gelten für die Nutzung der Webseite „Reiseberichte“.<br> Mit der Registrierung und Nutzung unserer Dienste akzeptieren Sie diese Bedingungen.</p>
+  </section>
 
-        <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea takimata sanctus est Lorem ipsum dolor sit amet.
+  <section>
+    <h2>Registrierung</h2>
+    <p>Um Inhalte erstellen und bewerten zu können, müssen Sie sich registrieren.<br> Sie sind verpflichtet, Ihre Daten wahrheitsgemäß anzugeben.</p>
+  </section>
+
+  <section>
+    <h2>Nutzerverhalten</h2>
+    <ul>
+      <li>Sie sind verantwortlich für alle Inhalte, die Sie auf der Plattform veröffentlichen.</li>
+      <li>Es ist untersagt, beleidigende, diskriminierende oder illegale Inhalte zu teilen.</li>
+      <li>Die Nutzung von Bots oder automatisierten Diensten ist nicht gestattet.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Rechte an Inhalten</h2>
+    <p>Durch das Hochladen von Inhalten räumen Sie uns das Recht ein,<br> diese Inhalte auf unserer Plattform anzuzeigen und zu verbreiten.</p>
+  </section>
+
+  <section>
+    <h2>Haftung</h2>
+    <p>Wir übernehmen keine Haftung für die Inhalte Dritter oder für Schäden, <br>die durch die Nutzung unserer Plattform entstehen.</p>
+  </section>
+
+  <section>
+    <h2>Änderungen der Nutzungsbedingungen</h2>
+    <p>Wir behalten uns das Recht vor, diese Nutzungsbedingungen jederzeit zu ändern. <br>Änderungen werden auf der Webseite veröffentlicht.</p>
+  </section>
+
+  <section>
+    <h2>Kontakt</h2>
+    <p>Bei Fragen zu diesen Nutzungsbedingungen können Sie uns unter <a href="mailto:reiseberichte@info.de">reiseberichte@info.de</a> kontaktieren.</p>
+  </section>  
         </p>
-        <p>
-            Credit: <br>
-            <a href="https://www.flaticon.com/free-icons/picture" title="picture icons">Picture icons created by Freepik - Flaticon</a>
-            <br>
-            <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Kiranshastry - Flaticon</a>
-            <br>
-            <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Kiranshastry - Flaticon</a>
-        </p>
+        </div>
+        </div>
+        </div>
     </main>
     <?php include_once "php/footer.php" ?>
 </body>
