@@ -26,10 +26,8 @@
                     </div>
                 </div>
                 <div>
-                
-
-                    <a href= "registrierung.php">Registrieren</a>
                     <button type="submit">Anmelden</button>
+                    <a href= "registrierung.php">Registrieren</a>
                 </div>
             </form>
 

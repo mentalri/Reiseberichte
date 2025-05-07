@@ -50,8 +50,8 @@
                 </div>
 
                 <div>
-                <a href= "anmeldung.php">Anmelden</a>
                     <button type="submit">Registrieren</button>
+                    <a href= "anmeldung.php">Anmelden</a>
                 </div>
             </form>
 
