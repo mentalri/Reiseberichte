@@ -1,0 +1,54 @@
+.bericht-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.bericht-bild {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.bericht-titel {
+    font-size: 2rem;
+    margin: 1rem 0;
+    color: #333;
+}
+
+.bericht-beschreibung {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+    color: #444;
+}
+
+.bericht-meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.bericht-autor,
+.bericht-datum {
+    margin: 0.3rem 0;
+}
+
+.bericht-aktionen {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.aktion-link {
+    text-decoration: none;
+    color: #1e88e5;
+    font-weight: bold;
+}
+
+.delete-link {
+    color: #d32f2f;
+}

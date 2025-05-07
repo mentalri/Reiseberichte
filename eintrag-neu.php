@@ -1,3 +1,6 @@
+<?php
+$cssFiles = array("css/pages/bericht-formular.css");  // 添加一个对应的 CSS 文件
+?>
 <?php include_once "php/head.php" ?>
 
 <body>
@@ -6,25 +9,29 @@
 
     <main class="container">
 
-        <section>
-            <h2 class="h2">Neuer Reisebericht</h2>
+        <section class="bericht-formular">
+            <h2>Neuer Reisebericht</h2>
 
-            <form method="post">
-                <button> Bilder Hochladen</button>
-                <div>
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="bilder">Bilder hochladen:</label>
+                    <input type="file" id="bilder" name="bilder[]" multiple accept="image/*">
+                </div>
+
+                <div class="form-group">
                     <label for="titel">Titel:</label>
                     <input type="text" id="titel" name="titel" maxlength="100" required>
                 </div>
-                
-                <div>
+
+                <div class="form-group">
                     <label for="text">Text:</label>
-                    <textarea id="text" name="text" cols="20" rows="10" maxlength="2000"></textarea>
+                    <textarea id="text" name="text" cols="30" rows="10" maxlength="2000" required></textarea>
                 </div>
-                <div>
+
+                <div class="form-actions">
                     <input type="submit" id="eintragen" name="eintragen" value="Speichern">
-                    <button>Löschen</button>
+                    <button type="reset">Zurücksetzen</button>
                 </div>
-                
             </form>
 
         </section>
@@ -33,5 +40,4 @@
 
     <?php include_once "php/footer.php" ?>
 </body>
-
 </html>
