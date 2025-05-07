@@ -37,7 +37,7 @@
 .profil > div > * {
     margin-bottom: 0;
 }
-.sidebar-content{
+section > .sidebar-content{
     margin-right: 0;
 }
 .profil button{

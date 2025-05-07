@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Reiseberichte">
     <meta name="author" content="Thore Ritterhoff, Fanping Zhou-Schulze, Bayan Alhawari">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reiseberichte</title>
     <!-- Globale Styles -->
     <link rel="stylesheet" href="css/main.css">

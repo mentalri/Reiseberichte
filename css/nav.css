@@ -95,7 +95,7 @@ nav {
 /* --------------------------
    Responsive
 --------------------------- */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     .nav-container {
         flex-direction: column;
     }
