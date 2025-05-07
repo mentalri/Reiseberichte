@@ -1,3 +1,4 @@
+<?php $cssFiles = array("css/pages/formular.css");?>
 <?php include_once "php/head.php" ?>
 
 <body>
@@ -11,21 +12,23 @@
 
             <form action="index.php" method="POST">
                 <div>
-                    <label for="email">E-Mail:</label>
+                    <label for="benutzername">Benutzername:</label>
                     <div>
-                        <input type="email" id="email" name="email" maxlength="100" required>
-                        <div>E-Mail ist erforderlich.</div>
+                    <input  id="benutzername"  minlength="5" maxlength="8" required>
+                       
                     </div>
                 </div>
                 <div>
                     <label for="password">Passwort:</label>
                     <div>
-                        <input type="password" id="password" name="password" maxlength="100" required>
-                        <div>Passwort ist erforderlich.</div>
+                        <input type="password" id="password"  minlength="8" maxlength="12" required>
+                        
                     </div>
                 </div>
                 <div>
-                    <Button>Registrieren</Button>
+                
+
+                    <a href= "registrierung.php">Registrieren</a>
                     <button type="submit">Anmelden</button>
                 </div>
             </form>

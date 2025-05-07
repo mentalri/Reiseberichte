@@ -1,3 +1,4 @@
+<?php $cssFiles = array("css/pages/formular.css");?>
 <?php include_once "php/head.php" ?>
 
 <body>
@@ -9,44 +10,47 @@
         <section>
             <h2>Registrieren</h2>
 
-            <form action="index.php" method="POST">
+            <form action="anmeldung.php" method="POST">
 
             
                 <div>
-                    <label for="name">Name:</label>
+                    <label for="benutzername">Benutzername:</label>
                     <div>
-                        <input type="text" id="name" name="name" maxlength="100" required>
-                        <div>Name ist erforderlich.</div>
+                    <input id="benutzername" 
+                            required minlength="5" maxlength="8"
+                               oninvalid="setCustomValidity('Benutzername muss zwischen 5 und 8 Zeichen lang sein')"
+                               oninput="setCustomValidity('')">
                     </div>
                 </div>
 
                 <div>
                     <label for="email">E-Mail:</label>
                     <div>
-                        <input type="email" id="email" name="email" maxlength="100" required>
-                        <div>E-Mail ist erforderlich.</div>
+                        <input type="email" id="email" maxlength="100" required>
                     </div>
                 </div>
 
                 <div>
                     <label for="password">Passwort:</label>
                     <div>
-                        <input type="password" id="password" name="password" minlength="8" maxlength="100" required>
-                        <div>Passwort ist erforderlich.</div>
+                    <input type="password" id="password" name="password" 
+                               required minlength="8" maxlength="12"
+                               oninvalid="setCustomValidity('Passwort muss zwischen 8 und 12 Zeichen lang sein')"
+                               oninput="setCustomValidity('')">
                     </div>
                 </div>
 
                 <div>
                     <label for="password_repeat">Passwort bestätigen:</label>
                     <div>
-                        <input type="password" id="password_repeat" name="password_repeat" minlength="8" maxlength="100"
-                            required>
-                        <div>Passwort bestätigen ist erforderlich.</div>
+                        <input type="password" id="password_repeat" name="password_repeat" minlength="8" maxlength="12"
+                            required oninvalid="setCustomValidity('Passwort muss zwischen 8 und 12 Zeichen lang sein')"
+                            oninput="setCustomValidity('')">
                     </div>
                 </div>
 
                 <div>
-                    <button>Anmelden</button>
+                <a href= "anmeldung.php">Anmelden</a>
                     <button type="submit">Registrieren</button>
                 </div>
             </form>
@@ -57,5 +61,4 @@
 
     <?php include_once "php/footer.php" ?>
 </body>
-
 </html>

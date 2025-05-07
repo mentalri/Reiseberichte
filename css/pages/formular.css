@@ -1,0 +1,160 @@
+/* Allgemeine Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hauptbereich */
+main {
+    width: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    padding: 0.8rem; 
+    box-sizing: border-box;
+    min-height: calc(100vh - 180px); 
+    margin-bottom: 40px; 
+}
+
+main h2 {
+    margin-bottom: 0.5rem;
+    width: 100%; 
+    font-size: 1.4em;
+    text-align: center;
+}
+
+section {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.1rem;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 0.7rem;
+}
+
+/* Überschrift */
+h2 {
+    text-align: center;
+    margin-bottom: 0.6rem;
+    color: #2c3e50;
+    font-size: 1.4rem;
+}
+
+/* Formular */
+form {
+    width: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.5rem;
+}
+
+form > div {
+    margin-bottom: 0.45rem;
+}
+
+/* Labels */
+label {
+    display: block; 
+    margin-bottom: 0.2rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+label::after {
+    content: " *"; 
+    color: #ff0000;
+}
+
+/* Input-Felder  */
+input {
+    width: 100%; 
+    padding: 0.45rem; 
+    border: 2px solid #888; 
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background-color: white; 
+    color: #333;
+    height: 34px; /* Noch kompakter */
+}
+
+/* Buttons */
+form > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+}
+
+button {
+    background-color: #777;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    flex: 1;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+button[type="submit"] {
+    background-color: #ff8c00;
+}
+
+button[type="submit"]:hover {
+    background-color: #e67e00;
+}
+
+/* Links in den Anmelde/Registrierungsformularen */
+form > div:last-child a {
+    display: inline-block;
+    background-color: #777;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.3s;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+form > div:last-child a:hover {
+    background-color: #555;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    section {
+        padding: 1rem;
+    }
+    
+    form > div:last-child {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+}
