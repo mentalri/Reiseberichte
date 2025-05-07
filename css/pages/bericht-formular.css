@@ -41,7 +41,7 @@ input[type="file"] {
 }
 textarea{
     
-    aspect-ratio: 3/2;
+    aspect-ratio: 2/1;
 }
 .form-actions {
     display: flex;
@@ -67,4 +67,31 @@ button[type="reset"] {
 input[type="submit"]:hover,
 button:hover {
     opacity: 0.9;
+}
+@media (max-width:550px) {
+    .bericht-formular{
+        width: 100%;
+        margin: 0;
+    }
+}
+@media (max-width:350px){
+    
+    
+    .page-wrapper{
+        overflow-y: scroll;
+    }
+    .container{
+        flex: 0 0 auto;
+    }
+}
+@media (max-height:750px){
+    .page-wrapper{
+        overflow-y: scroll;
+    }
+    .container{
+        flex: 0 0 auto;
+    }
+    textarea{
+        aspect-ratio: 3/1;
+    }
 }
