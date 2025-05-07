@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div>
-                        <label for="password">Passwort:</label>
+                        <label for="pwd">Passwort:</label>
                         <div>
                         <input type="password" id="pwd" name="pwd"  placeholder="Passwort eingeben"
                                 pattern=".{8,}"
