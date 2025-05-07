@@ -31,7 +31,7 @@
                     <label for="pwd" class="required">Passwort:</label>
                     <div>
                         <input type="password" id="pwd" name="pwd"  placeholder="Passwort eingeben"
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            pattern=".{8,}"
                             title="Bitte geben Sie Ihr Passwort ein. Es sollte mindestens 8 Zeichen lang sein" minlength="8" maxlength="12"
                             required
                             oninvalid="setCustomValidity('Passwort muss zwischen 8 und 12 Zeichen lang sein')"
