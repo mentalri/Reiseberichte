@@ -87,7 +87,7 @@ input {
     font-size: 0.9rem;
     background-color: white; 
     color: #333;
-    height: 34px; /* Noch kompakter */
+    height: 34px; 
 }
 
 /* Buttons */
@@ -116,11 +116,11 @@ button:hover {
 }
 
 button[type="submit"] {
-    background-color: #f5d140; /* Darker golden color */
+    background-color: var(--color-footer-bg); 
 }
 
 button[type="submit"]:hover {
-    background-color: #cc9900; /* Even darker for hover effect */
+    background-color: #cc9900; 
 }
 /* Links in den Anmelde/Registrierungsformularen */
 form > div:last-child a {
@@ -140,6 +140,13 @@ form > div:last-child a {
 form > div:last-child a:hover {
     background-color: #555;
     text-decoration: none;
+}
+
+/* Intro-Text */
+.terms-text {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    color: #555;
 }
 
 /* Responsive Design */

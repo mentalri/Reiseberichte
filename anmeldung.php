@@ -14,14 +14,18 @@
                 <div>
                     <label for="benutzername">Benutzername:</label>
                     <div>
-                    <input  id="benutzername"  minlength="5" maxlength="8" required>
+                    <input type="text" id="benutzername" name="benutzername" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
+                            required minlength="5" maxlength="8">
                        
                     </div>
                 </div>
                 <div>
                     <label for="password">Passwort:</label>
                     <div>
-                        <input type="password" id="password"  minlength="8" maxlength="12" required>
+                    <input type="password" id="pwd" name="pwd"  placeholder="Passwort eingeben"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Bitte geben Sie Ihr Passwort ein." minlength="8" maxlength="12"
+                            required>
                         
                     </div>
                 </div>
