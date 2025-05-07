@@ -1,10 +1,20 @@
+.page-wrapper > main{
+    overflow-y: scroll;
+}
 .bericht-container {
     padding: 20px;
     max-width: 1000px;
     margin: auto;
     font-family: sans-serif;
+    background-color: #fdfdfd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
+.img-container{
+    background-color: #cecece;
+    width: 100%;
+    aspect-ratio: 2/1;
+}
 .bericht-bild {
     width: 100%;
     height: auto;
@@ -18,8 +28,11 @@
     align-items: center;
     gap: 10px;
     margin: 10px 0;
+    width: 100%;
 }
-
+.bericht-header p,h2 {
+    margin: 0;
+}
 .bericht-titel {
     font-size: 24px;
     font-weight: bold;
@@ -27,6 +40,7 @@
 
 .beschreibung {
     margin: 20px 0;
+    width: 100%;
     background: #f4f4f4;
     padding: 15px;
     border-radius: 5px;
@@ -34,6 +48,7 @@
 
 .kommentarbereich {
     margin-top: 30px;
+    width: 100%;
 }
 
 .kommentar-formular textarea {

@@ -2,11 +2,16 @@
 
 .bericht-formular {
     max-width: 800px;
+    width: 80%;
     margin: auto;
     padding: 2rem;
     background-color: #fdfdfd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 0 1 auto;
+}
+#submit{
+    margin-top: 5px;
 }
 
 .bericht-formular h2 {
@@ -34,7 +39,10 @@ input[type="file"] {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-
+textarea{
+    
+    aspect-ratio: 3/2;
+}
 .form-actions {
     display: flex;
     justify-content: space-between;
