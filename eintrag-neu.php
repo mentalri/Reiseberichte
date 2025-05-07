@@ -1,5 +1,5 @@
 <?php
-$cssFiles = array("css/pages/bericht-formular.css");  // 添加一个对应的 CSS 文件
+$cssFiles = array("css/pages/bericht-formular.css");  
 ?>
 <?php include_once "php/head.php" ?>
 
@@ -9,32 +9,41 @@ $cssFiles = array("css/pages/bericht-formular.css");  // 添加一个对应的 C
 
     <main class="container">
 
-        <section class="bericht-formular">
-            <h2>Neuer Reisebericht</h2>
+    <section class="neu-container">
+    <h2>Neuen Reisebericht eintragen</h2>
 
-            <form method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="bilder">Bilder hochladen:</label>
-                    <input type="file" id="bilder" name="bilder[]" multiple accept="image/*">
-                </div>
+    <form class="bericht-formular" action="eintrag-speichern.php" method="post" enctype="multipart/form-data">
+        <label for="titel">Titel</label>
+        <input type="text" id="titel" name="titel" required>
 
-                <div class="form-group">
-                    <label for="titel">Titel:</label>
-                    <input type="text" id="titel" name="titel" maxlength="100" required>
-                </div>
+        <label for="autor">Autor</label>
+        <input type="text" id="autor" name="autor" required>
 
-                <div class="form-group">
-                    <label for="text">Text:</label>
-                    <textarea id="text" name="text" cols="30" rows="10" maxlength="2000" required></textarea>
-                </div>
+        <label for="ort">Ort</label>
+        <input type="text" id="ort" name="ort" required>
 
-                <div class="form-actions">
-                    <input type="submit" id="eintragen" name="eintragen" value="Speichern">
-                    <button type="reset">Zurücksetzen</button>
-                </div>
-            </form>
+        <label for="datum">Datum</label>
+        <input type="date" id="datum" name="datum" required>
 
-        </section>
+        <label for="bild">Bild hochladen</label>
+        <input type="file" id="bild" name="bild" accept="image/*">
+
+        <label for="bewertung">Bewertung</label>
+        <select id="bewertung" name="bewertung">
+            <option value="1">⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+        </select>
+
+        <label for="beschreibung">Beschreibung</label>
+        <textarea id="beschreibung" name="beschreibung" rows="6" required></textarea>
+
+        <button type="submit">Eintragen</button>
+    </form>
+</section>
+
 
     </main>
 

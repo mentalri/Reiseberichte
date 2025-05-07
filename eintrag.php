@@ -8,29 +8,56 @@ $cssFiles = array("css/pages/bericht.css");
     <?php include_once "php/nav.php" ?>
 
     <main>
-        <section class="bericht-container">
-            <img class="bericht-bild" src="someImg" alt="someImg" />
+    <section class="bericht-container">
+   
+    <img src="img/reisebild.jpg" alt="Reisebild" class="bericht-bild">
 
-            <h2 class="bericht-titel">Titel</h2>
+    
+    <div class="bericht-header">
+        <h2 class="bericht-titel">Ein Tag in London</h2>
+        <p><strong>Autor:</strong> Lisa Müller</p>
+        <p><span class="icon">📍</span> London, England</p>
+        <p><span class="icon">📅</span> 22.04.2025</p>
+        <p><span class="icon">⭐</span> <strong>4.2</strong></p>
+    </div>
 
-            <div class="bericht-beschreibung">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt...
-            </div>
+  
+    <div class="beschreibung">
+        <p>Ich hatte eine wundervolle Zeit in London. Das Wetter war großartig und das British Museum war faszinierend.</p>
+    </div>
 
-            <div class="bericht-meta">
-                <div class="bericht-autor">
-                    <strong>Autor:</strong> <span>Nutzer1</span>
-                </div>
-                <div class="bericht-datum">
-                    <strong>Datum:</strong> <span>18.03.2020</span>
-                </div>
-            </div>
+  
+    <div class="bewertung-bereich">
+        <h3>Bewertung abgeben:</h3>
+        <div class="sterne-bewertung">
+           
+            <span class="stern">★</span>
+            <span class="stern">★</span>
+            <span class="stern">★</span>
+            <span class="stern">★</span>
+            <span class="stern">☆</span>
+        </div>
+    </div>
 
-            <div class="bericht-aktionen">
-                <a href="eintrag-neu.php" class="aktion-link">✏️ Ändern (nur Autor)</a>
-                <a href="eintrag.php" class="aktion-link delete-link">🗑️ Löschen (nur Autor/Admin)</a>
-            </div>
-        </section>
+  
+    <div class="kommentarbereich">
+        <h3>Kommentare</h3>
+
+       
+        <form class="kommentar-formular">
+            <textarea placeholder="Dein Kommentar schreiben..." required></textarea>
+            <button type="submit">Kommentar absenden</button>
+        </form>
+
+     
+        <div class="kommentar">
+            <strong>Nutzer1</strong>
+            <p>Tolle Reisebeschreibung, danke fürs Teilen!</p>
+        </div>
+    </div>
+</section>
+
+
     </main>
 
     <?php include_once "php/footer.php" ?>
