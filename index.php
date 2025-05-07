@@ -12,7 +12,7 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
             <section class="sidebar flex-shrink">                
                 <div class="sidebar-content">
                 <h2 class="m0 h2 fit-width">Filter</h2> 
-                    <div class="filter-container">
+                    <form class="filter-container">
                         <div class="filter-item">
                             <label for="ort">Ort</label>
                             <input type="text" id="ort" name="ort" placeholder="Stadt, PLZ, Land">
@@ -34,7 +34,7 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
                             </select>
                         </div>
                         <div class="filter-item">
-                            <p>Tags</p>
+                            <p class="m0">Tags</p>
                             <button>Select Tags</button>
                         </div>
                         <div class="filter-item">
@@ -68,8 +68,8 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Filter anwenden</button>
-                    </div>
+                        <button type="submit" class="submit-btn">Filter anwenden</button>
+                    </form>
                 </div>                
             </section>
             <section class="content flex-column flex-grow">
@@ -77,7 +77,7 @@ $cssFiles = array("css/pages/index.css","css/preview.css");
                     <label for="sidebarToggleCheckbox" class="sidebar-toggle" id="sidebarToggle">
                         <span class="sidebar-toggle-arrow">&#8594;</span>
                     </label>
-                    <h2 class="m0 h2 fit-width">Einträge</h2>
+                    <h2 class="m0 fit-width">Einträge</h2>
                 </div>
                 <div class="preview-liste flex-grow">
                     <?php for($x=0;$x<10;$x++)
