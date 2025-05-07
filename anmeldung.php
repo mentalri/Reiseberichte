@@ -2,44 +2,44 @@
 <?php include_once "php/head.php" ?>
 
 <body>
+    <div class="page-wrapper">    
+        <?php include_once "php/nav.php" ?>
+        <main class="container">
 
-    <?php include_once "php/nav.php" ?>
+            <section>
+                <h2>Anmelden</h2>
 
-    <main>
-
-        <section>
-            <h2>Anmelden</h2>
-
-            <form action="index.php" method="POST">
-                <div>
-                    <label for="benutzername">Benutzername:</label>
+                <form action="index.php" method="POST">
                     <div>
-                    <input type="text" id="benutzername" name="benutzername" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
-                            required minlength="5" maxlength="8">
-                       
-                    </div>
-                </div>
-                <div>
-                    <label for="password">Passwort:</label>
-                    <div>
-                    <input type="password" id="pwd" name="pwd"  placeholder="Passwort eingeben"
-                            pattern=".{8,}"
-                            title="Bitte geben Sie Ihr Passwort ein." minlength="8" maxlength="12"
-                            required>
+                        <label for="benutzername">Benutzername:</label>
+                        <div>
+                        <input type="text" id="benutzername" name="benutzername" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
+                                required minlength="5" maxlength="8">
                         
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <button type="submit">Anmelden</button>
-                    <a href= "registrierung.php">Registrieren</a>
-                </div>
-            </form>
+                    <div>
+                        <label for="password">Passwort:</label>
+                        <div>
+                        <input type="password" id="pwd" name="pwd"  placeholder="Passwort eingeben"
+                                pattern=".{8,}"
+                                title="Bitte geben Sie Ihr Passwort ein." minlength="8" maxlength="12"
+                                required>
+                            
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit">Anmelden</button>
+                        <a href= "registrierung.php">Registrieren</a>
+                    </div>
+                </form>
 
-        </section>
+            </section>
 
-    </main>
-
-    <?php include_once "php/footer.php" ?>
+        </main>
+        <?php include_once "php/footer.php" ?>
+    </div>
+   
 </body>
 
 </html>

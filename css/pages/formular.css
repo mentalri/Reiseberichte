@@ -73,7 +73,7 @@ label {
     font-size: 0.9rem;
 }
 
-label::after {
+form label::after {
     content: " *"; 
     color: #ff0000;
 }
@@ -162,5 +162,16 @@ form > div:last-child a:hover {
     
     h2 {
         font-size: 1.3rem;
+    }
+}
+@media (max-height:450px) {
+    
+    @media (max-height:450px) {
+        .page-wrapper>main{
+            flex: 0 0 auto;
+        }
+        .page-wrapper{
+            overflow-y: scroll;
+        }
     }
 }

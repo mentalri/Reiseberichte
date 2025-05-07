@@ -48,3 +48,11 @@
         border: 0px;
     }
 }
+@media (max-height:450px) {
+    .page-wrapper>main{
+        flex: 0 0 auto;
+    }
+    .page-wrapper{
+        overflow-y: visible;
+    }
+}

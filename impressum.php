@@ -11,7 +11,7 @@
     <div class="datenschutz-container">
 <div class="content">
 <div class="preview-liste">
-<p>
+
   <section>
     <h2>Verantwortlich für den Inhalt</h2>
     <p><strong>Reiseberichte</strong></p>
@@ -28,7 +28,7 @@
       <li>Bayan Alhawari</li>
     </ul>
   </section>
-      </p>
+      
 </div>
 </div>
 </div>
