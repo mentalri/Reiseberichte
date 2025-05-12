@@ -11,12 +11,18 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/nav.css">
-    
+    <link rel="stylesheet" href="css/feedback.css">
+
     <?php
     // Include the CSS files for the current page
     if (isset($cssFiles)) {
         foreach ($cssFiles as $cssFile) {
-            echo '<link rel="stylesheet" href="' . $cssFile . '">';
+            echo '<link rel="stylesheet" href="css/' . $cssFile . '">';
+        }
+    }
+    if(isset($phpFiles)){
+        foreach ($phpFiles as $phpFile) {
+            require_once $abs_path ."/" . $phpFile;
         }
     }
     ?>

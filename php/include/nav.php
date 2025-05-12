@@ -13,10 +13,14 @@
         </div>
         <!-- Navigation Links -->
         <div class="nav-links" id="navLinks">
-            <a href="eintrag-neu.php">Bericht erstellen</a>
-            <a href="profil.php" id="profil-nav">Profil</a>
-            <a href="profil_konto.php" id="profil-konto">Profil</a>
-            <a href="anmeldung.php">Anmelden</a>
+            <a href="report_form.php">Bericht erstellen</a>
+            <a href="profile.php?side=nav" id="profil-nav">Profil</a>
+            <a href="profile.php?side=konto" id="profil-konto">Profil</a>
+            <?php if (isset($_SESSION['user'])): ?>
+                <a href="logout.php">Abmelden</a>
+            <?php else: ?>
+                <a href="login.php">Anmelden</a>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

@@ -13,12 +13,13 @@
 .img-container{
     background-color: #cecece;
     width: 100%;
-    aspect-ratio: 2/1;
+    aspect-ratio: 16/9;
 }
 .bericht-bild {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 5px;
+    object-fit: contain;
 }
 
 .bericht-header {
@@ -77,6 +78,12 @@
     margin-top: 15px;
     background: #fff;
 }
+.kommentar .header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
 
 /* Responsive mobile */
 @media (max-width: 768px) {
@@ -92,4 +99,5 @@
     .bewertung-sterne {
         text-align: center;
     }
+   
 }

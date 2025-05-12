@@ -1,18 +1,18 @@
-<?php $cssFiles = array("css/pages/formular.css"); ?>
-<?php include_once "php/head.php" ?>
+<?php $cssFiles = array("pages/formular.css"); ?>
+<?php require_once $abs_path . "/php/include/head.php" ?>
 
 <body>
+    <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper">
-        <?php include_once "php/nav.php" ?>
-
+        <?php require_once $abs_path . "/php/include/nav.php" ?>
         <main class="container">
             <section>
                 <h2>Registrieren</h2>
-                <form action="anmeldung.php" method="POST">
+                <form action="register.php" method="POST">
                     <div>
-                        <label for="benutzername" class="required">Benutzername:</label>
+                        <label for="username" class="required">Benutzername:</label>
                         <div>
-                            <input type="text" id="benutzername" name="benutzername" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
+                            <input type="text" id="username" name="username" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
                                 required minlength="5" maxlength="8"
                                 oninvalid="setCustomValidity('Benutzername muss zwischen 5 und 8 Zeichen lang sein')"
                                 oninput="setCustomValidity('')">
@@ -28,9 +28,9 @@
                     </div>
 
                     <div>
-                        <label for="pwd" class="required">Passwort:</label>
+                        <label for="password" class="required">Passwort:</label>
                         <div>
-                            <input type="password" id="pwd" name="pwd" placeholder="Passwort eingeben"
+                            <input type="password" id="password" name="password" placeholder="Passwort eingeben"
                                 pattern=".{8,}"
                                 title="Bitte geben Sie Ihr Passwort ein. Es sollte mindestens 8 Zeichen lang sein" minlength="8" maxlength="12"
                                 required
@@ -54,14 +54,14 @@
                     </p>
                     <div>
                         <button type="submit">Registrieren</button>
-                        <a href="anmeldung.php">Anmelden</a>
+                        <a href="login.php">Anmelden</a>
                     </div>
 
 
                 </form>
             </section>
         </main>
-        <?php include_once "php/footer.php" ?>
+        <?php require_once $abs_path . "/php/include/footer.php" ?>
     </div>
 </body>
 

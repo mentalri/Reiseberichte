@@ -95,7 +95,6 @@
     align-items: center;
     justify-content: space-between;
 }
-
 @media (max-width: 768px) {
     .preview-liste{
         margin-left: 0;
