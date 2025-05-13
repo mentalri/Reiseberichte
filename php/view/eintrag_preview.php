@@ -26,6 +26,8 @@
         <a href=<?="report_form.php?edit=true&id=".$report->getId()?>>
             <img src="resources/edit_icon.png" alt="Edit" class="preview-action" id="edit-icon" loading="lazy">
         </a>
-        <img src="resources/delete_icon.png" alt="Delete" class="preview-action" id="delete-icon" loading="lazy">
+        <a href=<?="report_delete.php?id=".$report->getId()?>>
+            <img src="resources/delete_icon.png" alt="Delete" class="preview-action" id="delete-icon" loading="lazy">
+        </a>
     </div>
 </div>

@@ -8,6 +8,7 @@ $cssFiles = array("css/pages/profil.css", "css/pages/profil_freunde.css", "css/p
 <?php include_once "php/head.php" ?>
 
 <body class="flex-column">
+<?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper flex-column">
         <?php include_once "php/nav.php" ?>
         <main class="flex-row flex-grow">

@@ -160,14 +160,21 @@ class ReportController
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
             exit;
         }
         $this->checkId();
         try {
             $travelreports = Travelreports::getInstance();
+            $report = $travelreports->getReport($_GET["id"]);
+            if ($report->getAuthor()->getId() != $_SESSION["user"]) {
+                $_SESSION["message"] = "not_author";
+                header("Location: " . $_SERVER["HTTP_REFERER"]);
+                exit;
+            }
             $travelreports->deleteReport($_GET["id"]);
-            header("Location: index.php");
+            $_SESSION["message"] = "report_deleted";
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
