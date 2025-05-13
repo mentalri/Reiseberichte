@@ -31,6 +31,26 @@ class ReportController
             exit;
         }
     }
+    public function getUserRating($reportId, $userId)
+    {
+        if(!isset($_SESSION["user"])){
+            return new Rating(-1, null, -1); // Return an illegal rating object if user is not logged in
+        }
+        try {
+            $travelreports = Travelreports::getInstance();
+            $report = $travelreports->getReport($reportId);
+            foreach ($report->getRatings() as $rating) {
+                if ($rating->getUser()->getId() == $userId) {
+                    return $rating;
+                }
+            }
+            return new Rating(-1, null, -1); // Return an illegal rating object if no rating found
+        } catch (MissingEntryException $exc) {
+            $_SESSION["message"] = "invalid_entry_id";
+            header("Location: index.php");
+            exit;
+        }
+    }
     public function requestForm(){
         global $abs_path;
         if (!isset($_SESSION["user"])) {
@@ -188,13 +208,12 @@ class ReportController
     }
     public function addRating()
     {
+        $this->checkId();
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
             header("Location: report.php?id=" . $_GET["id"]);
             exit;
         }
-        
-        $this->checkId();
         try {
             $travelreports = Travelreports::getInstance();
             $travelreports->createRating($_GET["id"], $_SESSION["user"], $_POST["rating"]);

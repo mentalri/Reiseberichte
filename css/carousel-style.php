@@ -25,9 +25,9 @@ if($numSlides != 0):?>
 
   @keyframes report-<?=$report->getId()?>-slide {
     <?php 
-        $duration = 7*$numSlides; // total duration in seconds 100
-        $pct = 100 / $numSlides; // percentage for each slide  25
-        $transitionPct = 1.35 / $duration * 100; // 1.35 seconds in pct of total duration 
+        $duration = 7*$numSlides;
+        $pct = 100 / $numSlides;
+        $transitionPct = 1.35 / $duration * 100;
         for ($i = 0; $i < $numSlides; $i++) {
             echo ($i * $pct) . "% { transform: translateX(-" . ($i * $pct) . "%); }\n";
             echo (($i + 1) * $pct - $transitionPct) . "% { transform: translateX(-" . ($i * $pct) . "%); }\n";

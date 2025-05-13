@@ -224,7 +224,8 @@
                 if ($entry->getId() == $rateable_id) {
                     foreach ($entry->getRatings() as $rate) {
                         if ($rate->getUser()->getId() == $user_id) {
-                            throw new InternalErrorException("User already rated this report");
+                            $rate->setRating($rating);
+                            return;
                         }
                     }
                     $rating = new Rating($this->rating_id++, $this->getProfile($user_id), $rating);
@@ -236,7 +237,8 @@
                 if ($entry->getId() == $rateable_id) {
                     foreach ($entry->getRatings() as $rate) {
                         if ($rate->getUser()->getId() == $user_id) {
-                            throw new InternalErrorException("User already rated this comment");
+                            $rate->setRating($rating);
+                            return;
                         }
                     }
                     $rating = new Rating($this->rating_id++, $this->getProfile($user_id), $rating);

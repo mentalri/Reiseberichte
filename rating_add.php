@@ -5,9 +5,9 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 if (!isset($abs_path)) {
     require_once "path.php";
 }
+
+
 require_once $abs_path . "/php/controller/ReportController.php";
 $reportController = new ReportController();
-$report = $reportController->request();
-$user_rating = $reportController->getUserRating($report->getId(), $_SESSION["user"]);
-require_once $abs_path . "/php/view/report.php";
+$reportController->addRating();
 ?>
