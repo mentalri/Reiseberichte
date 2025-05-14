@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Rateable {
     protected $id;
     protected $user;

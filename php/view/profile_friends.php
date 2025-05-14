@@ -2,17 +2,16 @@
 if (!isset($abs_path)) {
     require_once "../../path.php";
 }
-$cssFiles = array("css/pages/profil.css", "css/pages/profil_freunde.css", "css/pages/profil-sidebar.css");
-#$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
+$cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/profil-sidebar.css");
 ?>
-<?php include_once "php/head.php" ?>
+<?php require_once $abs_path . "/php/include/head.php" ?>
 
 <body class="flex-column">
 <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper flex-column">
-        <?php include_once "php/nav.php" ?>
+        <?php require_once $abs_path . "/php/include/nav.php" ?>
         <main class="flex-row flex-grow">
-            <?php include_once "php/profil_sidebar.php" ?>
+            <?php require_once $abs_path . "/php/include/profil_sidebar.php" ?>
             <section class="content flex-grow">
                 <div class="flex-row flex-grow">
                     <div class="flex-column flex-grow profil-list">
@@ -21,7 +20,7 @@ $cssFiles = array("css/pages/profil.css", "css/pages/profil_freunde.css", "css/p
                         </div>
                         <div class="flex-column flex-grow">
                             <?php for ($x = 0; $x < 10; $x++) {
-                                include "php/profil_preview.php";
+                                require $abs_path . "/php/include/profile_preview.php";
                             } ?>
                         </div>
                     </div>
@@ -31,14 +30,14 @@ $cssFiles = array("css/pages/profil.css", "css/pages/profil_freunde.css", "css/p
                         </div>
                         <div class="flex-column flex-grow">
                             <?php for ($x = 0; $x < 15; $x++) {
-                                include "php/profil_preview.php";
+                                require $abs_path . "/php/include/profile_preview.php";
                             } ?>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
-        <?php include_once "php/footer.php" ?>
+        <?php require_once $abs_path . "/php/include/footer.php" ?>
     </div>
 </body>
 

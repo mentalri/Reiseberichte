@@ -6,7 +6,6 @@ if (!isset($abs_path)) {
 <?php
 $cssFiles = array("pages/index.css", "preview.css");
 $phpFiles = ["css/multiple-carousel-styles.php"];
-#$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
 ?>
 
 <?php require_once $abs_path . "/php/include/head.php"; ?>

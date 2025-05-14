@@ -45,16 +45,16 @@ class ProfileController
                     $reports = $travelreports->getRatedReports($_SESSION["user"]);
                     require_once $abs_path . "/php/view/profile_rated_reports.php";
                     break;
+                case "friends":
+                    
+                    require_once $abs_path . "/php/view/profile_friends.php";
+                    break;
                 default:
                     $_SESSION["message"] = "invalid_side";
+                    header("Location: index.php");
+                    exit;
             }
-
-            
-            $reports = $travelreports->getReports(null, null, null, null, null);
-            
-
-            // Aufbereitung der Daten fuer die Ausgabe (View), Hinweis: in diesem Fall nichts zu tun
-            return $reports;
+            return $travelreports->getReports(null, null, null, null, null);;
         } catch (InternalErrorException $exc) {
             // Behandlung von potentiellen Fehlern der Geschaeftslogik
             $_SESSION["message"] = "internal_error";

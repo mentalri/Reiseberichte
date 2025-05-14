@@ -39,7 +39,7 @@
                 $this->profiles = unserialize($_SESSION["profiles"]);
                 $this->profile_id = $_SESSION["profile_id"];
                 $this->rateable_id = $_SESSION["rateable_id"];
-            }else{                
+            }else{
                 $this->addProfile("Hans","hans@mail.com","Hans12345678");
                 $this->addProfile("Lisa","lisa@mail.com","Lisa12345678");
                 $this->addProfile("Max","max@mail.com","Max12345678");
@@ -48,11 +48,11 @@
                 $this->addProfile("Sophie","sophie@mail.com","Sophie12345678");
                 
                 $this->addReport($this->getProfile(0),strtotime("2023-10-01"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(1),strtotime("2023-10-01"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(2),strtotime("2023-10-01"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(3),strtotime("2023-10-01"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(0),strtotime("2023-10-01"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(3),strtotime("2023-10-01"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(1),strtotime("2023-11-01"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(2),strtotime("2023-12-01"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(3),strtotime("2023-13-01"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(0),strtotime("2023-14-01"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(3),strtotime("2023-15-01"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
                 
                 $this->createRating($this->reports[0]->getId(),0, 5);
                 $this->createRating($this->reports[0]->getId(),1, 4);
@@ -220,33 +220,26 @@
         }
         public function createRating($rateable_id, $user_id, $rating)
         {
-            foreach ($this->reports as $entry) {
-                if ($entry->getId() == $rateable_id) {
-                    foreach ($entry->getRatings() as $rate) {
-                        if ($rate->getUser()->getId() == $user_id) {
-                            $rate->setRating($rating);
-                            return;
-                        }
-                    }
-                    $rating = new Rating($this->rating_id++, $this->getProfile($user_id), $rating);
-                    $entry->addRating($rating);
-                    return;
-                }
-            }
-            foreach ($this->comments as $entry) {
-                if ($entry->getId() == $rateable_id) {
-                    foreach ($entry->getRatings() as $rate) {
-                        if ($rate->getUser()->getId() == $user_id) {
-                            $rate->setRating($rating);
-                            return;
-                        }
-                    }
-                    $rating = new Rating($this->rating_id++, $this->getProfile($user_id), $rating);
-                    $entry->addRating($rating);
-                    return;
-                }
-            }
+            if($this->handleRating($this->reports,$rateable_id, $user_id,$rating)) {return;}
+            if($this->handleRating($this->comments,$rateable_id, $user_id,$rating)) {return;}
             throw new MissingEntryException("No entry found with rateable_id: " . $rateable_id);
+        }
+        private function handleRating($array,$rateable_id, $user_id,$rating)
+        {
+            foreach ($array as $entry) {
+                if ($entry->getId() == $rateable_id) {
+                    foreach ($entry->getRatings() as $rate) {
+                        if ($rate->getUser()->getId() == $user_id) {
+                            $rate->setRating($rating);
+                            return true;
+                        }
+                    }
+                    $rating = new Rating($this->rating_id++, $this->getProfile($user_id), $rating);
+                    $entry->addRating($rating);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 ?>

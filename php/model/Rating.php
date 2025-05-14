@@ -1,6 +1,6 @@
-<?php 
+<?php
     class Rating {
-        private $id;        
+        private $id;
         private $user;
         private $rating;
 
