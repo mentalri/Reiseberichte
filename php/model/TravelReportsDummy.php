@@ -128,7 +128,7 @@
             return $report;
         }
 
-        public function updateReport($report_id) 
+        public function updateReport($report_id)
         {
             throw new InternalErrorException("Not implemented yet");
         }

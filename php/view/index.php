@@ -32,14 +32,12 @@ $phpFiles = ["css/multiple-carousel-styles.php"];
                         </div>
                         <div class="filter-item">
                             <label for="bewertung">Bewertung</label>
-                            <select id="bewertung" name="bewertung">
-                                <option value="">Alle</option>
-                                <option value="1">1 Stern</option>
-                                <option value="2">2 Sterne</option>
-                                <option value="3">3 Sterne</option>
-                                <option value="4">4 Sterne</option>
-                                <option value="5">5 Sterne</option>
-                            </select>
+                            <div class="rating">
+                                <?php for ($i = 5; $i >= 1; $i--): ?>
+                                    <input type="radio" id="star<?= $i ?>" name="rating" value="<?= $i ?>">
+                                    <label for="star<?= $i ?>">★</label>
+                                <?php endfor; ?>
+                            </div>
                         </div>
                         <div class="filter-item">
                             <p class="m0">Tags</p>
