@@ -47,12 +47,12 @@
                 $this->addProfile("Tom","tom@mail.com","Tom12345678");
                 $this->addProfile("Sophie","sophie@mail.com","Sophie12345678");
                 
-                $this->addReport($this->getProfile(0),strtotime("2023-10-01"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(1),strtotime("2023-11-01"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(2),strtotime("2023-12-01"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(3),strtotime("2023-13-01"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(0),strtotime("2023-14-01"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(3),strtotime("2023-15-01"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(0),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(1),strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(2),strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(3),strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(0),strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(3),strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
                 
                 $this->createRating($this->reports[0]->getId(),0, 5);
                 $this->createRating($this->reports[0]->getId(),1, 4);
