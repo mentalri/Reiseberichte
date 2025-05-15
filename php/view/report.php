@@ -1,4 +1,5 @@
 <?php
+global $user_rating, $report, $abs_path;
 require_once "path.php";
 $cssFiles = array("pages/bericht.css", "special-elements/star-rating.css");
 $phpFiles = ["css/carousel-style.php"];

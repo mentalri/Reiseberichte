@@ -18,20 +18,24 @@
             return self::$instance;
         }
         
-        private $reports = array();
-        private $comments = array();
-        private $rateable_id = 0;
+        private mixed $reports = array();
+        private array $comments = array();
+        private mixed $rateable_id = 0;
 
-        private $profiles = array();
-        private $profile_id = 0;
+        private mixed $profiles = array();
+        private mixed $profile_id = 0;
         
-        private $ratings = array();
-        private $rating_id = 0;
+        private array $ratings = array();
+        private int $rating_id = 0;
         
-        private $pictures = array();
-        private $picture_id = 0;
+        private array $pictures = array();
+        private int $picture_id = 0;
 
 
+        /**
+         * @throws InternalErrorException
+         * @throws MissingEntryException
+         */
         private function __construct()
         {
             if (isset($_SESSION["reports"]) && isset($_SESSION["profiles"])) {
@@ -47,7 +51,7 @@
                 $this->addProfile("Tom","tom@mail.com","Tom12345678");
                 $this->addProfile("Sophie","sophie@mail.com","Sophie12345678");
                 
-                $this->addReport($this->getProfile(0),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag");
+                $this->addReport($this->getProfile(0),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
                 $this->addReport($this->getProfile(1),strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
                 $this->addReport($this->getProfile(2),strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
                 $this->addReport($this->getProfile(3),strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
@@ -68,15 +72,37 @@
             $_SESSION["profile_id"] = $this->profile_id;
             $_SESSION["rateable_id"] = $this->rateable_id;
         }
-        public function getReports($sorting, $count, $date, $date2, $author)
+        public function getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count,$page, $authors)
         {
             $filteredReports = $this->reports;
-            
             // Filter by author if provided
-            if (isset($author)) {
-                
-                $filteredReports = array_filter($filteredReports, function ($report) use ($author) {
-                    return $report->getAuthor()->getId() === $author;
+            if (isset($authors)) {
+
+                $filteredReports = array_filter($filteredReports, function ($report) use ($authors) {
+                    return in_array($report->getAuthor()->getId(), $authors);
+                });
+            }
+            // Filter by location if provided
+            if (isset($location)) {
+                $filteredReports = array_filter($filteredReports, function ($report) use ($location) {
+                    return str_contains($report->getLocation(), $location);
+                });
+            }
+            // Filter by rating if provided
+            if (isset($rating)) {
+                $filteredReports = array_filter($filteredReports, function ($report) use ($rating) {
+                    return $report->getRating() >= $rating;
+                });
+            }
+            // Filter by tags if provided
+            if (isset($tags)) {
+                $filteredReports = array_filter($filteredReports, function ($report) use ($tags) {
+                    foreach ($tags as $tag) {
+                        if (in_array($tag, $report->getTags())) {
+                            return true;
+                        }
+                    }
+                    return false;
                 });
             }
 
@@ -86,45 +112,77 @@
                 $endDate = strtotime($date2);
 
                 $filteredReports = array_filter($filteredReports, function ($report) use ($startDate, $endDate) {
-                    if (!isset($report['date'])) return false;
-                    $reportDate = strtotime($report['date']);
+                    $reportDate = $report->getDate();
                     return $reportDate >= $startDate && $reportDate <= $endDate;
                 });
             }
 
             // Limit the number of reports if count is provided and greater than 0
             if (!empty($count) && is_numeric($count) && $count > 0) {
-                $filteredReports = array_slice($filteredReports, 0, $count);
+                $filteredReports = array_slice($filteredReports, $count*$page, $count);
             }
+            // Sort the reports based on the sorting parameter
+            $this->sortReports($sorting,$filteredReports);
 
             return $filteredReports;
         }
-        public function getRatedReports($profile_id)
+        private function sortReports($sorting,&$filteredReports): void
+        {
+            if(isset($sorting)){
+                switch ($sorting) {
+                    case "date_desc":
+                        usort($filteredReports, function ($a, $b) {
+                            return $b->getDate() <=> $a->getDate();
+                        });
+                        break;
+                    case "date_asc":
+                        usort($filteredReports, function ($a, $b) {
+                            return $a->getDate() <=> $b->getDate();
+                        });
+                        break;
+                    case "rating_desc":
+                        usort($filteredReports, function ($a, $b) {
+                            return $b->getRating() <=> $a->getRating();
+                        });
+                        break;
+                    case "rating_asc":
+                        usort($filteredReports, function ($a, $b) {
+                            return $a->getRating() <=> $b->getRating();
+                        });
+                        break;
+                }
+            }
+        }
+        public function getRatedReports($profile_id): array
         {
             $ratedReports = array();
             foreach ($this->reports as $entry) {
                 foreach ($entry->getRatings() as $rating) {
                     if ($rating->getUser()->getId() == $profile_id) {
-                        array_push($ratedReports, $entry);
+                        $ratedReports[] = $entry;
                     }
                 }
             }
             return $ratedReports;
         }
-        public function getReport($rateable_id)
+
+        /**
+         * @throws MissingEntryException
+         */
+        public function getReport($id)
         {
             foreach ($this->reports as $entry) {
-                if ($entry->getId() == $rateable_id) {
+                if ($entry->getId() == $id) {
                     return $entry;
                 }
             }
-            throw new MissingEntryException("No entry found with rateable_id: " . $rateable_id);
+            throw new MissingEntryException("No entry found with rateable_id: " . $id);
         }
 
-        public function addReport($author, $date, $title, $location, $description,$pictures=["resources/picture_icon.png"])
+        public function addReport($author, $date, $title, $location, $description,$pictures=["resources/picture_icon.png"], $tags=[]): Report
         {
-            $report = new Report($this->rateable_id++, $author, $date, $title, $location, $description,$pictures);
-            array_push($this->reports, $report);
+            $report = new Report($this->rateable_id++, $author, $date, $title, $location, $description,$pictures,$tags);
+            $this->reports[] = $report;
             return $report;
         }
 
@@ -133,7 +191,10 @@
             throw new InternalErrorException("Not implemented yet");
         }
 
-        public function deleteReport($rateable_id)
+        /**
+         * @throws MissingEntryException
+         */
+        public function deleteReport($rateable_id): void
         {
             foreach ($this->reports as $key => $entry) {
                 if ($entry->getId() == $rateable_id) {
@@ -147,15 +208,23 @@
         {
             return $this->profiles;
         }
-        public function getProfile($profile_id)
+
+        /**
+         * @throws MissingEntryException
+         */
+        public function getProfile($id)
         {
             foreach ($this->profiles as $entry) {
-                if ($entry->getId() == $profile_id) {
+                if ($entry->getId() == $id) {
                     return $entry;
                 }
             }
-            throw new MissingEntryException("No entry found with profile_ID: " . $profile_id);
+            throw new MissingEntryException("No entry found with profile_ID: " . $id);
         }
+
+        /**
+         * @throws MissingEntryException
+         */
         public function getProfileByEmail($email)
         {
             $email = strtolower($email);
@@ -166,7 +235,11 @@
             }
             throw new MissingEntryException("No entry found with email: " . $email);
         }
-        public function addProfile($username, $email, $password)
+
+        /**
+         * @throws InternalErrorException
+         */
+        public function addProfile($username, $email, $password): Profile
         {
             if (empty($username) || empty($email) || empty($password)) {
                 throw new InternalErrorException("Profile is empty");
@@ -180,7 +253,11 @@
             $this->profiles[] = $profile;
             return $profile;
         }
-        public function updateProfile($id, $username, $email, $password)
+
+        /**
+         * @throws MissingEntryException
+         */
+        public function updateProfile($id, $username, $email, $password): void
         {
             foreach ($this->profiles as &$entry) {
                 if ($entry->getId() == $id) {
@@ -190,18 +267,22 @@
             }
             throw new MissingEntryException("No entry found with profile_ID: " . $id);
         }
-        public function deleteProfile($profile_id)
+        public function deleteProfile($id): void
         {
             foreach ($this->profiles as $key => $entry) {
-                if ($entry->getprofile_Id() == $profile_id) {
+                if ($entry->getprofile_Id() == $id) {
                     unset($this->profiles[$key]);
                     return;
                 }
             }
-            throw new MissingEntryException("No entry found with profile_ID: " . $profile_id);
+            throw new MissingEntryException("No entry found with profile_ID: " . $id);
         }
 
-        public function createComment($rateable_id, $user_id, $text){
+        /**
+         * @throws MissingEntryException
+         */
+        public function createComment($rateable_id, $user_id, $text): void
+        {
             foreach ($this->reports as $entry) {
                 if ($entry->getId() == $rateable_id) {
                     $comment = new Comment($this->rateable_id++, $this->getProfile($user_id), $text, time());
@@ -218,13 +299,21 @@
             }
             throw new MissingEntryException("No entry found with rateable_id: " . $rateable_id);
         }
-        public function createRating($rateable_id, $user_id, $rating)
+
+        /**
+         * @throws MissingEntryException
+         */
+        public function createRating($rateable_id, $user_id, $rating): void
         {
             if($this->handleRating($this->reports,$rateable_id, $user_id,$rating)) {return;}
             if($this->handleRating($this->comments,$rateable_id, $user_id,$rating)) {return;}
             throw new MissingEntryException("No entry found with rateable_id: " . $rateable_id);
         }
-        private function handleRating($array,$rateable_id, $user_id,$rating)
+
+        /**
+         * @throws MissingEntryException
+         */
+        private function handleRating($array, $rateable_id, $user_id, $rating): bool
         {
             foreach ($array as $entry) {
                 if ($entry->getId() == $rateable_id) {

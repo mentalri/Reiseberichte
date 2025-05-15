@@ -1,10 +1,10 @@
 <?php
 class Profile {
-    private $id;
-    private $username;
-    private $email;
-    private $password;
-    private $friends;
+    private int $id;
+    private string $username;
+    private string $email;
+    private string $password;
+    private array $friends;
 
     public function __construct($id, $username, $email, $password, $friends = []) {
         $this->id = $id;
@@ -14,19 +14,19 @@ class Profile {
         $this->friends = $friends;
     }
 
-    public function getId() {
+    public function getId(): int{
         return $this->id;
     }
 
-    public function getUsername() {
+    public function getUsername(): string{
         return $this->username;
     }
 
-    public function getEmail() {
+    public function getEmail(): string{
         return $this->email;
     }
 
-    public function getPassword() {
+    public function getPassword(): string{
         return $this->password;
     }
     public function getFriends() {

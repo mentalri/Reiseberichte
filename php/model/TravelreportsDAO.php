@@ -7,7 +7,7 @@ class MissingEntryException extends Exception
 }
 interface TravelreportsDAO
 {
-    public function getReports($sortierung, $anzahl, $datum, $datum2, $author);
+    public function getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count,$page, $authors);
     public function getReport($id);
     public function getRatedReports($profile_id);
     public function addReport($author, $date, $title, $location, $description,$pictures);

@@ -2,13 +2,14 @@
 require_once 'Rateable.php';
 class Report extends Rateable
 {
-    private $title;
-    private $location;
-    private $description;
-    private $date;
-    private $pictures;
+    private string $title;
+    private string $location;
+    private string $description;
+    private int $date;
+    private array $pictures;
+    private array $tags;
     
-    public function __construct($id,$author, $date,$title, $location, $description, $pictures=[])
+    public function __construct($id,$author, $date,$title, $location, $description, $pictures, $tags)
     {
         parent::__construct($id, $author);
         $this->id = $id;
@@ -17,30 +18,33 @@ class Report extends Rateable
         $this->description = $description;
         $this->date = $date;
         $this->pictures = $pictures;
+        $this->tags = $tags;
     }
     public function getId()
     {
         return $this->id;
     }
-    public function getTitle(){
+    public function getTitle(): string{
         return $this->title;
     }
-    public function getLocation(){
+    public function getLocation(): string{
         return $this->location;
     }
-    public function getDescription(){
+    public function getDescription(): string{
         return $this->description;
     }
     public function getPictures(){
         return $this->pictures;
     }
-    public function getAuthor()
-    {
+    public function getAuthor(){
         return $this->user;
     }
-    public function getDate()
-    {
+    public function getDate(): int{
         return $this->date;
+    }
+    public function getTags(): array
+    {
+        return $this->tags;
     }
     
     public function update($title, $location, $description, $pictures, $ratings, $comments)
