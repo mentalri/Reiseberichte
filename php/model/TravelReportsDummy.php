@@ -44,19 +44,30 @@
                 $this->profile_id = $_SESSION["profile_id"];
                 $this->rateable_id = $_SESSION["rateable_id"];
             }else{
-                $this->addProfile("Hans","hans@mail.com","Hans12345678");
-                $this->addProfile("Lisa","lisa@mail.com","Lisa12345678");
-                $this->addProfile("Max","max@mail.com","Max12345678");
-                $this->addProfile("Anna","anna@mail.com","Anna12345678");
-                $this->addProfile("Tom","tom@mail.com","Tom12345678");
-                $this->addProfile("Sophie","sophie@mail.com","Sophie12345678");
+                $hans = $this->addProfile("Hans","hans@mail.com","Hans12345678");
+                $lisa = $this->addProfile("Lisa","lisa@mail.com","Lisa12345678");
+                $max = $this->addProfile("Max","max@mail.com","Max12345678");
+                $anna = $this->addProfile("Anna","anna@mail.com","Anna12345678");
+                $tom = $this->addProfile("Tom","tom@mail.com","Tom12345678");
+                $sophie = $this->addProfile("Sophie","sophie@mail.com","Sophie12345678");
+
+                $hans->follow($lisa);
+                $hans->follow($max);
+                $hans->follow($anna);
+                $hans->follow($tom);
+                $lisa->follow($max);
+                $lisa->follow($anna);
+                $lisa->follow($tom);
+                $max->follow($lisa);
+                $max->follow($hans);
+                $max->follow($sophie);
                 
-                $this->addReport($this->getProfile(0),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
-                $this->addReport($this->getProfile(1),strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(2),strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(3),strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(0),strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($this->getProfile(3),strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($hans,strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
+                $this->addReport($lisa,strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($max,strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($anna,strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($hans,strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($anna,strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
                 
                 $this->createRating($this->reports[0]->getId(),0, 5);
                 $this->createRating($this->reports[0]->getId(),1, 4);
@@ -194,15 +205,15 @@
         /**
          * @throws MissingEntryException
          */
-        public function deleteReport($rateable_id): void
+        public function deleteReport($id): void
         {
             foreach ($this->reports as $key => $entry) {
-                if ($entry->getId() == $rateable_id) {
+                if ($entry->getId() == $id) {
                     unset($this->reports[$key]);
                     return;
                 }
             }
-            throw new MissingEntryException("No entry found with rateable_id: " . $rateable_id);
+            throw new MissingEntryException("No entry found with rateable_id: " . $id);
         }
         public function getProfiles()
         {

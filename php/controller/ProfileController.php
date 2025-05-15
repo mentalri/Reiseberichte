@@ -38,7 +38,7 @@ class ProfileController
                     require_once $abs_path . "/php/view/profile_konto.php";
                     break;
                 case "reports":
-                    $reports = $travelreports->getReports(null, null, null, null, $_SESSION["user"]);
+                    $reports = $travelreports->getReports(null, null, null, null, null, null, null, null, 0, [$_SESSION["user"]]);
                     require_once $abs_path . "/php/view/profile_reports.php";
                     break;
                 case "rated_reports":
@@ -46,7 +46,7 @@ class ProfileController
                     require_once $abs_path . "/php/view/profile_rated_reports.php";
                     break;
                 case "friends":
-                    
+                    $profile = $travelreports->getProfile($_SESSION["user"]);
                     require_once $abs_path . "/php/view/profile_friends.php";
                     break;
                 default:
@@ -54,9 +54,34 @@ class ProfileController
                     header("Location: index.php");
                     exit;
             }
-            return $travelreports->getReports(null, null, null, null, null);;
+            return;
         } catch (InternalErrorException $exc) {
             // Behandlung von potentiellen Fehlern der Geschaeftslogik
+            $_SESSION["message"] = "internal_error";
+        } catch (MissingEntryException $e) {
+            $_SESSION["message"] = "invalid_entry_id";
+        }
+    }
+    public function toggleFollow()
+    {
+        if(!isset($_SESSION["user"])){
+            $_SESSION["message"] = "not_logged_in";
+            header("Location: index.php");
+            exit;
+        }
+        $this->checkParameter("id");
+        try {
+            $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user_id"]);
+            $targetProfile = Travelreports::getInstance()->getProfile($_GET["id"]);
+
+            if ($currentUser->isFollowing($targetProfile)) {
+                $currentUser->unfollow($targetProfile);
+            } else {
+                $currentUser->follow($targetProfile);
+            }
+        } catch (MissingEntryException $exc) {
+            $_SESSION["message"] = "profile_not_found";
+        } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
     }

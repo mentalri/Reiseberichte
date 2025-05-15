@@ -40,12 +40,14 @@
 section > .sidebar-content{
     margin-right: 0;
 }
-.profil button{
+.profil a{
     border: 2px solid black;
     border-radius: 5px;
     padding: 5px;
+    text-decoration: none;
+    color: black;
 }
-.profil button:hover{
+.profil a:hover{
     background-color: #ccc;
 }
 @media (max-width: 900px){

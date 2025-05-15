@@ -2,6 +2,7 @@
 if (!isset($abs_path)) {
     require_once "../../path.php";
 }
+
 $cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/profil-sidebar.css");
 ?>
 <?php require_once $abs_path . "/php/include/head.php" ?>
@@ -19,8 +20,8 @@ $cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/profil-
                             <h2>Profile den ich folge</h2>
                         </div>
                         <div class="flex-column flex-grow">
-                            <?php for ($x = 0; $x < 10; $x++) {
-                                require $abs_path . "/php/include/profile_preview.php";
+                            <?php foreach ($profile->getFollowing() as $follower){
+                                include $abs_path . "/php/view/profile_preview.php";
                             } ?>
                         </div>
                     </div>
@@ -29,8 +30,8 @@ $cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/profil-
                             <h2>Profile die mir folgen</h2>
                         </div>
                         <div class="flex-column flex-grow">
-                            <?php for ($x = 0; $x < 15; $x++) {
-                                require $abs_path . "/php/include/profile_preview.php";
+                            <?php foreach ($profile->getFollowers() as $follower){
+                                include $abs_path . "/php/view/profile_preview.php";
                             } ?>
                         </div>
                     </div>
