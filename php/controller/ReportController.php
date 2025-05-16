@@ -128,7 +128,7 @@ class ReportController
                 $_POST["description"],
                 $imagePaths // pass array of image paths here
             );
-            header("Location: report.php?id=" . $report->getId());
+            header("Location: report.php?id=" . urlencode($report->getId()));
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
@@ -151,7 +151,7 @@ class ReportController
             #Methode zum Bearbeiten des Reports fehlt
             #User muss Author des Reports sein
             #$travelreports->editReport($_GET["id"], $_POST["title"], $_POST["location"], $_POST["description"],$_POST["pictures"]);
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
@@ -183,7 +183,7 @@ class ReportController
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
             exit;
         }
         
@@ -191,7 +191,7 @@ class ReportController
         try {
             $travelreports = Travelreports::getInstance();
             $travelreports->createComment($_GET["id"], $_SESSION["user"], $_POST["comment"]);
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
@@ -200,7 +200,7 @@ class ReportController
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
             exit;
         }
         
@@ -208,7 +208,7 @@ class ReportController
         try {
             $travelreports = Travelreports::getInstance();
             #Löschung des Kommentars fehlt
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
@@ -218,13 +218,13 @@ class ReportController
         $this->checkId();
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
             exit;
         }
         try {
             $travelreports = Travelreports::getInstance();
             $travelreports->createRating($_GET["id"], $_SESSION["user"], $_POST["rating"]);
-            header("Location: report.php?id=" . $_GET["id"]);
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }

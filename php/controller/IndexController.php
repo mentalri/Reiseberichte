@@ -8,7 +8,7 @@ require_once $abs_path . "/php/model/Travelreports.php";
 
 class IndexController
 {
-    public function request()
+    public function request(): ?array
     {
         try {
             $page = $_GET["page"] ?? 0;
@@ -19,8 +19,8 @@ class IndexController
             $tags = $_GET["tags"] ?? null;
             $date = $_GET["date"] ?? null;
             $date2 = $_GET["date2"] ?? null;
-            $sorting = $_GET["sorting"] ?? null;
-            $count = $_GET["count"] ?? null;
+            $sorting = $_GET["sorting"] ?? "date_desc";
+            $count = $_GET["count"] ?? 10;
             return Travelreports::getInstance()
                 ->getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count, $page, null);
         } catch (InternalErrorException $exc) {

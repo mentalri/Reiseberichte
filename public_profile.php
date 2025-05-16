@@ -1,15 +1,12 @@
 <?php
-global $abs_path;
-if (!isset($abs_path)) {
-    require_once "path.php";
-}
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+if (!isset($abs_path)) {
+    require_once "path.php";
+}
 require_once $abs_path . "/php/controller/ProfileController.php";
-
 $profileController = new ProfileController();
-$profileController->toggleFollow();
-header("Location: ".$_SERVER['HTTP_REFERER']);
-exit;
+$profile = $profileController->requestPublicProfile();
+require_once $abs_path . "/php/view/public_profile.php";
 ?>

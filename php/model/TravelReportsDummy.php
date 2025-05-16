@@ -9,8 +9,8 @@
     require_once $abs_path . "/php/model/TravelreportsDAO.php";
     class TravelreportsDummy implements TravelreportsDAO
     {
-        private static $instance = null;
-        public static function getInstance()
+        private static ?TravelreportsDummy $instance = null;
+        public static function getInstance(): ?TravelreportsDummy
         {
             if (self::$instance == null) {
                 self::$instance = new TravelreportsDummy();
@@ -18,12 +18,12 @@
             return self::$instance;
         }
         
-        private mixed $reports = array();
+        private array $reports = array();
         private array $comments = array();
-        private mixed $rateable_id = 0;
+        private int $rateable_id = 0;
 
-        private mixed $profiles = array();
-        private mixed $profile_id = 0;
+        private array $profiles = array();
+        private int $profile_id = 0;
         
         private array $ratings = array();
         private int $rating_id = 0;
@@ -83,7 +83,7 @@
             $_SESSION["profile_id"] = $this->profile_id;
             $_SESSION["rateable_id"] = $this->rateable_id;
         }
-        public function getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count,$page, $authors)
+        public function getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count,$page, $authors): array
         {
             $filteredReports = $this->reports;
             // Filter by author if provided
@@ -180,7 +180,7 @@
         /**
          * @throws MissingEntryException
          */
-        public function getReport($id)
+        public function getReport($id): Report
         {
             foreach ($this->reports as $entry) {
                 if ($entry->getId() == $id) {
@@ -223,7 +223,7 @@
         /**
          * @throws MissingEntryException
          */
-        public function getProfile($id)
+        public function getProfile($id): Profile
         {
             foreach ($this->profiles as $entry) {
                 if ($entry->getId() == $id) {

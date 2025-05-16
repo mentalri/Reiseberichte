@@ -9,7 +9,7 @@ require_once $abs_path . "/php/model/Travelreports.php";
 
 class ProfileController
 {
-    private function checkParameter($parameter)
+    private function checkParameter($parameter): void
     {
         // Ueberpruefung der Parameter
         if (!isset($_REQUEST[$parameter])) {
@@ -17,7 +17,7 @@ class ProfileController
             exit;
         }
     }
-    public function request()
+    public function request(): void
     {
         global $abs_path;
         if(!isset($_SESSION["user"])){
@@ -62,7 +62,22 @@ class ProfileController
             $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    public function toggleFollow()
+    public function requestPublicProfile(): Profile
+    {
+        $this->checkParameter("id");
+        try {
+            return Travelreports::getInstance()->getProfile($_GET["id"]);
+        } catch (InternalErrorException $exc) {
+            $_SESSION["message"] = "internal_error";
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        } catch (MissingEntryException $e) {
+            $_SESSION["message"] = "invalid_entry_id";
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+    }
+    public function toggleFollow(): void
     {
         if(!isset($_SESSION["user"])){
             $_SESSION["message"] = "not_logged_in";

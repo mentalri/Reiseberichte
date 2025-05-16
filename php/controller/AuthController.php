@@ -1,11 +1,15 @@
-<?php 
+<?php
+
+use JetBrains\PhpStorm\NoReturn;
+
 if (!isset($abs_path)) {
     require_once "../../path.php";
 }
 require_once $abs_path . "/php/model/Profile.php";
 require_once $abs_path . "/php/model/Travelreports.php";
 class AuthController {
-    public function login(){
+    public function login(): void
+    {
         // Ueberpruefung der Parameter
         if (empty($_POST["email"]) || empty($_POST["password"])) {
             return;
@@ -31,9 +35,12 @@ class AuthController {
         } catch (InternalErrorException $exc) {
             // Behandlung von potentiellen Fehlern der Geschaeftslogik
             $_SESSION["message"] = "internal_error";
+        } catch (MissingEntryException $e) {
+            $_SESSION["message"] = "invalid_email";
         }
     }
-    public function logout(){
+    public function logout(): void
+    {
         if (isset($_SESSION["user"])) {
             unset($_SESSION["user"]);
         }
@@ -41,7 +48,8 @@ class AuthController {
         header("Location: ".$_SERVER["HTTP_REFERER"]);
         exit;
     }
-    public function register(){
+    public function register(): void
+    {
         // Ueberpruefung der Parameter
         if (empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["username"]) || empty($_POST["password_repeat"])) {
             return;
@@ -67,13 +75,15 @@ class AuthController {
             $_SESSION["message"] = "internal_error";
         }
     }
-    public function isLoggedIn(){
+    public function isLoggedIn(): bool
+    {
         if (isset($_SESSION["user"])) {
             return true;
         }
         return false;
     }
-    public function requireLogin(){
+    public function requireLogin(): void
+    {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
             header("Location: ".$_SERVER["HTTP_REFERER"]);
