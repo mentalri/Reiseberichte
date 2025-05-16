@@ -1,3 +1,4 @@
+
 <div class="preview-eintrag flex-shrink">
     <div class="preview-bild carousel">
         <a href="report.php?id=<?=urlencode($report->getId())?>">
@@ -11,7 +12,7 @@
     <div class="preview-meta">
         <div>
             <p class="titel"><a href="report.php?id=<?=urlencode($report->getId())?>"><?=htmlspecialchars($report->getTitle())?></a></p>
-            <p class="author"><a href="public_profile.php?id=<?=urlencode($report->getId())?>"><?=htmlspecialchars($report->getAuthor()->getUsername())?></a></p>
+            <p class="author"><a href="public_profile.php?id=<?=urlencode($report->getAuthor()->getId())?>"><?=htmlspecialchars($report->getAuthor()->getUsername())?></a></p>
         </div>
         <div>
             <p><?=htmlspecialchars($report->getLocation())?></p>

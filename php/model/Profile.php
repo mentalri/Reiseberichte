@@ -4,14 +4,16 @@ class Profile {
     private string $username;
     private string $email;
     private string $password;
+    private string $profilePicture;
     private array $followers;
     private array $following;
 
-    public function __construct($id, $username, $email, $password,$followers = [], $following = []) {
+    public function __construct($id, $username, $email, $password, $profilePicture="resources/profile-icon.png", $followers = [], $following = []) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->profilePicture = $profilePicture;
         $this->followers = $followers;
         $this->following = $following;
     }
@@ -67,7 +69,7 @@ class Profile {
     {
         return in_array($profile, $this->followers);
     }
-    public function getReports()
+    public function getReports(): array
     {
         return Travelreports::getInstance()->getReports(null, null, null, null, null, null, null, null, 0, [$this->id]);
     }
@@ -78,6 +80,11 @@ class Profile {
         if ($password) {
             $this->password = password_hash($password, PASSWORD_BCRYPT);
         }
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
     }
 }
 ?>
