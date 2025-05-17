@@ -36,11 +36,29 @@
     flex: 0 0 auto;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 .profile-picture img{
     width: 100%;
     height: 100%;
     border-radius: 50%;
+}
+.profile-picture:hover img{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.profile-picture label{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.profile-picture:hover label{
+    display: block;
+    cursor: pointer;
 }
 .profile-meta{
     display: flex;

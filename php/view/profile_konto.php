@@ -14,13 +14,12 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
         <main class="flex-row flex-grow">
             <?php include_once $abs_path."/php/include/profil_sidebar.php" ?>
             <section class="content flex-column flex-grow">
-                <input type="checkbox" name="upload-profile-picture-toggle-box" id="upload-profile-picture-toggle-box">
+                <input aria-label="Profilbild ändern" type="checkbox" name="upload-profile-picture-toggle-box" id="upload-profile-picture-toggle-box">
                 <div class="blur-overlay"></div>
                 <div class="upload-profile-picture">
                     <h3>Profilbild ändern</h3>
-                    <p>Hier kannst du dein Profilbild ändern.</p>
                     <form action="profile_picture_upload.php" class="upload-form" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="profile_picture" id="profile_picture" accept="image/*">
+                        <input aria-label="Profilbild hochladen" type="file" name="profile_picture" id="profile_picture" accept="image/*">
                         <div class="upload-buttons">
                             <button type="submit" class="save-button">Speichern</button>
                             <a href="profile.php?side=konto" class="cancel-button" >Abbrechen</a>
@@ -72,14 +71,15 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                         <button type="submit" class="cancel-button">Abbrechen</button>
                     </div>
                     <div class="profile-data-container">
-                        <input type="checkbox" name="description-form-toggle-box" id="description-form-toggle-box">
+                        <input aria-label="Beschreibung ändern" type="checkbox" name="description-form-toggle-box" id="description-form-toggle-box">
 
                         <div class="profile-data-header">
                             <div class="profile-picture">
                                 <img src="<?=$profile->getProfilePicture()?>" alt="Profilbild">
+                                <label for="upload-profile-picture-toggle-box">Profilbild ändern</label>
                             </div>
                             <input type="checkbox" name="action-menu-toggle-box" id="action-menu-toggle-box">
-                            <label for="action-menu-toggle-box" class="action-menu-toggle">
+                            <label aria-label="Profil Actions" for="action-menu-toggle-box" class="action-menu-toggle">
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -106,7 +106,7 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                             <h3>Beschreibung</h3>
                             <p>Hier kannst du eine kurze Beschreibung über dich hinzufügen.</p>
                             <form action="index.php" method="post" class="description-form">
-                                <textarea id="description" rows="4" cols="50" placeholder="Hier kannst du eine kurze Beschreibung über dich hinzufügen."></textarea>
+                                <textarea aria-label="Beschreibung" maxlength="256" id="description" rows="4" cols="50" placeholder="Hier kannst du eine kurze Beschreibung über dich hinzufügen.  (Maximal 256 Zeichen)"></textarea>
                                 <div class="description-buttons">
                                     <button type="submit" class="save-button">Speichern</button>
                                     <a href="profile.php?side=konto" class="cancel-button">Abbrechen</a>

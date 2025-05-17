@@ -5,7 +5,7 @@
         <div class="nav-logo-container">
             <a href="index.php" class="nav-logo">Reiseberichte</a>
             <!-- Toggle Button (für Mobile) -->
-            <label for="navToggleCheckbox" class="nav-toggle" id="navToggle">            
+            <label aria-label="Navigation toggle" for="navToggleCheckbox" class="nav-toggle" id="navToggle">
                 <span></span>
                 <span></span>
                 <span></span>

@@ -14,30 +14,23 @@ Its current state is a basic implementation of the core features, with room for 
 - Comment on travel reports
 - Like/unlike travel reports
 - Follow/unfollow other users
-- Upload and manage profile pictures (with image validation and resizing)
+- Manage user profile (e.g. upload profile picture, change password, change email)
 - Feedback messages for user actions
 
 ## Setup
-
-1. Clone the repository.
-2. Configure your web server to serve the project directory.
-3. Set up the database and update connection settings.
-4. Ensure the `uploads/profile_pictures/` directory is writable.
-5. Install PHP extensions: `mysqli`, `gd`.
+1. Ensure the `uploads/profile_pictures/` directory is writable.
+2. Install PHP extensions: `gd`.
 
 ## Missing Features
 - Improved security measures (e.g. input validation)
-- Enhanced error handling and logging
-- Localization and internationalization support
-- User notifications (e.g., email notifications for new followers, comments)
-- Search functionality for travel reports
+- Email communication (e.g. password reset, verification, show password, notifications)
 - Pagination for travel reports
-- User profiles with additional information (e.g., bio, location)
-- Image gallery for travel reports
+- Image gallery for travel reports (only one image per report is currently supported)
+- Delete Comments
+- Like/Unlike & comment Comments
 
 
 ## Technologies
-
 - PHP
 - GD library for image processing
 
