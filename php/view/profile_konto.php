@@ -14,7 +14,20 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
         <main class="flex-row flex-grow">
             <?php include_once $abs_path."/php/include/profil_sidebar.php" ?>
             <section class="content flex-column flex-grow">
-            <h2>Konto</h2>
+                <input type="checkbox" name="upload-profile-picture-toggle-box" id="upload-profile-picture-toggle-box">
+                <div class="blur-overlay"></div>
+                <div class="upload-profile-picture">
+                    <h3>Profilbild ändern</h3>
+                    <p>Hier kannst du dein Profilbild ändern.</p>
+                    <form action="index.php" class="upload-form" method="POST" enctype="multipart/form-data">
+                        <input type="file" id="profile_picture" accept="image/*">
+                        <div class="upload-buttons">
+                            <button type="submit" class="save-button">Speichern</button>
+                            <a href="profile.php?side=konto" class="cancel-button" >Abbrechen</a>
+                        </div>
+                    </form>
+                </div>
+                <h2>Konto</h2>
                 <div class="konto-container">
                     <div class="login-data-container">
                         <div class="konto-header">
@@ -59,6 +72,8 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                         <button type="submit" class="cancel-button">Abbrechen</button>
                     </div>
                     <div class="profile-data-container">
+                        <input type="checkbox" name="description-form-toggle-box" id="description-form-toggle-box">
+
                         <div class="profile-data-header">
                             <div class="profile-picture">
                                 <img src="<?=$profile->getProfilePicture()?>" alt="Profilbild">
@@ -70,9 +85,9 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                                 <span></span>
                             </label>
                             <div class="action-menu">
-                                <label>Profilbild ändern</label>
+                                <label for="upload-profile-picture-toggle-box">Profilbild ändern</label>
                                 <a href="#">Profilbild löschen</a>
-                                <label>Beschreibung ändern</label>
+                                <label for="description-form-toggle-box">Beschreibung ändern</label>
                             </div>
                             <div class="profile-meta">
                                 <div class="meta-header">
@@ -86,10 +101,17 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                             </div>
                         </div>
 
+
                         <div class="description">
                             <h3>Beschreibung</h3>
                             <p>Hier kannst du eine kurze Beschreibung über dich hinzufügen.</p>
-
+                            <form action="index.php" method="post" class="description-form">
+                                <textarea id="description" rows="4" cols="50" placeholder="Hier kannst du eine kurze Beschreibung über dich hinzufügen."></textarea>
+                                <div class="description-buttons">
+                                    <button type="submit" class="save-button">Speichern</button>
+                                    <a href="profile.php?side=konto" class="cancel-button">Abbrechen</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

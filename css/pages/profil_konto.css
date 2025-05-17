@@ -1,3 +1,10 @@
+.content{
+    position: relative;
+    padding-left: 1rem;
+}
+.sidebar-content{
+    margin-right: 0;
+}
 .konto-container{
     display: flex;
     flex-direction: row;
@@ -37,8 +44,9 @@
     flex: 1 1 auto;
 }
 .action-menu-toggle{
-    margin-left: auto;
-    margin-bottom: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 .action-menu-toggle span{
     display: block;
@@ -59,7 +67,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
-    z-index: 1000;
+    z-index: 100;
     right: 8px;
     top: 3px;
 }
@@ -80,6 +88,53 @@
 #action-menu-toggle-box:checked ~ .action-menu{
     display: flex;
 }
+#upload-profile-picture-toggle-box{
+    display: none;
+}
+#upload-profile-picture-toggle-box:checked ~ .blur-overlay{
+    display: block;
+}
+#upload-profile-picture-toggle-box:checked ~ .upload-profile-picture{
+    display: block;
+}
+#description-form-toggle-box{
+    display: none;
+}
+#description-form-toggle-box:checked ~ .description > .description-form{
+    display: block;
+}
+#description-form-toggle-box:checked ~ .description > p{
+    display: none;
+}
+.upload-profile-picture{
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    z-index: 102;
+}
+.blur-overlay{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 101;
+}
+.upload-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
 .meta-header{
     display: flex;
     align-items: center;
@@ -93,6 +148,21 @@
     justify-content: space-around;
     margin-left: 10px;
     gap: 2rem;
+}
+.description-form{
+    display: none;
+}
+.description-form textarea{
+    width: 100%;
+    height: 100px;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.description-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
 }
 .login-data-container{
     background-color: #fff;
