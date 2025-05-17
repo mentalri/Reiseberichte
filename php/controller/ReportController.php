@@ -5,27 +5,27 @@ if (!isset($abs_path)) {
 
 require_once $abs_path . "/php/model/Report.php";
 require_once $abs_path . "/php/model/Travelreports.php";
+require_once $abs_path . "/php/controller/AuthController.php";
 
 class ReportController
-{   private function checkId()
+{
+    private function checkId(): void
     {
         if (!isset($_REQUEST["id"]) || !is_numeric($_REQUEST["id"])) {
-            $this->handleMissingEntryException();
+            $_SESSION["message"] = "invalid_entry_id";
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            exit;
         }
     }
     public function request()
     {   
         $this->checkId();        
         try {
-            // Aufbereitung der Daten fuer die Kontaktierung des Models
             $id = intval($_GET["id"]);
             
             $travelreports = Travelreports::getInstance();
-            $report = $travelreports->getReport($id);
-
-            return $report;
-        } catch (MissingEntryException $exc) {
-            // Behandlung von potentiellen Fehlern der Geschaeftslogik
+            return $travelreports->getReport($id);
+        } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
             header("Location: index.php");
             exit;
@@ -45,19 +45,21 @@ class ReportController
                 }
             }
             return new Rating(-1, null, -1); // Return an illegal rating object if no rating found
-        } catch (MissingEntryException $exc) {
+        } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
             header("Location: index.php");
             exit;
         }
     }
-    public function requestForm(){
+
+    /**
+     * @throws MissingEntryException
+     */
+    public function requestForm(): void
+    {
         global $abs_path;
-        if (!isset($_SESSION["user"])) {
-            $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
-            exit;
-        }
+        $authController = new AuthController();
+        $authController->requireLogin();
         $travelreports = Travelreports::getInstance();
         $profile=$travelreports->getProfile($_SESSION["user"]);
         if(isset($_GET["edit"]) && $_GET["edit"]=="true"){
@@ -73,29 +75,27 @@ class ReportController
             require_once $abs_path . "/php/view/report_new.php";
         }
     }
-    private function handleMissingEntryException()
-    {
-        $_SESSION["message"] = "invalid_entry_id";
-        header("Location: index.php");
-        exit;
-    }
-    public function addReport()
+
+    public function addReport(): void
     {
         global $abs_path;
-        if (!isset($_SESSION["user"])) {
-            $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
-            exit;
-        }
+        $authController = new AuthController();
+        $authController->requireLogin();
 
         if (!isset($_POST["title"]) || !isset($_POST["location"]) || !isset($_POST["description"])) {
             $_SESSION["message"] = "missing_entry";
-            header("Location: index.php");
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            exit;
+        }
+        $error = $this->handleMultipleImageUploads($_FILES["pictures"]);
+        if ($error !== null) {
+            $_SESSION["message"] = $error;
+            header("Location: " . $_SERVER["HTTP_REFERER"]);
             exit;
         }
 
-        $uploadDir = $abs_path . "/uploads/reports/"; // Adjust to your structure
-        $uploadUrlPath = "uploads/reports/"; // Relative URL path to access via browser
+        $uploadDir = $abs_path . "/uploads/reports/";
+        $uploadUrlPath = "uploads/reports/";
 
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0775, true);
@@ -126,14 +126,14 @@ class ReportController
                 $_POST["title"],
                 $_POST["location"],
                 $_POST["description"],
-                $imagePaths // pass array of image paths here
+                $imagePaths
             );
             header("Location: report.php?id=" . urlencode($report->getId()));
-        } catch (InternalErrorException $exc) {
-            $_SESSION["message"] = "internal_error";
+        } catch (MissingEntryException) {
+            $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    public function editReport()
+    public function editReport(): void
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
@@ -146,17 +146,13 @@ class ReportController
             exit;
         }
         $this->checkId();
-        try {
-            $travelreports = Travelreports::getInstance();
-            #Methode zum Bearbeiten des Reports fehlt
-            #User muss Author des Reports sein
-            #$travelreports->editReport($_GET["id"], $_POST["title"], $_POST["location"], $_POST["description"],$_POST["pictures"]);
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
-        } catch (InternalErrorException $exc) {
-            $_SESSION["message"] = "internal_error";
-        }
+        $travelreports = Travelreports::getInstance();
+        #Methode zum Bearbeiten des Reports fehlt
+        #User muss Author des Reports sein
+        #$travelreports->editReport($_GET["id"], $_POST["title"], $_POST["location"], $_POST["description"],$_POST["pictures"]);
+        header("Location: report.php?id=" . urlencode($_GET["id"]));
     }
-    public function deleteReport()
+    public function deleteReport(): void
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
@@ -175,11 +171,11 @@ class ReportController
             $travelreports->deleteReport($_GET["id"]);
             $_SESSION["message"] = "report_deleted";
             header("Location: " . $_SERVER["HTTP_REFERER"]);
-        } catch (InternalErrorException $exc) {
-            $_SESSION["message"] = "internal_error";
+        } catch (MissingEntryException) {
+            $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    public function addComment()
+    public function addComment(): void
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
@@ -192,11 +188,11 @@ class ReportController
             $travelreports = Travelreports::getInstance();
             $travelreports->createComment($_GET["id"], $_SESSION["user"], $_POST["comment"]);
             header("Location: report.php?id=" . urlencode($_GET["id"]));
-        } catch (InternalErrorException $exc) {
-            $_SESSION["message"] = "internal_error";
+        } catch (MissingEntryException) {
+            $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    public function deleteComment()
+    public function deleteComment(): void
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
@@ -205,15 +201,11 @@ class ReportController
         }
         
         $this->checkId();
-        try {
-            $travelreports = Travelreports::getInstance();
-            #Löschung des Kommentars fehlt
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
-        } catch (InternalErrorException $exc) {
-            $_SESSION["message"] = "internal_error";
-        }
+        $travelreports = Travelreports::getInstance();
+        #Löschung des Kommentars fehlt
+        header("Location: report.php?id=" . urlencode($_GET["id"]));
     }
-    public function addRating()
+    public function addRating(): void
     {
         $this->checkId();
         if (!isset($_SESSION["user"])) {
@@ -225,10 +217,33 @@ class ReportController
             $travelreports = Travelreports::getInstance();
             $travelreports->createRating($_GET["id"], $_SESSION["user"], $_POST["rating"]);
             header("Location: report.php?id=" . urlencode($_GET["id"]));
-        } catch (InternalErrorException $exc) {
-            $_SESSION["message"] = "internal_error";
+        } catch (MissingEntryException) {
+            $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    
+    public function handleMultipleImageUploads($files, $minWidth = 100, $minHeight = 100, $maxWidth = 2000, $maxHeight = 2000): ?string
+    {
+        if (!isset($files['tmp_name']) || !is_array($files['tmp_name'])) {
+            return "missing_files";
+        }
+
+        foreach ($files['tmp_name'] as $key => $tmpName) {
+            if (!isset($files['error'][$key]) || $files['error'][$key] != UPLOAD_ERR_OK) {
+                return "missing_file";
+            }
+
+            $imageInfo = getimagesize($tmpName);
+            if ($imageInfo === false) {
+                return "invalid_image";
+            }
+
+            $width = $imageInfo[0];
+            $height = $imageInfo[1];
+            if ($width < $minWidth || $height < $minHeight || $width > $maxWidth || $height > $maxHeight) {
+                return "invalid_image_size";
+            }
+        }
+
+        return null; // All images are valid
+    }
 }
-?>

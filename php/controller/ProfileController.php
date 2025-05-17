@@ -6,6 +6,7 @@ if (!isset($abs_path)) {
 require_once $abs_path . "/php/model/Report.php";
 require_once $abs_path . "/php/model/Profile.php";
 require_once $abs_path . "/php/model/Travelreports.php";
+require_once $abs_path . "/php/controller/AuthController.php";
 
 class ProfileController
 {
@@ -17,14 +18,12 @@ class ProfileController
             exit;
         }
     }
+
     public function request(): void
     {
         global $abs_path;
-        if(!isset($_SESSION["user"])){
-            $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
-            exit;
-        }
+        $authController = new AuthController();
+        $authController->requireLogin();
         // Ueberpruefung der Parameter
         $this->checkParameter("side");
         try {
@@ -62,6 +61,7 @@ class ProfileController
             $_SESSION["message"] = "invalid_entry_id";
         }
     }
+
     public function requestPublicProfile(): Profile
     {
         $this->checkParameter("id");
@@ -77,16 +77,14 @@ class ProfileController
             exit;
         }
     }
+
     public function toggleFollow(): void
     {
-        if(!isset($_SESSION["user"])){
-            $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
-            exit;
-        }
+        $authController = new AuthController();
+        $authController->requireLogin();
         $this->checkParameter("id");
         try {
-            $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user_id"]);
+            $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user"]);
             $targetProfile = Travelreports::getInstance()->getProfile($_GET["id"]);
 
             if ($currentUser->isFollowing($targetProfile)) {
@@ -99,6 +97,105 @@ class ProfileController
         } catch (InternalErrorException $exc) {
             $_SESSION["message"] = "internal_error";
         }
+    }
+
+    public function uploadProfilePicture(): void
+    {
+        global $abs_path;
+        $authController = new AuthController();
+        $authController->requireLogin();
+        $error = $this->handleProfilePictureUpload($_FILES["profile_picture"]);
+        if ($error !== null) {
+            $_SESSION["message"] = $error;
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        $uploadDir = $abs_path . "/uploads/profile_pictures/";
+        $uploadUrlPath = "uploads/profile_pictures/";
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0775, true);
+        }
+        $originalName = basename($_FILES['profile_picture']['name']);
+        $ext = pathinfo($originalName, PATHINFO_EXTENSION);
+        $uniqueName = uniqid("img_", true) . '.' . $ext;
+        $destination = $uploadDir . $uniqueName;
+        if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $destination)) {
+            $imagePath = $uploadUrlPath . $uniqueName;
+            try {
+                $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user"]);
+                $currentUser->setProfilePicture($imagePath);
+            } catch (MissingEntryException $exc) {
+                $_SESSION["message"] = "profile_not_found";
+            } catch (InternalErrorException $exc) {
+                $_SESSION["message"] = "internal_error";
+            }
+        } else {
+            $_SESSION["message"] = "file_upload_error";
+        }
+        header("Location: ".$_SERVER['HTTP_REFERER']);
+        exit;
+    }
+    public function handleProfilePictureUpload(&$file, $minWidth = 128, $minHeight = 128, $maxWidth = 256, $maxHeight = 256): ?string
+    {
+        if (!isset($file) || $file["error"] != UPLOAD_ERR_OK) {
+            return "missing_file";
+        }
+
+        $imageInfo = getimagesize($file["tmp_name"]);
+        if ($imageInfo === false) {
+            return "invalid_image";
+        }
+
+        $width = $imageInfo[0];
+        $height = $imageInfo[1];
+        $mime = $imageInfo['mime'];
+
+        if ($width < $minWidth || $height < $minHeight) {
+            return "invalid_image_size";
+        }
+
+        // Load image resource
+        switch ($mime) {
+            case 'image/jpeg':
+                $srcImage = imagecreatefromjpeg($file["tmp_name"]);
+                break;
+            case 'image/png':
+                $srcImage = imagecreatefrompng($file["tmp_name"]);
+                break;
+            case 'image/gif':
+                $srcImage = imagecreatefromgif($file["tmp_name"]);
+                break;
+            default:
+                return "unsupported_image_type";
+        }
+
+        // Scale down if needed
+        if ($width > $maxWidth || $height > $maxHeight) {
+            $ratio = min($maxWidth / $width, $maxHeight / $height);
+            $newWidth = (int)($width * $ratio);
+            $newHeight = (int)($height * $ratio);
+            $dstImage = imagecreatetruecolor($newWidth, $newHeight);
+
+            // Preserve transparency for PNG and GIF
+            if ($mime === 'image/png' || $mime === 'image/gif') {
+                imagecolortransparent($dstImage, imagecolorallocatealpha($dstImage, 0, 0, 0, 127));
+                imagealphablending($dstImage, false);
+                imagesavealpha($dstImage, true);
+            }
+
+            imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagedestroy($srcImage);
+            $srcImage = $dstImage;
+        }
+
+        // Save as WebP (overwrite tmp file)
+        imagewebp($srcImage, $file["tmp_name"]);
+        imagedestroy($srcImage);
+
+        // Optionally, update the file extension to .webp for later saving
+        $file['name'] = pathinfo($file['name'], PATHINFO_FILENAME) . '.webp';
+
+        return null; // No error
     }
 }
 

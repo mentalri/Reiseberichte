@@ -19,8 +19,8 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                 <div class="upload-profile-picture">
                     <h3>Profilbild ändern</h3>
                     <p>Hier kannst du dein Profilbild ändern.</p>
-                    <form action="index.php" class="upload-form" method="POST" enctype="multipart/form-data">
-                        <input type="file" id="profile_picture" accept="image/*">
+                    <form action="profile_picture_upload.php" class="upload-form" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="profile_picture" id="profile_picture" accept="image/*">
                         <div class="upload-buttons">
                             <button type="submit" class="save-button">Speichern</button>
                             <a href="profile.php?side=konto" class="cancel-button" >Abbrechen</a>

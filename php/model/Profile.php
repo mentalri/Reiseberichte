@@ -86,5 +86,10 @@ class Profile {
     {
         return $this->profilePicture;
     }
+
+    public function setProfilePicture(string $imagePath): void
+    {
+        $this->profilePicture = $imagePath;
+    }
 }
 ?>
