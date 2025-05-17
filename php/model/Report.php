@@ -72,9 +72,9 @@ class Report extends Rateable {
      */
     public function update($title, $location, $description, $pictures, $ratings, $comments)
     {
-        $this->$title = $title;           // Bug: Incorrect syntax, should be $this->title
-        $this->$location = $location;     // Bug: Incorrect syntax, should be $this->location
-        $this->$description = $description; // Bug: Incorrect syntax, should be $this->description
+        $this->title = $title;           
+        $this->location = $location;     
+        $this->description = $description; 
         $this->pictures = $pictures;
         $this->ratings = $ratings;
         $this->comments = $comments;
