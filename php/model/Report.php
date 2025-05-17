@@ -33,10 +33,10 @@ class Report extends Rateable
     public function getDescription(): string{
         return $this->description;
     }
-    public function getPictures(){
+    public function getPictures(): array{
         return $this->pictures;
     }
-    public function getAuthor(){
+    public function getAuthor(): Profile{
         return $this->user;
     }
     public function getDate(): int{

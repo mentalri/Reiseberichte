@@ -27,12 +27,18 @@ $cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/public_
                         <p><?=count($profile->getFollowing())?> gefolgt</p>
                         <p><?=count($profile->getReports())?> Berichte</p>
                     </div>
+                    <div class="description">
+                        <p></p>
+                    </div>
                 </div>
             </div>
             <div class="profile-body">
                 <?php foreach ($profile->getReports() as $report): ?>
                     <div class="report-card">
-                        <img src="<?=htmlspecialchars($report->getPictures()[0])?>" alt="Reisebild">
+                        <a href="report.php?id=<?= htmlspecialchars($report->getId()) ?>" class="report-link">
+                            <img src="<?=htmlspecialchars($report->getPictures()[0])?>" alt="Reisebild">
+                        </a>
+
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -25,7 +25,7 @@ require_once $abs_path . "/php/include/head.php"
 
                 <div class="bericht-header">
                     <h2 class="bericht-titel"><?= htmlspecialchars($report->getTitle()) ?></h2>
-                    <p><strong>Autor:</strong><?= htmlspecialchars($report->getAuthor()->getUsername()) ?></p>
+                    <p><strong>Autor: </strong><a href="public_profile.php?id=<?=htmlspecialchars($report->getAuthor()->getId())?>"><?= htmlspecialchars($report->getAuthor()->getUsername()) ?></a></p>
                     <p><span class="icon">📍</span><?= htmlspecialchars($report->getLocation()) ?></p>
                     <p><span class="icon">📅</span><?= htmlspecialchars(date("d-m-Y", $report->getDate())) ?></p>
                     <p><span class="icon">⭐</span> <strong><?= htmlspecialchars($report->getRating()) ?></strong></p>
