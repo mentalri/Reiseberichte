@@ -1,20 +1,14 @@
 <?php
 /**
- * Profile Rated Reports Page
- * Displays travel reports that the current user has rated
- * Very similar to the standard reports page but with a different CSS file
+ * Profile Reports Page
+ * Displays all travel reports created by the current user
  */
 if (!isset($abs_path)) {
     require_once "../../path.php";
 }
 
 // Page-specific CSS and PHP files
-$cssFiles = array(
-    "pages/profil.css",           // Base profile styling
-    "preview.css",                // Report preview styling
-    "pages/profil_eigene_berichte.css", // Specific styling for own/rated reports
-    "pages/profil-sidebar.css"    // Profile sidebar styling
-);
+$cssFiles = array("pages/profil.css", "preview.css", "pages/profil-sidebar.css");
 $phpFiles = ["css/multiple-carousel-styles.php"]; // For report image carousels
 // Commented-out JS files (not currently used)
 #$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
@@ -28,17 +22,17 @@ $phpFiles = ["css/multiple-carousel-styles.php"]; // For report image carousels
         <!-- Include navigation bar -->
         <?php require_once $abs_path . "/php/include/nav.php" ?>
         
-        <!-- Main content with sidebar and rated reports list -->
+        <!-- Main content with sidebar and reports list -->
         <main class="flex-row flex-grow">
             <!-- Include profile sidebar navigation -->
             <?php require_once $abs_path . "/php/include/profil_sidebar.php" ?>
             
-            <!-- Rated reports listing section -->
+            <!-- Reports listing section -->
             <section class="content flex-column flex-grow">
-                <!-- List of reports rated by the user -->
+                <!-- List of user's travel reports -->
                 <div class="preview-liste flex-grow">
                     <?php 
-                    // Loop through the rated reports and display each one
+                    // Loop through the user's reports and display each one
                     foreach ($reports as $report) {
                         include $abs_path . "/php/view/eintrag_preview.php";
                     }
