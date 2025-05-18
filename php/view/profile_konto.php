@@ -104,9 +104,9 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
 
                         <div class="description">
                             <h3>Beschreibung</h3>
-                            <p>Hier kannst du eine kurze Beschreibung über dich hinzufügen.</p>
-                            <form action="index.php" method="post" class="description-form">
-                                <textarea aria-label="Beschreibung" maxlength="256" id="description" rows="4" cols="50" placeholder="Hier kannst du eine kurze Beschreibung über dich hinzufügen.  (Maximal 256 Zeichen)"></textarea>
+                            <p><?=empty($profile->getDescription())?"Hier kannst du eine kurze Beschreibung über dich hinzufügen.":$profile->getDescription()?></p>
+                            <form action="profile_description_change.php" method="post" class="description-form">
+                                <textarea aria-label="Beschreibung" maxlength="256" name="description" id="description" rows="4" cols="50" placeholder="Hier kannst du eine kurze Beschreibung über dich hinzufügen.  (Maximal 256 Zeichen)"></textarea>
                                 <div class="description-buttons">
                                     <button type="submit" class="save-button">Speichern</button>
                                     <a href="profile.php?side=konto" class="cancel-button">Abbrechen</a>

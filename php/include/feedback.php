@@ -65,6 +65,9 @@
                     case "invalid_image":
                         echo "Das Bild ist ungültig. Bitte laden Sie ein gültiges Bild hoch.";
                         break;
+                    case "unsupported_image_type":
+                        echo "Der Bildtyp wird nicht unterstützt. Bitte verwenden Sie JPG, PNG oder GIF.";
+                        break;
                     case "invalid_image_size":
                         echo "Das Bild ist zu klein. Bitte halten sie sich an die empfohlenen Bildgrößen.";
                         break;
@@ -77,7 +80,9 @@
                     case "invalid_input_length":
                         echo "Die Eingabe ist zu kurz oder zu lang. Bitte überprüfen Sie die Eingaben.";
                         break;
-
+                    case  "description_changed":
+                        echo "Die Beschreibung wurde erfolgreich geändert.";
+                        break;
                     default:
                         echo "Unbekannte Meldung: " . $_SESSION['message'];
                         break;

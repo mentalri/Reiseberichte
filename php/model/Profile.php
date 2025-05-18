@@ -5,15 +5,17 @@ class Profile {
     private string $email;
     private string $password;
     private string $profilePicture;
+    private string $description;
     private array $followers;
     private array $following;
 
-    public function __construct($id, $username, $email, $password, $profilePicture="resources/profile-icon.png", $followers = [], $following = []) {
+    public function __construct($id, $username, $email, $password, $profilePicture="resources/profile-icon.png", $description="", $followers = [], $following = []) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->password = password_hash($password, PASSWORD_BCRYPT);
         $this->profilePicture = $profilePicture;
+        $this->description = $description;
         $this->followers = $followers;
         $this->following = $following;
     }
@@ -32,6 +34,22 @@ class Profile {
 
     public function getPassword(): string{
         return $this->password;
+    }
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(string $imagePath): void
+    {
+        $this->profilePicture = $imagePath;
+    }
+    public function getDescription(): string{
+        return $this->description;
+    }
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
     public function getFollowers(): array
     {
@@ -82,14 +100,6 @@ class Profile {
         }
     }
 
-    public function getProfilePicture()
-    {
-        return $this->profilePicture;
-    }
 
-    public function setProfilePicture(string $imagePath): void
-    {
-        $this->profilePicture = $imagePath;
-    }
 }
 ?>

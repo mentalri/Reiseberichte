@@ -28,7 +28,7 @@ $cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/public_
                         <p><?=count($profile->getReports())?> Berichte</p>
                     </div>
                     <div class="description">
-                        <p></p>
+                        <p><?=$profile->getDescription()?></p>
                     </div>
                 </div>
             </div>

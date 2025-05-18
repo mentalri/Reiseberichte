@@ -197,11 +197,6 @@
             return $report;
         }
 
-        public function updateReport($report_id)
-        {
-            throw new InternalErrorException("Not implemented yet");
-        }
-
         /**
          * @throws MissingEntryException
          */
@@ -265,19 +260,6 @@
             return $profile;
         }
 
-        /**
-         * @throws MissingEntryException
-         */
-        public function updateProfile($id, $username, $email, $password): void
-        {
-            foreach ($this->profiles as &$entry) {
-                if ($entry->getId() == $id) {
-                    $entry = new Profile($id, $username, $email, $password);
-                    return;
-                }
-            }
-            throw new MissingEntryException("No entry found with profile_ID: " . $id);
-        }
         public function deleteProfile($id): void
         {
             foreach ($this->profiles as $key => $entry) {

@@ -47,13 +47,11 @@ class Report extends Rateable
         return $this->tags;
     }
     
-    public function update($title, $location, $description, $pictures, $ratings, $comments)
+    public function update($title, $location, $description, $pictures): void
     {
-        $this->$title = $title;
-        $this->$location = $location;
-        $this->$description = $description;;
+        $this->title = $title;
+        $this->location = $location;
+        $this->description = $description;;
         $this->pictures = $pictures;
-        $this->ratings = $ratings;
-        $this->comments = $comments;
     }
 }

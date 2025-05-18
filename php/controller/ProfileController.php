@@ -12,7 +12,6 @@ class ProfileController
 {
     private function checkParameter($parameter): void
     {
-        // Ueberpruefung der Parameter
         if (!isset($_REQUEST[$parameter])) {
             $_SESSION["message"] = "missing_parameter";
             exit;
@@ -24,13 +23,9 @@ class ProfileController
         global $abs_path;
         $authController = new AuthController();
         $authController->requireLogin();
-        // Ueberpruefung der Parameter
         $this->checkParameter("side");
         try {
-            // Kontaktierung des Models (Geschaeftslogik)
             $travelreports = Travelreports::getInstance();
-
-            // Aufbereitung der Daten fuer die Kontaktierung des Models
             switch ($_REQUEST["side"]) {
                 case "konto":
                     $profile = $travelreports->getProfile($_SESSION["user"]);
@@ -48,6 +43,9 @@ class ProfileController
                     $profile = $travelreports->getProfile($_SESSION["user"]);
                     require_once $abs_path . "/php/view/profile_friends.php";
                     break;
+                case "nav":
+                    require_once $abs_path . "/php/view/profile.php";
+                    break;
                 default:
                     $_SESSION["message"] = "invalid_side";
                     header("Location: index.php");
@@ -55,7 +53,6 @@ class ProfileController
             }
             return;
         } catch (InternalErrorException $exc) {
-            // Behandlung von potentiellen Fehlern der Geschaeftslogik
             $_SESSION["message"] = "internal_error";
         } catch (MissingEntryException $e) {
             $_SESSION["message"] = "invalid_entry_id";
@@ -197,6 +194,31 @@ class ProfileController
         $file['name'] = pathinfo($file['name'], PATHINFO_FILENAME) . '.webp';
 
         return null; // No error
+    }
+    public function changeProfileDescription(): void
+    {
+        global $abs_path;
+        $authController = new AuthController();
+        $authController->requireLogin();
+        if(empty($_POST["description"])){
+            $_SESSION["message"] = "missing_parameter";
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        if (strlen($_POST["description"]) > 256) {
+            $_SESSION["message"] = "invalid_input_length";
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        }
+        try {
+            $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user"]);
+            $currentUser->setDescription($_POST["description"]);
+            $_SESSION["message"] = "description_changed";
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+            exit;
+        } catch (MissingEntryException) {
+            $_SESSION["message"] = "profile_not_found";
+        }
     }
 }
 
