@@ -23,7 +23,6 @@ Its current state is a basic implementation of the core features, with room for 
 2. Install PHP extensions: `gd`.
 
 ## Missing Features
-- Improved security measures (e.g. input validation)
 - Email communication (e.g. password reset, verification, show password, notifications)
 - Pagination for travel reports
 - Image gallery for travel reports (only one image per report is currently supported)

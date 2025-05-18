@@ -74,6 +74,9 @@
                     case "profile_picture_uploaded":
                         echo "Das Profilbild wurde erfolgreich hochgeladen.";
                         break;
+                    case "invalid_input_length":
+                        echo "Die Eingabe ist zu kurz oder zu lang. Bitte überprüfen Sie die Eingaben.";
+                        break;
 
                     default:
                         echo "Unbekannte Meldung: " . $_SESSION['message'];

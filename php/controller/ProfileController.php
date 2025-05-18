@@ -136,7 +136,7 @@ class ProfileController
         header("Location: ".$_SERVER['HTTP_REFERER']);
         exit;
     }
-    public function handleProfilePictureUpload(&$file, $minWidth = 128, $minHeight = 128, $maxWidth = 256, $maxHeight = 256): ?string
+    private function handleProfilePictureUpload(&$file, $minWidth = 128, $minHeight = 128, $maxWidth = 256, $maxHeight = 256): ?string
     {
         if (!isset($file) || $file["error"] != UPLOAD_ERR_OK) {
             return "missing_file";
@@ -193,7 +193,7 @@ class ProfileController
         imagewebp($srcImage, $file["tmp_name"]);
         imagedestroy($srcImage);
 
-        // Optionally, update the file extension to .webp for later saving
+        //update the file extension to .webp for later saving
         $file['name'] = pathinfo($file['name'], PATHINFO_FILENAME) . '.webp';
 
         return null; // No error

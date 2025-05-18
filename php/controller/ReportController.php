@@ -84,14 +84,29 @@ class ReportController
 
         if (!isset($_POST["title"]) || !isset($_POST["location"]) || !isset($_POST["description"])) {
             $_SESSION["message"] = "missing_entry";
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-            exit;
+            return;
+        }
+        // Length checks
+        $titleLen = mb_strlen($_POST["title"]);
+        $locationLen = mb_strlen($_POST["location"]);
+        $descLen = mb_strlen($_POST["description"]);
+
+        if ($titleLen < 5 || $titleLen > 50) {
+            $_SESSION["message"] = "invalid_input_length";
+            return;
+        }
+        if ($locationLen < 5 || $locationLen > 50) {
+            $_SESSION["message"] = "invalid_input_length";
+            return;
+        }
+        if ($descLen < 30 || $descLen > 2000) {
+            $_SESSION["message"] = "invalid_input_length";
+            return;
         }
         $error = $this->handleMultipleImageUploads($_FILES["pictures"]);
         if ($error !== null) {
             $_SESSION["message"] = $error;
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
-            exit;
+            return;
         }
 
         $uploadDir = $abs_path . "/uploads/reports/";
@@ -221,29 +236,88 @@ class ReportController
             $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    public function handleMultipleImageUploads($files, $minWidth = 100, $minHeight = 100, $maxWidth = 2000, $maxHeight = 2000): ?string
+    private function handleMultipleImageUploads(&$files, $minWidth = 1024, $minHeight = 768, $maxWidth = 1920, $maxHeight = 1080): ?string
     {
         if (!isset($files['tmp_name']) || !is_array($files['tmp_name'])) {
             return "missing_files";
         }
 
         foreach ($files['tmp_name'] as $key => $tmpName) {
-            if (!isset($files['error'][$key]) || $files['error'][$key] != UPLOAD_ERR_OK) {
-                return "missing_file";
+            $file = [
+                'tmp_name' => $tmpName,
+                'error' => $files['error'][$key],
+                'name' => $files['name'][$key]
+            ];
+            $error = $this->handlePictureUpload($file, $minWidth, $minHeight, $maxWidth, $maxHeight);
+            if ($error !== null) {
+                return $error;
             }
-
-            $imageInfo = getimagesize($tmpName);
-            if ($imageInfo === false) {
-                return "invalid_image";
-            }
-
-            $width = $imageInfo[0];
-            $height = $imageInfo[1];
-            if ($width < $minWidth || $height < $minHeight || $width > $maxWidth || $height > $maxHeight) {
-                return "invalid_image_size";
-            }
+            // Update the name in the original files array if needed
+            $files['name'][$key] = $file['name'];
         }
 
-        return null; // All images are valid
+        return null; // All images are valid and processed
+    }
+    private function handlePictureUpload(&$file, $minWidth, $minHeight, $maxWidth, $maxHeight): ?string
+    {
+        if (!isset($file) || $file["error"] != UPLOAD_ERR_OK) {
+            return "missing_file";
+        }
+
+        $imageInfo = getimagesize($file["tmp_name"]);
+        if ($imageInfo === false) {
+            return "invalid_image";
+        }
+
+        $width = $imageInfo[0];
+        $height = $imageInfo[1];
+        $mime = $imageInfo['mime'];
+
+        if ($width < $minWidth || $height < $minHeight) {
+            return "invalid_image_size";
+        }
+
+        // Load image resource
+        switch ($mime) {
+            case 'image/jpeg':
+                $srcImage = imagecreatefromjpeg($file["tmp_name"]);
+                break;
+            case 'image/png':
+                $srcImage = imagecreatefrompng($file["tmp_name"]);
+                break;
+            case 'image/gif':
+                $srcImage = imagecreatefromgif($file["tmp_name"]);
+                break;
+            default:
+                return "unsupported_image_type";
+        }
+
+        // Scale down if needed
+        if ($width > $maxWidth || $height > $maxHeight) {
+            $ratio = min($maxWidth / $width, $maxHeight / $height);
+            $newWidth = (int)($width * $ratio);
+            $newHeight = (int)($height * $ratio);
+            $dstImage = imagecreatetruecolor($newWidth, $newHeight);
+
+            // Preserve transparency for PNG and GIF
+            if ($mime === 'image/png' || $mime === 'image/gif') {
+                imagecolortransparent($dstImage, imagecolorallocatealpha($dstImage, 0, 0, 0, 127));
+                imagealphablending($dstImage, false);
+                imagesavealpha($dstImage, true);
+            }
+
+            imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagedestroy($srcImage);
+            $srcImage = $dstImage;
+        }
+
+        // Save as WebP (overwrite tmp file)
+        imagewebp($srcImage, $file["tmp_name"]);
+        imagedestroy($srcImage);
+
+        //update the file extension to .webp for later saving
+        $file['name'] = pathinfo($file['name'], PATHINFO_FILENAME) . '.webp';
+
+        return null; // No error
     }
 }
