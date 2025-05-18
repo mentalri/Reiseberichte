@@ -10,20 +10,14 @@ require_once $abs_path . "/php/model/Travelreports.php";
 class AuthController {
     public function login(): void
     {
-        // Ueberpruefung der Parameter
         if (empty($_POST["email"]) || empty($_POST["password"])) {
             return;
         }
         $email = $_POST["email"];
         $password = $_POST["password"];
         try {
-            // Kontaktierung des Models (Geschaeftslogik)
             $travelreports = Travelreports::getInstance();
             $profile = $travelreports->getProfileByEmail($email);
-            if ($profile == null) {
-                $_SESSION["message"] = "invalid_email";
-                return;
-            }
             if (!password_verify($password, $profile->getPassword())) {
                 $_SESSION["message"] = "invalid_password";
                 return;
@@ -33,7 +27,6 @@ class AuthController {
             header("Location: index.php");
             exit;
         } catch (InternalErrorException $exc) {
-            // Behandlung von potentiellen Fehlern der Geschaeftslogik
             $_SESSION["message"] = "internal_error";
         } catch (MissingEntryException $e) {
             $_SESSION["message"] = "invalid_email";
@@ -50,7 +43,6 @@ class AuthController {
     }
     public function register(): void
     {
-        // Ueberpruefung der Parameter
         if (empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["username"]) || empty($_POST["password_repeat"])) {
             return;
         }
@@ -62,16 +54,39 @@ class AuthController {
             $_SESSION["message"] = "invalid_password";
             return;
         }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION["message"] = "invalid_email";
+            return;
+        }
+        if (strlen($username) < 3 || strlen($username) > 12) {
+            $_SESSION["message"] = "invalid_username";
+            return;
+        }
+        if (strlen($password) < 8 || strlen($password) > 12) {
+            $_SESSION["message"] = "invalid_password";
+            return;
+        }
+
         try {
-            // Kontaktierung des Models (Geschaeftslogik)
             $travelreports = Travelreports::getInstance();
+            // Check if username or email is already taken
+            $profiles = $travelreports->getProfiles();
+            foreach ($profiles as $existingProfile) {
+                if ($existingProfile->getEmail() === strtolower($email)) {
+                    $_SESSION["message"] = "email_taken";
+                    return;
+                }
+                if ($existingProfile->getUsername() === $username) {
+                    $_SESSION["message"] = "username_taken";
+                    return;
+                }
+            }
             $profile = $travelreports->addProfile($username, $email, password_hash($password, PASSWORD_DEFAULT));
             $_SESSION["message"] = "register_success";
             $_SESSION["user"] = $profile->getId();
             header("Location: index.php");
             exit;
         } catch (InternalErrorException $exc) {
-            // Behandlung von potentiellen Fehlern der Geschaeftslogik
             $_SESSION["message"] = "internal_error";
         }
     }

@@ -11,6 +11,7 @@ Its current state is a basic implementation of the core features, with room for 
 - User authentication (login, registration)
 - Create, edit, and delete travel reports
 - View travel reports from other users
+- Browse travel reports through filters (e.g. by date, location)
 - Comment on travel reports
 - Like/unlike travel reports
 - Follow/unfollow other users

@@ -124,6 +124,7 @@ class ProfileController
             try {
                 $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user"]);
                 $currentUser->setProfilePicture($imagePath);
+                $_SESSION["message"] = "profile_picture_uploaded";
             } catch (MissingEntryException $exc) {
                 $_SESSION["message"] = "profile_not_found";
             } catch (InternalErrorException $exc) {

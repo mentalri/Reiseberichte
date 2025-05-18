@@ -15,7 +15,10 @@
                         <label for="email" class="required">E-Mail:</label>
                         <div>
                             <input type="email" id="email" name="email" placeholder="E-Mail eingeben"
-                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Bitte geben Sie eine gültige E-Mail-Adresse ein (z.B. name@example.com)" maxlength="100" required>
+                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                                   title="Bitte geben Sie eine gültige E-Mail-Adresse ein (z.B. name@example.com)" maxlength="100"
+                                   value="<?php if(isset($_POST["email"])) echo htmlspecialchars($_POST["email"])?>" required>
+
                         </div>
                     </div>
                     <div>

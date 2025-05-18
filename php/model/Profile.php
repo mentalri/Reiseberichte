@@ -78,7 +78,7 @@ class Profile {
         $this->username = $username;
         $this->email = $email;
         if ($password) {
-            $this->password = password_hash($password, PASSWORD_BCRYPT);
+            $this->password = $password;
         }
     }
 

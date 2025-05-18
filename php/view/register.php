@@ -13,9 +13,9 @@
                         <label for="username" class="required">Benutzername:</label>
                         <div>
                             <input type="text" id="username" name="username" placeholder="Benutzernamen eingeben" title="Bitte geben Sie Ihren Benutzernamen ein"
-                                required minlength="5" maxlength="8"
-                                oninvalid="setCustomValidity('Benutzername muss zwischen 5 und 8 Zeichen lang sein')"
-                                oninput="setCustomValidity('')">
+                                required minlength="3" maxlength="12"
+                                oninvalid="setCustomValidity('Benutzername muss zwischen 3 und 8 Zeichen lang sein')"
+                                oninput="setCustomValidity('')" value="<?php if (isset($_POST["username"])) echo htmlspecialchars($_POST["username"]); ?>">
                         </div>
                     </div>
 
@@ -23,7 +23,9 @@
                         <label for="email" class="required">E-Mail:</label>
                         <div>
                             <input type="email" id="email" name="email" placeholder="E-Mail eingeben"
-                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Bitte geben Sie eine gültige E-Mail-Adresse ein (z.B. name@example.com)" maxlength="100" required>
+                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                                   title="Bitte geben Sie eine gültige E-Mail-Adresse ein (z.B. name@example.com)" maxlength="100"
+                                   value="<?php if(isset($_POST["email"])) echo htmlspecialchars($_POST["email"])?>" required>
                         </div>
                     </div>
 
