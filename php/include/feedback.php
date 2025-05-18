@@ -83,6 +83,9 @@
                     case  "description_changed":
                         echo "Die Beschreibung wurde erfolgreich geändert.";
                         break;
+                    case "profile_deleted":
+                        echo "Das Profil wurde erfolgreich gelöscht.";
+                        break;
                     default:
                         echo "Unbekannte Meldung: " . $_SESSION['message'];
                         break;

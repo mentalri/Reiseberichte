@@ -19,21 +19,25 @@ class Rateable {
     public function getUser() {
         return $this->user;
     }
-    public function addRating($rating) {
+    public function addRating($rating): void
+    {
         $this->ratings[] = $rating;
     }
-    public function removeRating($ratingId) {
+    public function removeRating($ratingId): void
+    {
         foreach ($this->ratings as $key => $rating) {
             if ($rating->getId() == $ratingId) {
-                unset($this->rating[$key]);
+                unset($this->ratings[$key]);
                 break;
             }
         }
     }
-    public function getRatings() {
+    public function getRatings(): array
+    {
         return $this->ratings;
     }
-    public function getRating() {
+    public function getRating(): float|int
+    {
         
         $sum = array_reduce($this->ratings, function ($carry, $item) {
             return $carry + $item->getRating();
@@ -41,10 +45,12 @@ class Rateable {
         $count = count($this->ratings);
         return $count > 0 ? $sum / $count : 0;
     }
-    public function addComment($comment) {
+    public function addComment($comment): void
+    {
         $this->comments[] = $comment;
     }
-    public function removeComment($commentId) {
+    public function removeComment($commentId): void
+    {
         foreach ($this->comments as $key => $comment) {
             if ($comment->getId() == $commentId) {
                 unset($this->comments[$key]);
@@ -52,7 +58,8 @@ class Rateable {
             }
         }
     }
-    public function getComments() {
+    public function getComments(): array
+    {
         return $this->comments;
     }
 }

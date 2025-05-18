@@ -197,24 +197,94 @@ class ProfileController
     }
     public function changeProfileDescription(): void
     {
-        global $abs_path;
         $authController = new AuthController();
         $authController->requireLogin();
         if(empty($_POST["description"])){
             $_SESSION["message"] = "missing_parameter";
-            header("Location: " . $_SERVER['HTTP_REFERER']);
+            header("Location: profile.php?side=konto");
             exit;
         }
         if (strlen($_POST["description"]) > 256) {
             $_SESSION["message"] = "invalid_input_length";
-            header("Location: " . $_SERVER['HTTP_REFERER']);
+            header("Location: profile.php?side=konto");
             exit;
         }
         try {
             $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user"]);
             $currentUser->setDescription($_POST["description"]);
             $_SESSION["message"] = "description_changed";
-            header("Location: " . $_SERVER['HTTP_REFERER']);
+            header("Location: profile.php?side=konto");
+            exit;
+        } catch (MissingEntryException) {
+            $_SESSION["message"] = "profile_not_found";
+        }
+    }
+
+
+    public function updateLoginData(): Profile
+    {
+        $authController = new AuthController();
+        $authController->requireLogin();
+        try {
+            $travelreports = Travelreports::getInstance();
+            $profile = $travelreports->getProfile($_SESSION["user"]);
+            if (empty($_POST["username"]) || empty($_POST["email"])) {
+                $_SESSION["message"] = "missing_parameter";
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
+            $username = $_POST["username"];
+            $email = $_POST["email"];
+            $password = $profile->getPassword();
+            if (!empty($_POST["new_password"])) {
+                if(empty($_POST["repeat_password"]) || $_POST["new_password"] !== $_POST["repeat_password"]) {
+                    $_SESSION["message"] = "invalid_password_repeat";
+                    return $profile;
+                }
+                $password = $_POST["new_password"];
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $_SESSION["message"] = "invalid_email";
+                return $profile;
+            }
+            if (strlen($username) < 3 || strlen($username) > 12) {
+                $_SESSION["message"] = "invalid_username";
+                return $profile;
+            }
+            if (strlen($password) < 8 || strlen($password) > 12) {
+                $_SESSION["message"] = "invalid_password";
+                return $profile;
+            }
+            $profiles = $travelreports->getProfiles();
+            foreach ($profiles as $existingProfile) {
+                if ($existingProfile->getEmail() === strtolower($email)) {
+                    $_SESSION["message"] = "email_taken";
+                     return $profile;
+                }
+                if ($existingProfile->getUsername() === $username) {
+                    $_SESSION["message"] = "username_taken";
+                    return $profile;
+                }
+            }
+            $profile->updateProfile($username, $email, $password);
+            header("Location: profile.php?side=konto");
+            exit;
+        } catch (MissingEntryException $e) {
+            $_SESSION["message"] = "invalid_profile_id";
+            header("Location: index.php");
+            exit;
+        }
+    }
+    public function deleteProfile(): void
+    {
+        $authController = new AuthController();
+        $authController->requireLogin();
+        try {
+            $travelreports = Travelreports::getInstance();
+            $travelreports->deleteProfile($_SESSION["user"]);
+            unset($_SESSION["user"]);
+            $_SESSION["message"] = "profile_deleted";
+            header("Location: index.php");
             exit;
         } catch (MissingEntryException) {
             $_SESSION["message"] = "profile_not_found";

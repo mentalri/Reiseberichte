@@ -33,17 +33,17 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                             <h3>Anmeldedaten</h3>
 
                         </div>
-                        <form class="konto-info">
+                        <form action="profile_logindata_update.php" method="post" class="konto-info">
                             <div class="konto-field">
                                 <label for="username">Benutzername:</label>
                                 <div>
-                                    <input type="text" id="username" value=<?=$profile->getUsername()?>>
+                                    <input type="text" name="username" id="username" value=<?=$_POST["username"]??$profile->getUsername()?>>
                                 </div>
                             </div>
                             <div class="konto-field">
                                 <label for="email">E-Mail:</label>
                                 <div>
-                                    <input type="email" id="email" value=<?=$profile->getEmail()?>>
+                                    <input type="email" name="email" id="email" value=<?=$_POST["email"]??$profile->getEmail()?>>
                                 </div>
                             </div>
                             <div class="konto-field">
@@ -55,20 +55,21 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                             <div class="konto-field">
                                 <label for="new_password">Neues Passwort:</label>
                                 <div>
-                                    <input type="password" id="new_password" value="">
+                                    <input type="password" name="new_password" id="new_password" value="">
                                 </div>
                             </div>
                             <div class="konto-field">
                                 <label for="repeat_password">Passwort bestätigen:</label>
                                 <div>
-                                    <input type="password" id="repeat_password" value="">
+                                    <input type="password" name="repeat_password" id="repeat_password" value="">
                                 </div>
                             </div>
+                            <button formaction="profile_delete.php" type="submit" class="delete-button">Profil löschen</button>
+
+                            <button type="submit" class="save-button">Speichern</button>
+                            <a href="profile.php?side=konto" class="cancel-button">Abbrechen</a>
                         </form>
-                        <button type="submit" class="delete-button">Profil löschen</button>
-                        <button type="submit" class="display_password">Passwort anzeigen</button>
-                        <button type="submit" class="save-button">Speichern</button>
-                        <button type="submit" class="cancel-button">Abbrechen</button>
+
                     </div>
                     <div class="profile-data-container">
                         <input aria-label="Beschreibung ändern" type="checkbox" name="description-form-toggle-box" id="description-form-toggle-box">

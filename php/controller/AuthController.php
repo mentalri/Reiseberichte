@@ -50,8 +50,8 @@ class AuthController {
         $email = $_POST["email"];
         $password = $_POST["password"];
         $password_repeat = $_POST["password_repeat"];
-        if ($password != $password_repeat) {
-            $_SESSION["message"] = "invalid_password";
+        if ($password !== $password_repeat) {
+            $_SESSION["message"] = "invalid_password_repeat";
             return;
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

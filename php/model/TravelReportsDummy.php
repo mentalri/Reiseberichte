@@ -202,8 +202,8 @@
          */
         public function deleteReport($id): void
         {
-            foreach ($this->reports as $key => $entry) {
-                if ($entry->getId() == $id) {
+            foreach ($this->reports as $key => $report) {
+                if ($report->getId() == $id) {
                     unset($this->reports[$key]);
                     return;
                 }
@@ -260,10 +260,28 @@
             return $profile;
         }
 
+        /**
+         * @throws MissingEntryException
+         */
         public function deleteProfile($id): void
         {
-            foreach ($this->profiles as $key => $entry) {
-                if ($entry->getprofile_Id() == $id) {
+            foreach ($this->profiles as $key => $profile) {
+                if ($profile->getId() == $id) {
+                    foreach ($this->reports as $report) {
+                        if ($report->getAuthor()->getId() == $id) {
+                            $this->deleteReport($report->getId());
+                        }
+                        foreach ($report->getRatings() as $rating) {
+                            if ($rating->getUser()->getId() == $id) {
+                                $report->removeRating($rating->getId());
+                            }
+                        }
+                        foreach ($report->getComments() as $comment) {
+                            if ($comment->getUser()->getId() == $id) {
+                                $report->removeComment($comment->getId());
+                            }
+                        }
+                    }
                     unset($this->profiles[$key]);
                     return;
                 }
