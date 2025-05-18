@@ -74,10 +74,7 @@ class Profile {
     }
     public function removeFollower($follower): void
     {
-        if (($key = array_search($follower, $this->followers)) !== false) {
-            unset($this->followers[$key]);
-            unset($follower->following[array_search($this, $follower->following)]);
-        }
+        $follower->unfollow($this);
     }
     public function isFollowing($profile): bool
     {
@@ -95,7 +92,7 @@ class Profile {
     {
         $this->username = $username;
         $this->email = $email;
-        if ($password) {
+        if (!empty($password)) {
             $this->password = $password;
         }
     }

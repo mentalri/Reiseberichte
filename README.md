@@ -1,48 +1,58 @@
-# Travelreports PHP Project
+# Travelreports PHP-Projekt
 
-## Overview
+## Übersicht
 
-This project is a PHP-based web application for sharing and managing travel reports. Users can register, log in, create reports, follow other users, and upload profile pictures.
+Dieses Projekt ist eine PHP-basierte Webanwendung zum Teilen und Verwalten von Reiseberichten. Benutzer können sich registrieren, anmelden, Berichte erstellen, anderen Benutzern folgen und Profilbilder hochladen.
 
-Its current state is a basic implementation of the core features, with room for improvement in terms of security, performance, and user experience.
-
-## Features
-
-- User authentication (login, registration)
-- Create, edit, and delete travel reports
-- View travel reports from other users
-- Browse travel reports through filters (e.g. by date, location)
-- Comment on travel reports
-- Like/unlike travel reports
-- Follow/unfollow other users
-- Manage user profile (e.g. upload profile picture, change password, change email)
-- Feedback messages for user actions
+Der aktuelle Stand ist eine grundlegende Implementierung der Kernfunktionen, mit Verbesserungsmöglichkeiten in Bezug auf Sicherheit, Performance und Benutzererlebnis.
 
 ## Setup
-1. Ensure the `uploads/profile_pictures/` directory is writable.
-2. Install PHP extensions: `gd`.
+1. Stelle sicher, dass das Verzeichnis `uploads/profile_pictures/` beschreibbar ist.
+2. Installiere die PHP-Erweiterung: `gd`.
 
-## Missing Features
-- Email communication (e.g. password reset, verification, show password, notifications)
-- Pagination for travel reports
-- Image gallery for travel reports (only one image per report is currently supported)
-- Delete Comments
-- Like/Unlike & comment Comments
+## Fehlende Funktionen
+- E-Mail-Kommunikation (z.B. Passwort zurücksetzen, Verifizierung, Passwort anzeigen, Benachrichtigungen)
+- Pagination für Reiseberichte
+- Bildergalerie für Reiseberichte (derzeit wird nur ein Bild pro Bericht unterstützt)
+- Kommentare löschen
+- Kommentare liken/entliken & kommentieren
+
+## Bekannte Probleme
+- Datenänderungen werden in Teilen nicht übernommen. Diese Fehler sollten automatisch durch das Verwenden einer Datenbank behoben werden.
+    - Benutzernamen Änderungen werden in Berichten so wie in Kommentaren nicht übernommen.
+    - Wird ein Profil gelöscht, so wird das Profil nicht aus der Following-Liste, der Follower entfernt.
+- Die Webseite ist nicht konsistent Web Accessible AA konform.
+  - In Teilen verwenden wir mehrere Labels für ein Eingabefeld, für die onClick Funktionalität.
+  - Die Sterne für die Bewertung auf der Index-Seite sind kontrastarm.
+- Die Webseite zeigt Mängel bei der Responsiveness.
+  - Die Unterwebseite Profile Konto ist nicht responsiv.
+  - Die Vorschau auf Berichte ist nicht konsistent für jeden möglichen Input im Layout für mobile Geräte.
+
+## Funktionen
+
+- Benutzer-Authentifizierung (Login, Registrierung)
+- Reiseberichte erstellen, bearbeiten und löschen
+- Reiseberichte anderer Nutzer ansehen
+- Reiseberichte nach Filtern durchsuchen (z.B. nach Datum, Ort)
+- Reiseberichte kommentieren
+- Reiseberichte liken/entliken
+- Anderen Nutzern folgen/entfolgen
+- Benutzerprofil verwalten (z.B. Profilbild hochladen, Passwort ändern, E-Mail ändern)
+- Rückmeldungen für Benutzeraktionen
 
 
-## Technologies
+
+## Technologien
 - PHP
-- GD library for image processing
-
-
+- GD-Bibliothek für Bildverarbeitung
 
 ## Credits
-Credits for e\.g\. images and icons we need to give:
+Credits für z.B. Bilder und Icons, die wir angeben müssen:
 
 - <a href="https://www.flaticon.com/de/kostenlose-icons/profilbild" title="profilbild Icons">Profilbild Icons erstellt von kliwir art \- Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons created by Kiranshastry \- Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons created by Kiranshastry \- Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons erstellt von Kiranshastry \- Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons erstellt von Kiranshastry \- Flaticon</a>
 - <a href="https://www.flaticon.com/de/kostenlose-icons/bild" title="bild Icons">Bild Icons erstellt von Freepik - Flaticon</a>
 
-## License
-This project is for educational purposes.
+## Lizenz
+Dieses Projekt dient zu Ausbildungszwecken.

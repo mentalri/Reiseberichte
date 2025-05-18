@@ -1,9 +1,9 @@
 <?php
 class Rateable {
-    protected $id;
-    protected $user;
-    protected $ratings;
-    protected $comments;
+    protected int $id;
+    protected Profile $user;
+    protected array $ratings;
+    protected array $comments;
 
     public function __construct($id, $user) {
         $this->id = $id;
@@ -12,11 +12,11 @@ class Rateable {
         $this->comments = [];
     }
 
-    public function getId() {
+    public function getId(): int{
         return $this->id;
     }
 
-    public function getUser() {
+    public function getUser(): Profile{
         return $this->user;
     }
     public function addRating($rating): void

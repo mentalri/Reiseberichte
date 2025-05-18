@@ -20,10 +20,6 @@ class Report extends Rateable
         $this->pictures = $pictures;
         $this->tags = $tags;
     }
-    public function getId()
-    {
-        return $this->id;
-    }
     public function getTitle(): string{
         return $this->title;
     }
@@ -37,7 +33,7 @@ class Report extends Rateable
         return $this->pictures;
     }
     public function getAuthor(): Profile{
-        return $this->user;
+        return $this->getUser();
     }
     public function getDate(): int{
         return $this->date;

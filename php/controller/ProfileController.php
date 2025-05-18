@@ -235,7 +235,7 @@ class ProfileController
             }
             $username = $_POST["username"];
             $email = $_POST["email"];
-            $password = $profile->getPassword();
+            $password = null;
             if (!empty($_POST["new_password"])) {
                 if(empty($_POST["repeat_password"]) || $_POST["new_password"] !== $_POST["repeat_password"]) {
                     $_SESSION["message"] = "invalid_password_repeat";
@@ -251,22 +251,23 @@ class ProfileController
                 $_SESSION["message"] = "invalid_username";
                 return $profile;
             }
-            if (strlen($password) < 8 || strlen($password) > 12) {
+            if (!empty($password) & (strlen($password) < 8 || strlen($password) > 12)) {
                 $_SESSION["message"] = "invalid_password";
                 return $profile;
             }
             $profiles = $travelreports->getProfiles();
             foreach ($profiles as $existingProfile) {
-                if ($existingProfile->getEmail() === strtolower($email)) {
+                if ($existingProfile->getEmail() === strtolower($email) && $existingProfile->getId() !== $profile->getId()) {;
                     $_SESSION["message"] = "email_taken";
                      return $profile;
                 }
-                if ($existingProfile->getUsername() === $username) {
+                if ($existingProfile->getUsername() === $username && $existingProfile->getId() !== $profile->getId()) {
                     $_SESSION["message"] = "username_taken";
                     return $profile;
                 }
             }
             $profile->updateProfile($username, $email, $password);
+            $_SESSION["message"] = "profile_updated";
             header("Location: profile.php?side=konto");
             exit;
         } catch (MissingEntryException $e) {

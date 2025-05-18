@@ -10,14 +10,6 @@ class Comment extends Rateable {
         $this->date = $date;
     }
 
-    public function getId() {
-        return $this->id;
-    }
-
-    public function getUser() {
-        return $this->user;
-    }
-
     public function getText() {
         return $this->text;
     }

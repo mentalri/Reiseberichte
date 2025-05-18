@@ -68,7 +68,7 @@
                 $this->addReport($anna,strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
                 $this->addReport($hans,strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
                 $this->addReport($anna,strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
-                
+
                 $this->createRating($this->reports[0]->getId(),0, 5);
                 $this->createRating($this->reports[0]->getId(),1, 4);
                 $this->createComment($this->reports[0]->getId(),0, "Das ist ein Dummy-Kommentar");
@@ -281,6 +281,12 @@
                                 $report->removeComment($comment->getId());
                             }
                         }
+                    }
+                    foreach ($profile->getFollowing() as $following) {
+                        $following->unfollow($profile);
+                    }
+                    foreach ($profile->getFollowers() as $follower) {
+                        $follower->removeFollower($profile);
                     }
                     unset($this->profiles[$key]);
                     return;

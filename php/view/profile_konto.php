@@ -37,13 +37,13 @@ $cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_ko
                             <div class="konto-field">
                                 <label for="username">Benutzername:</label>
                                 <div>
-                                    <input type="text" name="username" id="username" value=<?=$_POST["username"]??$profile->getUsername()?>>
+                                    <input type="text" name="username" id="username" value="<?=$_POST["username"]??htmlspecialchars($profile->getUsername())?>">
                                 </div>
                             </div>
                             <div class="konto-field">
                                 <label for="email">E-Mail:</label>
                                 <div>
-                                    <input type="email" name="email" id="email" value=<?=$_POST["email"]??$profile->getEmail()?>>
+                                    <input type="email" name="email" id="email" value="<?=$_POST["email"]??htmlspecialchars($profile->getEmail())?>">
                                 </div>
                             </div>
                             <div class="konto-field">
