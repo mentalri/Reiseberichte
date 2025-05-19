@@ -1,13 +1,10 @@
-<?php
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
-$cssFiles = array("pages/profil.css","preview.css", "pages/profil_eigene_berichte.css","pages/profil-sidebar.css");
-$phpFiles = ["css/multiple-carousel-styles.php"];
-#$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
-?>
 <?php require_once $abs_path . "/php/include/head.php" ?>
-
+<title>Eigene Berichte</title>
+<link rel="stylesheet" href="css/pages/profil.css">
+<link rel="stylesheet" href="css/pages/profil_eigene_berichte.css">
+<link rel="stylesheet" href="css/pages/profil-sidebar.css">
+<link rel="stylesheet" href="css/preview.css">
+</head>
 <body class="flex-column">
     <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper flex-column">

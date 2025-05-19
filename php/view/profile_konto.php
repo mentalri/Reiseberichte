@@ -1,12 +1,9 @@
-<?php
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
-$cssFiles = array("pages/profil.css","pages/profil-sidebar.css","pages/profil_konto.css");
-#$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
-?>
 <?php include_once $abs_path."/php/include/head.php" ?>
-
+<title>Benutzerkonto</title>
+<link rel="stylesheet" href="css/pages/profil.css">
+<link rel="stylesheet" href="css/pages/profil-sidebar.css">
+<link rel="stylesheet" href="css/pages/profil_konto.css">
+</head>
 <body class="flex-column">
 <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper flex-column">

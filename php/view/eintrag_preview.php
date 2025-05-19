@@ -1,12 +1,8 @@
 
 <div class="preview-eintrag flex-shrink">
-    <div class="preview-bild carousel">
+    <div class="preview-bild">
         <a href="report.php?id=<?=urlencode($report->getId())?>">
-            <div class="report-<?=$report->getId()?>-slides">
-                <?php foreach ($report->getPictures() as $picture): ?>
-                    <div class="report-<?=$report->getId()?>-slide"><img src="<?=htmlspecialchars($picture) ?>" alt="Reisebild" class="bericht-bild"></div>
-                <?php endforeach; ?>
-            </div>
+            <img src="<?= htmlspecialchars($report->getPictures()[0]) ?>" alt="Reisebild" class="bericht-bild">
         </a>
     </div>
     <div class="preview-meta">

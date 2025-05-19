@@ -3,10 +3,11 @@ global $profile;
 if (!isset($abs_path)) {
     require_once "../../path.php";
 }
-
-$cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/public_profile.css");
 ?>
 <?php require_once $abs_path . "/php/include/head.php" ?>
+<title>Öffentliches Profile</title>
+<link rel="stylesheet" href="css/pages/public_profile.css">
+</head>
 
 <body class="flex-column">
 <?php require_once $abs_path . "/php/include/feedback.php" ?>

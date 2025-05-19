@@ -1,5 +1,5 @@
 <?php
-require_once "TravelreportsDummy.php";
+require_once "TravelReportsDummy.php";
 
 class Travelreports{
     public static function getInstance(){

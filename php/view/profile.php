@@ -1,10 +1,6 @@
-<?php
-global $abs_path;
-$cssFiles = array("pages/profil-sidebar.css");
-#$jsFiles = array("js/index.js", "js/orte.js", "js/eintrag_preview.js", "js/footer.js");
-?>
 <?php include_once $abs_path . "/php/include/head.php" ?>
-
+<link rel="stylesheet" href="css/pages/profil-sidebar.css">
+</head>
 <body class="flex-column">
     <div class="page-wrapper flex-column">
         <?php include_once $abs_path . "/php/include/nav.php" ?>

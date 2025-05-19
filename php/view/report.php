@@ -1,11 +1,9 @@
 <?php
-global $user_rating, $report, $abs_path;
-require_once "path.php";
-$cssFiles = array("pages/bericht.css", "special-elements/star-rating.css");
-$phpFiles = ["css/carousel-style.php"];
 require_once $abs_path . "/php/include/head.php"
 ?>
-
+<title><?= htmlspecialchars($report->getTitle()) ?></title>
+<link rel="stylesheet" href="css/pages/bericht.css">
+</head>
 <body>
     <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper">
@@ -13,12 +11,8 @@ require_once $abs_path . "/php/include/head.php"
         <main class="container">
             <section class="bericht-container">
 
-                <div class="img-container carousel">
-                    <div class="report-<?= $report->getId() ?>-slides">
-                        <?php foreach ($report->getPictures() as $picture): ?>
-                            <div class="report-<?= $report->getId() ?>-slide"><img src="<?= htmlspecialchars($picture) ?>" alt="Reisebild" class="bericht-bild"></div>
-                        <?php endforeach; ?>
-                    </div>
+                <div class="img-container">
+                    <img src="<?= htmlspecialchars($report->getPictures()[0]) ?>" alt="Reisebild" class="bericht-bild">
                 </div>
 
 

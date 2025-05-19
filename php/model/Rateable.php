@@ -2,12 +2,16 @@
 class Rateable {
     protected int $id;
     protected Profile $user;
+    protected int $date;
+    /** @var Rating[] */
     protected array $ratings;
+    /** @var Comment[] */
     protected array $comments;
 
-    public function __construct($id, $user) {
+    public function __construct($id, $user, $date) {
         $this->id = $id;
         $this->user = $user;
+        $this->date = $date;
         $this->ratings = [];
         $this->comments = [];
     }
@@ -18,6 +22,9 @@ class Rateable {
 
     public function getUser(): Profile{
         return $this->user;
+    }
+    public function getDate(): int{
+        return $this->date;
     }
     public function addRating($rating): void
     {
@@ -32,6 +39,7 @@ class Rateable {
             }
         }
     }
+    /** @return Rating[] */
     public function getRatings(): array
     {
         return $this->ratings;
@@ -58,6 +66,7 @@ class Rateable {
             }
         }
     }
+    /** @return Comment[] */
     public function getComments(): array
     {
         return $this->comments;

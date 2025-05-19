@@ -1,6 +1,7 @@
-<?php $cssFiles = array("pages/formular.css"); ?>
 <?php require_once $abs_path . "/php/include/head.php" ?>
-
+<title>Registrieren</title>
+<link rel="stylesheet" href="css/pages/formular.css">
+</head>
 <body>
     <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper">

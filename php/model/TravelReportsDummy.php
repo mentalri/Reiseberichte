@@ -17,20 +17,18 @@
             }
             return self::$instance;
         }
-        
+        /* @var Report[] */
         private array $reports = array();
+        /** @var Comment[] */
         private array $comments = array();
         private int $rateable_id = 0;
 
+        /** @var Profile[] */
         private array $profiles = array();
         private int $profile_id = 0;
         
         private array $ratings = array();
         private int $rating_id = 0;
-        
-        private array $pictures = array();
-        private int $picture_id = 0;
-
 
         /**
          * @throws InternalErrorException
@@ -43,6 +41,8 @@
                 $this->profiles = unserialize($_SESSION["profiles"]);
                 $this->profile_id = $_SESSION["profile_id"];
                 $this->rateable_id = $_SESSION["rateable_id"];
+
+                #$this->getProfile(0)->updateProfile("Hans2","hans@mail.com",null);
             }else{
                 $hans = $this->addProfile("Hans","hans@mail.com","Hans12345678");
                 $lisa = $this->addProfile("Lisa","lisa@mail.com","Lisa12345678");
@@ -83,6 +83,7 @@
             $_SESSION["profile_id"] = $this->profile_id;
             $_SESSION["rateable_id"] = $this->rateable_id;
         }
+        /** @return Report[] */
         public function getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count,$page, $authors): array
         {
             $filteredReports = $this->reports;
@@ -164,6 +165,7 @@
                 }
             }
         }
+        /** @return Report[] */
         public function getRatedReports($profile_id): array
         {
             $ratedReports = array();
@@ -210,7 +212,8 @@
             }
             throw new MissingEntryException("No entry found with rateable_id: " . $id);
         }
-        public function getProfiles()
+        /** @return Profile[] */
+        public function getProfiles():array
         {
             return $this->profiles;
         }
@@ -231,7 +234,7 @@
         /**
          * @throws MissingEntryException
          */
-        public function getProfileByEmail($email)
+        public function getProfileByEmail($email): Profile
         {
             $email = strtolower($email);
             foreach ($this->profiles as $entry) {

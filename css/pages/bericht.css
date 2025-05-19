@@ -14,6 +14,7 @@
     background-color: #cecece;
     width: 100%;
     aspect-ratio: 16/9;
+    overflow: hidden;
 }
 .bericht-bild {
     width: 100%;
@@ -88,7 +89,38 @@
     text-decoration: none;
     color: #000;
 }
+.rating {
+    direction: rtl; /* Sterne von rechts nach links */
+    unicode-bidi: bidi-override;
+    font-size: 2rem;
+    display: inline-flex;
+}
 
+.rating input {
+    display: none;
+}
+
+.rating label {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;    /* Verhindert Textmarkierung */
+    caret-color: transparent;  /* Versteckt den blinkenden Cursor */
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+    color: gold;
+}
+
+.rating input:checked ~ label {
+    color: gold;
+}
+
+#submit {
+    background-color: transparent;
+    border: none;
+}
 /* Responsive mobile */
 @media (max-width: 768px) {
     .bericht-header {

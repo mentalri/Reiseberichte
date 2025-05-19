@@ -39,10 +39,10 @@
 .preview-bild {
     display: flex;
     justify-content: center;
-    width: fit-content;
     background-color: rgb(194, 194, 194);
     width: 20%;
     min-width: 20%;
+    overflow: hidden;
 }
 .preview-bild img {
     width: 100%;

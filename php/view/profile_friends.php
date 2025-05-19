@@ -1,12 +1,10 @@
-<?php
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
 
-$cssFiles = array("pages/profil.css", "pages/profil_freunde.css", "pages/profil-sidebar.css");
-?>
 <?php require_once $abs_path . "/php/include/head.php" ?>
-
+<title>Freunde</title>
+<link rel="stylesheet" href="css/pages/profil.css">
+<link rel="stylesheet" href="css/pages/profil_freunde.css">
+<link rel="stylesheet" href="css/pages/profil-sidebar.css">
+</head>
 <body class="flex-column">
 <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper flex-column">

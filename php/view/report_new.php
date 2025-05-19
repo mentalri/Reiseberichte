@@ -1,8 +1,8 @@
-<?php
-$cssFiles = array("pages/bericht-formular.css");  
-?>
-<?php require_once $abs_path . "/php/include/head.php" ?>
-
+<?php /** @noinspection PhpUndefinedVariableInspection */
+require_once $abs_path . "/php/include/head.php" ?>
+<title>Bericht neu erstellen</title>
+<link rel="stylesheet" href="css/pages/bericht-formular.css">
+</head>
 <body>
     <?php require_once $abs_path . "/php/include/feedback.php" ?>
     <div class="page-wrapper">

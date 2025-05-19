@@ -6,7 +6,9 @@ class Profile {
     private string $password;
     private string $profilePicture;
     private string $description;
+    /** @var Profile[] */
     private array $followers;
+    /** @var Profile[] */
     private array $following;
 
     public function __construct($id, $username, $email, $password, $profilePicture="resources/profile-icon.png", $description="", $followers = [], $following = []) {
@@ -51,11 +53,13 @@ class Profile {
     {
         $this->description = $description;
     }
+    /** @return Profile[] */
     public function getFollowers(): array
     {
         return $this->followers;
     }
-    public function getFollowing() {
+    /** @return Profile[] */
+    public function getFollowing(): array{
         return $this->following;
     }
     public function follow($profile): void
@@ -84,6 +88,7 @@ class Profile {
     {
         return in_array($profile, $this->followers);
     }
+    /** @return Report[] */
     public function getReports(): array
     {
         return Travelreports::getInstance()->getReports(null, null, null, null, null, null, null, null, 0, [$this->id]);

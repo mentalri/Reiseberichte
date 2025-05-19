@@ -1,15 +1,9 @@
-<?php
-global $reports;
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
-?>
-<?php
-$cssFiles = array("pages/index.css", "preview.css");
-$phpFiles = ["css/multiple-carousel-styles.php"];
-?>
-
 <?php require_once $abs_path . "/php/include/head.php"; ?>
+<!-- IntelliJ: <base href="/"> -->
+
+<link rel="stylesheet" href="css/pages/index.css">
+<link rel="stylesheet" href="css/preview.css">
+</head>
 
 <input type="checkbox" class="sidebar-toggle-checkbox" id="sidebarToggleCheckbox" />
 
