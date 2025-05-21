@@ -7,7 +7,7 @@ Dieses Projekt ist eine PHP-basierte Webanwendung zum Teilen und Verwalten von R
 Der aktuelle Stand ist eine grundlegende Implementierung der Kernfunktionen, mit Verbesserungsmöglichkeiten in Bezug auf Sicherheit, Performance und Benutzererlebnis.
 
 ## Setup
-1. Stelle sicher, dass das Verzeichnis `uploads/profile_pictures/` beschreibbar ist.
+1. Stelle sicher, dass das Verzeichnis `uploads/` beschreibbar ist.
 2. Installiere die PHP-Erweiterung: `gd`.
 
 ## Fehlende Funktionen
@@ -25,9 +25,9 @@ Der aktuelle Stand ist eine grundlegende Implementierung der Kernfunktionen, mit
   - In Teilen verwenden wir mehrere Labels für ein Eingabefeld, für die onClick Funktionalität.
   - Die Sterne für die Bewertung auf der Index-Seite sind kontrastarm.
 - Die Webseite zeigt Mängel bei der Responsiveness.
-  - Die Unterwebseite Profile Konto ist nicht responsiv.
   - Die Vorschau auf Berichte ist nicht konsistent für jeden möglichen Input im Layout für mobile Geräte.
-
+- Die CSS Struktur weist Mängel auf.
+  - Die empfohlene Reihenfolge der Elemente wird nicht beachtet.
 ## Funktionen
 
 - Benutzer-Authentifizierung (Login, Registrierung)

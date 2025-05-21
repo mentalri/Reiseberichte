@@ -52,31 +52,35 @@ class ReportController
         }
     }
 
-    /**
-     * @throws MissingEntryException
-     */
+
     public function requestForm(): void
     {
         global $abs_path;
         $authController = new AuthController();
         $authController->requireLogin();
-        $travelreports = Travelreports::getInstance();
-        $profile=$travelreports->getProfile($_SESSION["user"]);
-        if(isset($_GET["edit"]) && $_GET["edit"]=="true"){
-            $this->checkId();
-            $report=$travelreports->getReport($_GET["id"]);
-            if($report->getAuthor()->getId()!=$profile->getId()){
-                $_SESSION["message"] = "not_author";
-                header("Location: index.php");
-                exit;
+        try {
+            $travelreports = Travelreports::getInstance();
+            $profile=$travelreports->getProfile($_SESSION["user"]);
+            if(isset($_GET["edit"]) && $_GET["edit"]=="true"){
+                $this->checkId();
+                $report=$travelreports->getReport($_GET["id"]);
+                if($report->getAuthor()->getId()!=$profile->getId()){
+                    $_SESSION["message"] = "not_author";
+                    header("Location: index.php");
+                    exit;
+                }
+                require_once $abs_path . "/php/view/report_edit.php";
+            }else{
+                require_once $abs_path . "/php/view/report_new.php";
             }
-            require_once $abs_path . "/php/view/report_edit.php";
-        }else{
-            require_once $abs_path . "/php/view/report_new.php";
+        }catch (MissingEntryException) {
+            $_SESSION["message"] = "invalid_entry_id";
+            header("Location: index.php");
+            exit;
         }
-    }
 
-    public function addReport(): void
+    }
+    public function checkReportInputs($allowNoImages=false): null|array
     {
         global $abs_path;
         $authController = new AuthController();
@@ -84,7 +88,7 @@ class ReportController
 
         if (!isset($_POST["title"]) || !isset($_POST["location"]) || !isset($_POST["description"])) {
             $_SESSION["message"] = "missing_entry";
-            return;
+            return null;
         }
         // Length checks
         $titleLen = mb_strlen($_POST["title"]);
@@ -93,20 +97,28 @@ class ReportController
 
         if ($titleLen < 5 || $titleLen > 50) {
             $_SESSION["message"] = "invalid_input_length";
-            return;
+            return null;
         }
         if ($locationLen < 5 || $locationLen > 50) {
             $_SESSION["message"] = "invalid_input_length";
-            return;
+            return null;
         }
         if ($descLen < 30 || $descLen > 2000) {
             $_SESSION["message"] = "invalid_input_length";
-            return;
+            return null;
         }
+        if ($allowNoImages &&
+            (!isset($_FILES['pictures'])
+                || !is_array(($_FILES['pictures']['tmp_name'])
+                || count($_FILES['pictures']['tmp_name']) < 1)))
+        {
+            return [];
+        }
+
         $error = $this->handleMultipleImageUploads($_FILES["pictures"]);
         if ($error !== null) {
             $_SESSION["message"] = $error;
-            return;
+            return null;
         }
 
         $uploadDir = $abs_path . "/uploads/reports/";
@@ -132,7 +144,23 @@ class ReportController
                 }
             }
         }
-
+        return $imagePaths;
+    }
+    public function addReport(): void
+    {
+        $imagePaths = $this->checkReportInputs();
+        if ($imagePaths === null) {
+            return;
+        }
+        $count = count($imagePaths);
+        if ($count > 5) {
+            $_SESSION["message"] = "too_many_files";
+            return;
+        }
+        if ($count < 1) {
+            $_SESSION["message"] = "no_files";
+            return;
+        }
         try {
             $travelreports = Travelreports::getInstance();
             $report = $travelreports->addReport(
@@ -141,31 +169,68 @@ class ReportController
                 $_POST["title"],
                 $_POST["location"],
                 $_POST["description"],
-                $imagePaths
+                $imagePaths,
+                ($_POST["tags"] ?? [])
             );
             header("Location: report.php?id=" . urlencode($report->getId()));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
         }
     }
-    public function editReport(): void
+    public function editReport(): Report
     {
-        if (!isset($_SESSION["user"])) {
-            $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
-            exit;
-        }
-        if (!isset($_POST["title"]) || !isset($_POST["location"]) || !isset($_POST["description"])) {
-            $_SESSION["message"] = "missing_entry";
-            header("Location: index.php");
-            exit;
-        }
         $this->checkId();
-        $travelreports = Travelreports::getInstance();
-        #Methode zum Bearbeiten des Reports fehlt
-        #User muss Author des Reports sein
-        #$travelreports->editReport($_GET["id"], $_POST["title"], $_POST["location"], $_POST["description"],$_POST["pictures"]);
-        header("Location: report.php?id=" . urlencode($_GET["id"]));
+        global $abs_path;
+
+
+        try{
+            $travelreports = Travelreports::getInstance();
+            $report = $travelreports->getReport($_GET["id"]);
+            if($report->getAuthor()->getId()!=$_SESSION["user"]){
+                $_SESSION["message"] = "not_author";
+                header("Location: index.php");
+                exit;
+            }
+            $imagePaths = $this->checkReportInputs(true);
+            if ($imagePaths === null) {
+                return $report;
+            }
+            $deletePictures = $_POST["delete_pictures"] ?? [];
+            foreach ($report->getPictures() as $picture) {
+                if (!in_array($picture, $deletePictures)) {
+                    $imagePaths[] = $picture;
+                }
+            }
+            $count = count($imagePaths);
+            if ($count > 5) {
+                $_SESSION["message"] = "too_many_files";
+                return $report;
+            }
+            if ($count < 1) {
+                $_SESSION["message"] = "no_files";
+                return $report;
+            }
+
+            foreach ($deletePictures as $picture) {
+                if (file_exists($abs_path . "/" . $picture)) {
+                    unlink($abs_path . "/" . $picture);
+                }
+            }
+            $report->update(
+                $_POST["title"],
+                $_POST["location"],
+                $_POST["description"],
+                $imagePaths,
+                ($_POST["tags"] ?? [])
+            );
+            $_SESSION["message"] = "edit_report";
+            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            exit;
+        }catch (MissingEntryException){
+            $_SESSION["message"] = "invalid_entry_id";
+            header("Location: index.php");
+            exit;
+        }
     }
     public function deleteReport(): void
     {

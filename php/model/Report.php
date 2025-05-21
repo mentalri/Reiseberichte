@@ -10,8 +10,7 @@ class Report extends Rateable
     /** @var string[] */
     private array $tags;
     
-    public function __construct($id, $author, $date, $title, $location, $description, $pictures, $tags)
-    {
+    public function __construct($id, $author, $date, $title, $location, $description, $pictures, $tags){
         parent::__construct($id, $author, $date);
         $this->id = $id;
         $this->title = $title;
@@ -36,16 +35,16 @@ class Report extends Rateable
     public function getAuthor(): Profile{
         return $this->getUser();
     }
-    public function getTags(): array
-    {
+    /** @return string[] */
+    public function getTags(): array{
         return $this->tags;
     }
     
-    public function update($title, $location, $description, $pictures): void
-    {
+    public function update($title, $location, $description, $pictures, $tags): void{
         $this->title = $title;
         $this->location = $location;
         $this->description = $description;;
         $this->pictures = $pictures;
+        $this->tags = $tags;
     }
 }

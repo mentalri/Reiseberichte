@@ -7,6 +7,6 @@ if (!isset($abs_path)) {
 }
 require_once $abs_path . "/php/controller/ReportController.php";
 $reportController = new ReportController();
-$reportController->editReport();
-exit;
+$report = $reportController->editReport();
+require_once $abs_path . "/php/view/report_edit.php";
 ?>

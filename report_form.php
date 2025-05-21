@@ -10,5 +10,5 @@ require_once $abs_path . "/php/controller/AuthController.php";
 $authController = new AuthController();
 $authController->requireLogin();
 $reportController = new ReportController();
-$report = $reportController->requestForm();
+$reportController->requestForm();
 ?>

@@ -18,7 +18,7 @@
                     <form class="filter-container">
                         <div class="filter-item">
                             <label for="location">Ort</label>
-                            <input type="text" id="location" name="location" placeholder="Stadt, PLZ, Land" value="<?php if (isset($_GET["location"])) {echo htmlspecialchars($_GET["location"]);} ?>">
+                            <input type="text" id="location" name="location" placeholder="Stadt, PLZ, Land" value="<?= htmlspecialchars($_GET["location"]??="")?>">
                         </div>
                         <div class="filter-item">
                             <label for="perimeter">Umkreis: <span>50km</span></label>
@@ -29,7 +29,7 @@
                             <label for="rating">Bewertung</label>
                             <div class="rating">
                                 <?php for ($i = 5; $i >= 1; $i--): ?>
-                                    <input type="radio" id="star<?= $i ?>" name="rating" value="<?=$i?>" <?php if (isset($_GET["rating"]) && $_GET["rating"] == $i) {echo "checked";} ?>>
+                                    <input type="radio" id="star<?= $i ?>" name="rating" value="<?=$i?>" <?= (($_GET["rating"]??-1) == $i)?"checked":"" ?>>
                                     <label for="star<?= $i ?>">★</label>
                                 <?php endfor; ?>
                             </div>
@@ -40,10 +40,10 @@
                                 <div class="tags-box">
                                     <div class="tags">
                                         <?php
-                                        $tags = ["Natur", "Stadt", "Kultur", "Essen", "Abenteuer"];
+                                        require_once $abs_path . "/php/include/tags.php";
                                         foreach ($tags as $tag): ?>
                                         <div>
-                                            <input type="checkbox" id="<?= $tag ?>" name="tags[]" value="<?= $tag ?>" <?php if (isset($_GET["tags"]) && in_array($tag, $_GET["tags"])) {echo "checked";} ?>>
+                                            <input type="checkbox" id="<?= $tag ?>" name="tags[]" value="<?= $tag ?>" <?= in_array($tag, ($_GET["tags"]??[]))?"checked":"" ?>>
                                             <label for="<?= $tag ?>"><?= $tag ?></label>
                                         </div>
                                         <?php endforeach; ?>
@@ -59,10 +59,10 @@
                             <label for="date">Zeitraum</label>
                             <div class="datum-container">
                                 <div>
-                                    <label for="date"><span>von</span></label><input type="date" id="date" name="date" value="<?php if (isset($_GET["date"])) {echo htmlspecialchars($_GET["date"]);} ?>">
+                                    <label for="date"><span>von</span></label><input type="date" id="date" name="date" value="<?= htmlspecialchars($_GET["date"]??"")?>">
                                 </div>
                                 <div>
-                                    <label for="date2"><span>bis</span></label><input type="date" id="date2" name="date2" value="<?php if (isset($_GET["date2"])) {echo htmlspecialchars($_GET["date2"]);} ?>">
+                                    <label for="date2"><span>bis</span></label><input type="date" id="date2" name="date2" value="<?= htmlspecialchars($_GET["date2"]??"") ?>">
                                 </div>
                             </div>
                         </div>
@@ -100,6 +100,12 @@
                         include $abs_path . "/php/view/eintrag_preview.php";
                     }
                     ?>
+                    <?php if(count($reports) === 0): ?>
+                        <div class="no-entry">
+                            <h3>Keine Einträge gefunden</h3>
+                            <p>Bitte passen Sie Ihre Filter an.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </section>
         </main>

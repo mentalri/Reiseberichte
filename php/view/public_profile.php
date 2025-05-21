@@ -1,9 +1,3 @@
-<?php
-global $profile;
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
-?>
 <?php require_once $abs_path . "/php/include/head.php" ?>
 <title>Öffentliches Profile</title>
 <link rel="stylesheet" href="css/pages/public_profile.css">
