@@ -206,7 +206,7 @@ class ProfileController
     {
         $authController = new AuthController();
         $authController->requireLogin();
-        if(empty(trim($_POST["description"]))){
+        if(empty($_POST["description"])){
             $_SESSION["message"] = "missing_parameter";
             header("Location: profile.php?side=konto");
             exit;
@@ -235,7 +235,7 @@ class ProfileController
         try {
             $travelreports = Travelreports::getInstance();
             $profile = $travelreports->getProfile($_SESSION["user"]);
-            if (empty(trim($_POST["username"])) || empty(trim($_POST["email"]))) {
+            if (empty($_POST["username"]) || empty($_POST["email"])) {
                 $_SESSION["message"] = "missing_parameter";
                 header("Location: " . $_SERVER['HTTP_REFERER']);
                 exit;

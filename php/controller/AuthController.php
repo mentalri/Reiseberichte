@@ -10,7 +10,7 @@ require_once $abs_path . "/php/model/Travelreports.php";
 class AuthController {
     public function login(): void
     {
-        if (empty(trim($_POST["email"])) || empty(trim($_POST["password"]))) {
+        if (empty($_POST["email"]) || empty($_POST["password"])) {
             return;
         }
         $email = trim($_POST["email"]);
@@ -43,7 +43,7 @@ class AuthController {
     }
     public function register(): void
     {
-        if (empty(trim($_POST["email"])) || empty(trim($_POST["username"])) || empty(trim($_POST["password"])) || empty(trim($_POST["password_repeat"]))) {
+        if (empty($_POST["email"]) || empty($_POST["username"]) || empty($_POST["password"]) || empty($_POST["password_repeat"])) {
             return;
         }
         $username = trim($_POST["username"]);
