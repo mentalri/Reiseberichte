@@ -105,6 +105,19 @@ class AuthController {
             exit;
         }
     }
+    public function requestUser(): ?Profile
+    {
+        if($this->isLoggedIn()){
+            try {
+                $travelreports = Travelreports::getInstance();
+                return $travelreports->getProfile($_SESSION["user"]);
+            }catch (MissingEntryException){
+                $_SESSION["message"] = "invalid_entry_id";
+            }
+
+        }
+        return null;
+    }
 }
 
 

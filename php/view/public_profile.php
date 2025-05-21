@@ -16,6 +16,9 @@
                 <div class="profile-meta">
                     <div class="meta-header">
                         <h3 class="username"><?= htmlspecialchars($profile->getUsername()) ?></h3>
+                        <?php if($user!=null && $user->getId() != $profile->getId()): ?>
+                            <a href="profile_follow.php?id=<?=urlencode($profile->getId())?>"> <?=$user->isFollowing($profile)?"Unfollow":"Follow"?></a>
+                        <?php endif; ?>
                     </div>
                     <div class="meta-body">
                         <p><?=count($profile->getFollowers())?> Follower</p>
@@ -30,7 +33,7 @@
             <div class="profile-body">
                 <?php foreach ($profile->getReports() as $report): ?>
                     <div class="report-card">
-                        <a href="report.php?id=<?= htmlspecialchars($report->getId()) ?>" class="report-link">
+                        <a href="report.php?id=<?= urlencode($report->getId()) ?>" class="report-link">
                             <img src="<?=htmlspecialchars($report->getPictures()[0])?>" alt="Reisebild">
                         </a>
 

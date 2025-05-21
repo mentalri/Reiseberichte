@@ -11,7 +11,7 @@
                     "missing_parameter" => "Ein erforderlicher Parameter fehlt. Bitte überprüfen Sie die Eingaben.",
                     "new_report" => "Der Eintrag wurde erfolgreich erstellt.",
                     "edit_report" => "Der Eintrag wurde erfolgreich bearbeitet.",
-                    "delete_report" => "Der Eintrag wurde erfolgreich gelöscht.",
+                    "report_deleted" => "Der Eintrag wurde erfolgreich gelöscht.",
                     "login_success" => "Sie haben sich erfolgreich angemeldet.",
                     "logout_success" => "Sie haben sich erfolgreich abgemeldet.",
                     "invalid_username" => "Der Benutzername ist ungültig.",
@@ -36,6 +36,12 @@
                     "description_changed" => "Die Beschreibung wurde erfolgreich geändert.",
                     "profile_deleted" => "Das Profil wurde erfolgreich gelöscht.",
                     "profile_updated" => "Das Profil wurde erfolgreich aktualisiert.",
+                    "profile_followed" => "Sie folgen jetzt diesem Profil.",
+                    "profile_unfollowed" => "Sie folgen diesem Profil nicht mehr.",
+                    "report_liked" => "Der Bericht wurde erfolgreich geliked.",
+                    "report_unliked" => "Der Bericht wurde erfolgreich entliked.",
+                    "cannot_follow_yourself" => "Sie können sich nicht selbst folgen.",
+
                     default => "Unbekannte Meldung: " . $_SESSION['message'],
                 };
                 ?>

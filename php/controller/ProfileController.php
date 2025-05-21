@@ -83,11 +83,18 @@ class ProfileController
         try {
             $currentUser = Travelreports::getInstance()->getProfile($_SESSION["user"]);
             $targetProfile = Travelreports::getInstance()->getProfile($_GET["id"]);
+            if ($currentUser->getId() === $targetProfile->getId()) {
+                $_SESSION["message"] = "cannot_follow_yourself";
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
 
             if ($currentUser->isFollowing($targetProfile)) {
                 $currentUser->unfollow($targetProfile);
+                $_SESSION["message"] = "profile_unfollowed";
             } else {
                 $currentUser->follow($targetProfile);
+                $_SESSION["message"] = "profile_followed";
             }
         } catch (MissingEntryException $exc) {
             $_SESSION["message"] = "profile_not_found";

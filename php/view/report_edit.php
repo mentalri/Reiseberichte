@@ -64,7 +64,7 @@ require_once $abs_path . "/php/include/head.php" ?>
                     </div>
 
                     <label for="description">Beschreibung</label>
-                    <textarea id="description" name="description" required><?=htmlspecialchars($_POST["description"]??($report->getDescription()))?></textarea>
+                    <textarea id="description" name="description" minlength="30" maxlength="2000" required><?=htmlspecialchars($_POST["description"]??($report->getDescription()))?></textarea>
 
                     <button type="submit" id="submit">Eintragen</button>
                 </form>

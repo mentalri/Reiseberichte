@@ -20,15 +20,8 @@ Der aktuelle Stand ist eine grundlegende Implementierung der Kernfunktionen, mit
 - Datenänderungen werden in Teilen nicht übernommen. Diese Fehler sollten automatisch durch das Verwenden einer Datenbank behoben werden.
     - Benutzernamen Änderungen werden in Berichten so wie in Kommentaren nicht übernommen.
     - Wird ein Profil gelöscht, so wird das Profil nicht aus der Following-Liste, der Follower entfernt.
-- Die Webseite ist nicht konsistent Web Accessible AA konform.
-  - In Teilen verwenden wir mehrere Labels für ein Eingabefeld, für die onClick Funktionalität.
-  - Die Sterne für die Bewertung auf der Index-Seite sind kontrastarm.
-- Die Webseite zeigt Mängel bei der Responsiveness.
-  - Die Vorschau auf Berichte ist nicht konsistent für jeden möglichen Input im Layout für mobile Geräte.
-- Die CSS Struktur weist Mängel auf.
-  - Die empfohlene Reihenfolge der Elemente wird nicht beachtet.
-## Funktionen
 
+## Funktionen
 - Benutzer-Authentifizierung (Login, Registrierung)
 - Reiseberichte erstellen, bearbeiten und löschen
 - Reiseberichte anderer Nutzer ansehen

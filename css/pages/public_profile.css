@@ -47,6 +47,16 @@ main{
 .meta-header{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.meta-header h3{
+    margin: 0;
+}
+.meta-header a{
+    text-decoration: none;
+    color: #111111;
+    font-weight: 600;
 }
 .meta-body p{
     text-wrap: nowrap;
