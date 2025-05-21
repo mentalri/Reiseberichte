@@ -15,7 +15,7 @@ class Profile {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->password = $password;
         $this->profilePicture = $profilePicture;
         $this->description = $description;
         $this->followers = $followers;

@@ -273,7 +273,7 @@ class ProfileController
                     return $profile;
                 }
             }
-            $profile->updateProfile($username, $email, $password);
+            $profile->updateProfile($username, $email, password_hash($password, PASSWORD_DEFAULT));
             $_SESSION["message"] = "profile_updated";
             header("Location: profile.php?side=konto");
             exit;

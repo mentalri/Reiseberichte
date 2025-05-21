@@ -34,11 +34,15 @@ class AuthController {
     }
     public function logout(): void
     {
+        global $abs_path;
         if (isset($_SESSION["user"])) {
             unset($_SESSION["user"]);
         }
         $_SESSION["message"] = "logout_success";
-        header("Location: ". $_SERVER["HTTP_REFERER"] ?? "index.php");
+        require_once $abs_path . "/php/controller/IndexController.php";
+        $indexController = new IndexController();
+        $reports = $indexController->request();
+        require_once $abs_path . "/php/view/index.php";
         exit;
     }
     public function register(): void
@@ -101,7 +105,7 @@ class AuthController {
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: ". $_SERVER["HTTP_REFERER"] ?? "index.php");
+            header("Location: index.php");
             exit;
         }
     }

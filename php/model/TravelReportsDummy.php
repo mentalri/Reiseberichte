@@ -43,6 +43,10 @@
                 $this->rateable_id = $_SESSION["rateable_id"];
 
                 #$this->getProfile(0)->updateProfile("Hans2","hans@mail.com",null);
+                //Profile arent updated in the reports, for more details view README.md
+                foreach ($this->reports as $report) {
+                    $report->setUser($this->getProfile($report->getUser()->getId()));
+                }
             }else{
                 $hans = $this->addProfile("Hans","hans@mail.com","Hans12345678");
                 $lisa = $this->addProfile("Lisa","lisa@mail.com","Lisa12345678");

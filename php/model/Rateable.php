@@ -23,6 +23,10 @@ class Rateable {
     public function getUser(): Profile{
         return $this->user;
     }
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
     public function getDate(): int{
         return $this->date;
     }
