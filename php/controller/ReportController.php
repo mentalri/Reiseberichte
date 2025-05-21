@@ -13,7 +13,7 @@ class ReportController
     {
         if (!isset($_REQUEST["id"]) || !is_numeric($_REQUEST["id"])) {
             $_SESSION["message"] = "invalid_entry_id";
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            header("Location: " . $_SERVER["HTTP_REFERER"] ?? "index.php");
             exit;
         }
     }
@@ -197,6 +197,7 @@ class ReportController
             if ($imagePaths === null) {
                 return $report;
             }
+            echo count($imagePaths);
             $deletePictures = $_POST["delete_pictures"] ?? [];
             foreach ($report->getPictures() as $picture) {
                 if (!in_array($picture, $deletePictures)) {
@@ -238,7 +239,7 @@ class ReportController
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            header("Location: " .  $_SERVER["HTTP_REFERER"] ?? "index.php");
             exit;
         }
         $this->checkId();
@@ -247,12 +248,12 @@ class ReportController
             $report = $travelreports->getReport($_GET["id"]);
             if ($report->getAuthor()->getId() != $_SESSION["user"]) {
                 $_SESSION["message"] = "not_author";
-                header("Location: " . $_SERVER["HTTP_REFERER"]);
+                header("Location: " .  $_SERVER["HTTP_REFERER"] ?? "index.php");
                 exit;
             }
             $travelreports->deleteReport($_GET["id"]);
             $_SESSION["message"] = "report_deleted";
-            header("Location: " . $_SERVER["HTTP_REFERER"]);
+            header("Location: " .  $_SERVER["HTTP_REFERER"] ?? "index.php");
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
         }

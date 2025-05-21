@@ -38,7 +38,7 @@ class AuthController {
             unset($_SESSION["user"]);
         }
         $_SESSION["message"] = "logout_success";
-        header("Location: ".$_SERVER["HTTP_REFERER"]);
+        header("Location: ". $_SERVER["HTTP_REFERER"] ?? "index.php");
         exit;
     }
     public function register(): void
@@ -101,7 +101,7 @@ class AuthController {
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: ".$_SERVER["HTTP_REFERER"]);
+            header("Location: ". $_SERVER["HTTP_REFERER"] ?? "index.php");
             exit;
         }
     }
