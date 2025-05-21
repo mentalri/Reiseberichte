@@ -10,11 +10,11 @@ require_once $abs_path . "/php/model/Travelreports.php";
 class AuthController {
     public function login(): void
     {
-        if (empty($_POST["email"]) || empty($_POST["password"])) {
+        if (empty(trim($_POST["email"])) || empty(trim($_POST["password"]))) {
             return;
         }
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+        $email = trim($_POST["email"]);
+        $password = trim($_POST["password"]);
         try {
             $travelreports = Travelreports::getInstance();
             $profile = $travelreports->getProfileByEmail($email);
@@ -43,13 +43,13 @@ class AuthController {
     }
     public function register(): void
     {
-        if (empty($_POST["email"]) || empty($_POST["password"]) || empty($_POST["username"]) || empty($_POST["password_repeat"])) {
+        if (empty(trim($_POST["email"])) || empty(trim($_POST["username"])) || empty(trim($_POST["password"])) || empty(trim($_POST["password_repeat"]))) {
             return;
         }
-        $username = $_POST["username"];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-        $password_repeat = $_POST["password_repeat"];
+        $username = trim($_POST["username"]);
+        $email = trim($_POST["email"]);
+        $password = trim($_POST["password"]);
+        $password_repeat = trim($_POST["password_repeat"]);
         if ($password !== $password_repeat) {
             $_SESSION["message"] = "invalid_password_repeat";
             return;

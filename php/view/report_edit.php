@@ -50,7 +50,7 @@ require_once $abs_path . "/php/include/head.php" ?>
                                 require_once $abs_path . "/php/include/tags.php";
                                 foreach ($tags as $tag): ?>
                                     <div>
-                                        <input type="checkbox" id="<?= $tag ?>" name="tags[]" value="<?= $tag ?>" <?= in_array($tag, ($_POST["tags"]??[]))?"checked":"" ?>>
+                                        <input type="checkbox" id="<?= $tag ?>" name="tags[]" value="<?= $tag ?>" <?= in_array($tag, ($_POST["tags"]??$report->getTags()))?"checked":"" ?>>
                                         <label for="<?= $tag ?>"><?= $tag ?></label>
                                     </div>
                                 <?php endforeach; ?>

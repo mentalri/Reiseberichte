@@ -199,12 +199,12 @@ class ProfileController
     {
         $authController = new AuthController();
         $authController->requireLogin();
-        if(empty($_POST["description"])){
+        if(empty(trim($_POST["description"]))){
             $_SESSION["message"] = "missing_parameter";
             header("Location: profile.php?side=konto");
             exit;
         }
-        if (strlen($_POST["description"]) > 256) {
+        if (strlen(trim($_POST["description"])) > 256) {
             $_SESSION["message"] = "invalid_input_length";
             header("Location: profile.php?side=konto");
             exit;
@@ -228,13 +228,13 @@ class ProfileController
         try {
             $travelreports = Travelreports::getInstance();
             $profile = $travelreports->getProfile($_SESSION["user"]);
-            if (empty($_POST["username"]) || empty($_POST["email"])) {
+            if (empty(trim($_POST["username"])) || empty(trim($_POST["email"]))) {
                 $_SESSION["message"] = "missing_parameter";
                 header("Location: " . $_SERVER['HTTP_REFERER']);
                 exit;
             }
-            $username = $_POST["username"];
-            $email = $_POST["email"];
+            $username = trim($_POST["username"]);
+            $email = trim($_POST["email"]);
             $password = null;
             if (!empty($_POST["new_password"])) {
                 if(empty($_POST["repeat_password"]) || $_POST["new_password"] !== $_POST["repeat_password"]) {

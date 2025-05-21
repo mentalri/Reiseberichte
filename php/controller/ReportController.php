@@ -91,9 +91,9 @@ class ReportController
             return null;
         }
         // Length checks
-        $titleLen = mb_strlen($_POST["title"]);
-        $locationLen = mb_strlen($_POST["location"]);
-        $descLen = mb_strlen($_POST["description"]);
+        $titleLen = mb_strlen(trim($_POST["title"]));
+        $locationLen = mb_strlen(trim($_POST["location"]));
+        $descLen = mb_strlen(trim($_POST["description"]));
 
         if ($titleLen < 5 || $titleLen > 50) {
             $_SESSION["message"] = "invalid_input_length";
