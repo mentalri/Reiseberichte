@@ -69,8 +69,9 @@ require_once $abs_path . "/php/include/head.php" ?>
                     <button type="submit" id="submit">Eintragen</button>
                 </form>
             </section>
-            <?php require_once $abs_path . "/php/include/footer.php" ?>
+
         </main>
+        <?php require_once $abs_path . "/php/include/footer.php" ?>
     </div>
 
 </body>

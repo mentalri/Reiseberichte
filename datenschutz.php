@@ -1,8 +1,16 @@
-<?php $cssFiles = array("css/pages/footer-elements.css");?>
-<?php include_once "php/head.php" ?>
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+if (!isset($abs_path)) {
+    require_once "path.php";
+}
+require_once $abs_path."/php/include/head.php" ?>
+<title>Datenschutz</title>
+<link rel="stylesheet" href="css/pages/footer-elements.css">
 <body>
 
-    <?php include_once "php/nav.php" ?>
+    <?php require_once $abs_path."/php/include/nav.php" ?>
     
 
     <main>
@@ -70,6 +78,6 @@
 </div>
 </div>
     </main>
-    <?php include_once "php/footer.php" ?>
+    <?php require_once $abs_path."/php/include/footer.php" ?>
 </body>
 </html>

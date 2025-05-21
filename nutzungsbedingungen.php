@@ -1,18 +1,23 @@
 <?php
-$cssFiles = array("css/pages/footer-elements.css");
-?>
-<?php include_once "php/head.php" ?>
-
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+if (!isset($abs_path)) {
+    require_once "path.php";
+}
+require_once $abs_path."/php/include/head.php" ?>
+<title>Nutzungsbedingungen</title>
+<link rel="stylesheet" href="css/pages/footer-elements.css">
 <body>
 
-  <?php include_once "php/nav.php" ?>
+  <?php require_once $abs_path."/php/include/nav.php" ?>
 
   <main>
 
 
     <h1>Nutzungsbedingungen</h1>
     <div class="datenschutz-container">
-      <div>
+      <div class="content">
         <div>
           <section>
             <h2>Geltungsbereich</h2>
@@ -56,7 +61,7 @@ $cssFiles = array("css/pages/footer-elements.css");
       </div>
     </div>
   </main>
-  <?php include_once "php/footer.php" ?>
+  <?php require_once $abs_path."/php/include/footer.php" ?>
 </body>
 
 </html>

@@ -15,7 +15,28 @@
     width: 100%;
     aspect-ratio: 16/9;
     overflow: hidden;
+    position: relative;
 }
+.img-container > div{
+    position: absolute;
+}
+.img-container > a:hover{
+    text-decoration: none;
+}
+.img-container > .hidden{
+    display: none;
+}
+.left-button{
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.right-button{
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .bericht-bild {
     width: 100%;
     height: 100%;

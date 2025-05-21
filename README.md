@@ -11,9 +11,8 @@ Der aktuelle Stand ist eine grundlegende Implementierung der Kernfunktionen, mit
 2. Installiere die PHP-Erweiterung: `gd`.
 
 ## Fehlende Funktionen
-- E-Mail-Kommunikation (z.B. Passwort zurücksetzen, Verifizierung, Passwort anzeigen, Benachrichtigungen)
+- E-Mail-Kommunikation (z.B. Passwort zurücksetzen, Verifizierung, Benachrichtigungen)
 - Pagination für Reiseberichte
-- Bildergalerie für Reiseberichte (derzeit wird nur ein Bild pro Bericht unterstützt)
 - Kommentare löschen
 - Kommentare liken/entliken & kommentieren
 
@@ -53,6 +52,7 @@ Credits für z.B. Bilder und Icons, die wir angeben müssen:
 - <a href="https://www.flaticon.com/free-icons/delete" title="delete icons">Delete icons erstellt von Kiranshastry \- Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/edit" title="edit icons">Edit icons erstellt von Kiranshastry \- Flaticon</a>
 - <a href="https://www.flaticon.com/de/kostenlose-icons/bild" title="bild Icons">Bild Icons erstellt von Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/de/kostenlose-icons/nachster" title="nächster Icons">Nächster Icons erstellt von Roundicons - Flaticon</a>
 
 ## Lizenz
 Dieses Projekt dient zu Ausbildungszwecken.

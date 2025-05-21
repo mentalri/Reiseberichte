@@ -12,7 +12,9 @@ require_once $abs_path . "/php/include/head.php"
             <section class="bericht-container">
 
                 <div class="img-container">
-                    <img src="<?= htmlspecialchars($report->getPictures()[0]) ?>" alt="Reisebild" class="bericht-bild">
+                    <img src="<?= htmlspecialchars($report->getPictures()[max(0,min($_GET["img"]??0,count($report->getPictures())-1))]) ?>" alt="Reisebild" class="bericht-bild">
+                    <div class="left-button <?=($_GET["img"]??0)<=0?"hidden":""?>"><a href="report.php?id=<?=$report->getId()?>&img=<?=(($_GET["img"]??0)-1)?>"><img src="resources/links_icon.png" alt="Links"> </a></div>
+                    <div class="right-button <?=($_GET["img"]??0)>=count($report->getPictures())-1?"hidden":""?>"><a href="report.php?id=<?=$report->getId()?>&img=<?=(($_GET["img"]??0)+1)?>"><img src="resources/rechts_icon.png" alt="Rechts"></a></div>
                 </div>
 
 

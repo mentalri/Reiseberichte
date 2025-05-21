@@ -140,6 +140,8 @@ class ReportController
 
                     if (move_uploaded_file($tmpName, $destination)) {
                         $imagePaths[] = $uploadUrlPath . $uniqueName;
+                    }else {
+                        $_SESSION["message"] = "file_upload_error";
                     }
                 }
             }

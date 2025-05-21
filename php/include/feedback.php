@@ -32,7 +32,7 @@
                     "invalid_image_size" => "Das Bild ist zu klein. Bitte halten sie sich an die empfohlenen Bildgrößen.",
                     "file_upload_error" => "Ein Fehler ist beim Hochladen der Datei aufgetreten. Bitte versuchen Sie es später erneut.",
                     "profile_picture_uploaded" => "Das Profilbild wurde erfolgreich hochgeladen.",
-                    "invalid_input_length" => "Die Eingabe ist zu kurz oder zu lang. Bitte überprüfen Sie die Eingaben.",
+                    "invalid_input_length" => "Eine Eingabe ist zu kurz oder zu lang. Bitte überprüfen Sie die Eingaben.",
                     "description_changed" => "Die Beschreibung wurde erfolgreich geändert.",
                     "profile_deleted" => "Das Profil wurde erfolgreich gelöscht.",
                     "profile_updated" => "Das Profil wurde erfolgreich aktualisiert.",
