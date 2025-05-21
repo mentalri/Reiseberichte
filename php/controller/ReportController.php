@@ -109,9 +109,10 @@ class ReportController
         }
         if ($allowNoImages &&
             (!isset($_FILES['pictures'])
-                || !is_array(($_FILES['pictures']['tmp_name'])
-                || count($_FILES['pictures']['tmp_name']) < 1)))
+                || !is_array(($_FILES['pictures']['tmp_name']))
+                || count($_FILES['pictures']['tmp_name']) < 1 || empty($_FILES['pictures']['tmp_name'][0])))
         {
+
             return [];
         }
 
@@ -198,6 +199,7 @@ class ReportController
                 return $report;
             }
             echo count($imagePaths);
+
             $deletePictures = $_POST["delete_pictures"] ?? [];
             foreach ($report->getPictures() as $picture) {
                 if (!in_array($picture, $deletePictures)) {

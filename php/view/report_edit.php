@@ -38,9 +38,7 @@ require_once $abs_path . "/php/include/head.php" ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
-
-                    <!-- Bereits hochgeladene Bilder müssen angezeigt und weiter geben werden und gelöscht werden können-->
-                    <label for="pictures">Bilder hochladen</label>
+                    <label for="pictures">1-5 Bilder hochladen (min. 1024px/768px)</label>
                     <input type="file" id="pictures" name="pictures[]" accept="image/*"  multiple>
                     <div>
                         <input type="checkbox" id="tags-toggle" class="tags-toggle" name="tags-toggle">

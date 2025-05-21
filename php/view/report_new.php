@@ -20,7 +20,7 @@ require_once $abs_path . "/php/include/head.php" ?>
                     <label for="location">Ort</label>
                     <input type="text" id="location" name="location" value="<?=htmlspecialchars($_POST["location"] ?? "") ?>" minlength="5" maxlength="50" required>
 
-                    <label for="pictures">Bilder hochladen (min. 1024px/768px)</label>
+                    <label for="pictures">1-5 Bilder hochladen (min. 1024px/768px)</label>
                     <input type="file" id="pictures" name="pictures[]" accept="image/*"   multiple required>
                     <div>
                         <input type="checkbox" id="tags-toggle" class="tags-toggle" name="tags-toggle">
