@@ -1,4 +1,9 @@
 <?php
+namespace php\model\reports;
+use php\model\exceptions\InternalErrorException;
+use php\model\exceptions\MissingEntryException;
+use php\model\profiles\Profile;
+
 require_once 'Rateable.php';
 class Report extends Rateable
 {
@@ -29,22 +34,15 @@ class Report extends Rateable
         return $this->description;
     }
     /** @return string[] */
-    public function getPictures(): array{
+    public function &getPictures(): array{
         return $this->pictures;
     }
     public function getAuthor(): Profile{
         return $this->getUser();
     }
     /** @return string[] */
-    public function getTags(): array{
+    public function &getTags(): array{
         return $this->tags;
     }
-    
-    public function update($title, $location, $description, $pictures, $tags): void{
-        $this->title = $title;
-        $this->location = $location;
-        $this->description = $description;;
-        $this->pictures = $pictures;
-        $this->tags = $tags;
-    }
+
 }

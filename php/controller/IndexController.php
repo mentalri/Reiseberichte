@@ -1,18 +1,19 @@
 <?php
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
+namespace php\controller;
+global $abs_path;
 
-require_once $abs_path . "/php/model/Report.php";
-require_once $abs_path . "/php/model/Travelreports.php";
+use php\model\exceptions\InternalErrorException;
+use php\model\reports\Reports;
+
+require_once $abs_path . "/php/model/reports/Reports.php";
+require_once $abs_path . "/php/model/exceptions/InternalErrorException.php";
 
 class IndexController
 {
-    public function request(): ?array
+    public function request(): array
     {
         try {
             $page = $_GET["page"] ?? 0;
-            #$search = $_GET["search"] ?? null;
             $location = $_GET["location"] ?? null;
             $perimeter = $_GET["perimeter"] ?? null;
             $rating = $_GET["rating"] ?? null;
@@ -21,12 +22,11 @@ class IndexController
             $date2 = $_GET["date2"] ?? null;
             $sorting = $_GET["sorting"] ?? "date_desc";
             $count = $_GET["count"] ?? 10;
-            return Travelreports::getInstance()
+            return Reports::getInstance()
                 ->getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count, $page, null);
-        } catch (InternalErrorException $exc) {
-            // Behandlung von potentiellen Fehlern der Geschaeftslogik
+        } catch (InternalErrorException) {
             $_SESSION["message"] = "internal_error";
+            return [];
         }
     }
 }
-?>

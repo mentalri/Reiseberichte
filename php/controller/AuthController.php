@@ -1,13 +1,18 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
+namespace php\controller;
+global $abs_path;
 
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
-require_once $abs_path . "/php/model/Profile.php";
-require_once $abs_path . "/php/model/Travelreports.php";
+use php\model\exceptions\InternalErrorException;
+use php\model\exceptions\MissingEntryException;
+use php\model\profiles\Profile;
+use php\model\profiles\Profiles;
+
+require_once $abs_path . "/php/model/profiles/Profiles.php";
+
 class AuthController {
+    const LOCATION_INDEX_PHP = "Location: index.php";
+
     public function login(): void
     {
         if (empty($_POST["email"]) || empty($_POST["password"])) {
@@ -16,25 +21,24 @@ class AuthController {
         $email = trim($_POST["email"]);
         $password = trim($_POST["password"]);
         try {
-            $travelreports = Travelreports::getInstance();
-            $profile = $travelreports->getProfileByEmail($email);
+            $profile = Profiles::getInstance()->getProfileByEmail($email);
             if (!password_verify($password, $profile->getPassword())) {
                 $_SESSION["message"] = "invalid_password";
                 return;
             }
             $_SESSION["user"] = $profile->getId();
             $_SESSION["message"] = "login_success";
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
             exit;
-        } catch (InternalErrorException $exc) {
+        } catch (InternalErrorException) {
             $_SESSION["message"] = "internal_error";
-        } catch (MissingEntryException $e) {
+        } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_email";
         }
     }
     public function logout(): void
     {
-        global $abs_path;
+        global $abs_path,$reports;
         if (isset($_SESSION["user"])) {
             unset($_SESSION["user"]);
         }
@@ -72,9 +76,9 @@ class AuthController {
         }
 
         try {
-            $travelreports = Travelreports::getInstance();
+            $profilesDAO = Profiles::getInstance();
             // Check if username or email is already taken
-            $profiles = $travelreports->getProfiles();
+            $profiles = $profilesDAO->getProfiles();
             foreach ($profiles as $existingProfile) {
                 if ($existingProfile->getEmail() === strtolower($email)) {
                     $_SESSION["message"] = "email_taken";
@@ -85,12 +89,12 @@ class AuthController {
                     return;
                 }
             }
-            $profile = $travelreports->addProfile($username, $email, password_hash($password, PASSWORD_DEFAULT));
+            $profile = $profilesDAO->addProfile($username, $email, $password);
             $_SESSION["message"] = "register_success";
             $_SESSION["user"] = $profile->getId();
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
             exit;
-        } catch (InternalErrorException $exc) {
+        } catch (InternalErrorException) {
             $_SESSION["message"] = "internal_error";
         }
     }
@@ -105,7 +109,7 @@ class AuthController {
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
             exit;
         }
     }
@@ -113,16 +117,14 @@ class AuthController {
     {
         if($this->isLoggedIn()){
             try {
-                $travelreports = Travelreports::getInstance();
-                return $travelreports->getProfile($_SESSION["user"]);
+                return Profiles::getInstance()->getProfile($_SESSION["user"]);
             }catch (MissingEntryException){
                 $_SESSION["message"] = "invalid_entry_id";
+            } catch (InternalErrorException) {
+                $_SESSION["message"] = "internal_error";
             }
 
         }
         return null;
     }
 }
-
-
-?>

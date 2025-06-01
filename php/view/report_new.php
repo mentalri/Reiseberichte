@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpUndefinedVariableInspection */
+<?php
+global $abs_path, $tags;
 require_once $abs_path . "/php/include/head.php" ?>
 <title>Bericht neu erstellen</title>
 <link rel="stylesheet" href="css/pages/bericht-formular.css">
@@ -50,6 +51,6 @@ require_once $abs_path . "/php/include/head.php" ?>
             </section>
         </main>
         <?php require_once $abs_path . "/php/include/footer.php" ?>
-    </div>    
+    </div>
 </body>
 </html>
