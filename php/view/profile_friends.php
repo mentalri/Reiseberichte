@@ -18,7 +18,7 @@
                             <h2>Profile den ich folge</h2>
                         </div>
                         <div class="flex-column flex-grow">
-                            <?php foreach ($profile->getFollowing() as $follower){
+                            <?php foreach ($following as $follower){
                                 include $abs_path . "/php/view/profile_preview.php";
                             } ?>
                         </div>
@@ -28,7 +28,7 @@
                             <h2>Profile die mir folgen</h2>
                         </div>
                         <div class="flex-column flex-grow">
-                            <?php foreach ($profile->getFollowers() as $follower){
+                            <?php foreach ($followers as $follower){
                                 include $abs_path . "/php/view/profile_preview.php";
                             } ?>
                         </div>
