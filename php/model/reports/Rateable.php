@@ -1,4 +1,7 @@
 <?php
+namespace php\model\reports;
+use php\model\profiles\Profile;
+
 class Rateable {
     protected int $id;
     protected Profile $user;
@@ -8,7 +11,7 @@ class Rateable {
     /** @var Comment[] */
     protected array $comments;
 
-    public function __construct($id, $user, $date) {
+    public function __construct(int $id, Profile $user, int $date) {
         $this->id = $id;
         $this->user = $user;
         $this->date = $date;
@@ -23,28 +26,12 @@ class Rateable {
     public function getUser(): Profile{
         return $this->user;
     }
-    public function setUser($user): void
-    {
-        $this->user = $user;
-    }
+
     public function getDate(): int{
         return $this->date;
     }
-    public function addRating($rating): void
-    {
-        $this->ratings[] = $rating;
-    }
-    public function removeRating($ratingId): void
-    {
-        foreach ($this->ratings as $key => $rating) {
-            if ($rating->getId() == $ratingId) {
-                unset($this->ratings[$key]);
-                break;
-            }
-        }
-    }
     /** @return Rating[] */
-    public function getRatings(): array
+    public function &getRatings(): array
     {
         return $this->ratings;
     }
@@ -57,23 +44,9 @@ class Rateable {
         $count = count($this->ratings);
         return $count > 0 ? $sum / $count : 0;
     }
-    public function addComment($comment): void
-    {
-        $this->comments[] = $comment;
-    }
-    public function removeComment($commentId): void
-    {
-        foreach ($this->comments as $key => $comment) {
-            if ($comment->getId() == $commentId) {
-                unset($this->comments[$key]);
-                break;
-            }
-        }
-    }
     /** @return Comment[] */
-    public function getComments(): array
+    public function &getComments(): array
     {
         return $this->comments;
     }
 }
-?>

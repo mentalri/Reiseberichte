@@ -4,7 +4,7 @@
        <p><?= $follower->isFollowing($profile) ? "folgt dir" : "folgt dir nicht" ?></p>
     </div>
     <div class="flex-row">
-        <p>Beiträge: <?= count($follower->getReports()) ?></p>
+        <p>Beiträge: <?= count($userReports) ?></p>
         <a href="profile_follow.php?id=<?=urlencode($follower->getId())?>"><?= $profile->isFollowing($follower) ? "nicht mehr Folgen" : "Folgen" ?></a>
     </div>
 </div>

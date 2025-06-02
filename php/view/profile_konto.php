@@ -1,4 +1,5 @@
-<?php include_once $abs_path."/php/include/head.php" ?>
+<?php global $userReports;
+include_once $abs_path."/php/include/head.php" ?>
 <title>Benutzerkonto</title>
 <link rel="stylesheet" href="css/pages/profil.css">
 <link rel="stylesheet" href="css/pages/profil-sidebar.css">
@@ -94,7 +95,7 @@
                                 <div class="meta-body">
                                     <p><?=count($profile->getFollowers())?> Follower</p>
                                     <p><?=count($profile->getFollowing())?> gefolgt</p>
-                                    <p><?=count($profile->getReports())?> Berichte</p>
+                                    <p><?=count($userReports)?> Berichte</p>
                                 </div>
                             </div>
                         </div>

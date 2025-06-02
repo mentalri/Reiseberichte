@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use php\controller\ReportController;
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -10,4 +13,3 @@ $reportController = new ReportController();
 $reportController->addReport();
 require_once $abs_path . "/php/view/report_new.php";
 exit;
-?>

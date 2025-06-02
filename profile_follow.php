@@ -1,5 +1,8 @@
 <?php
 global $abs_path;
+
+use php\controller\ProfileController;
+
 if (!isset($abs_path)) {
     require_once "path.php";
 }
@@ -12,4 +15,3 @@ $profileController = new ProfileController();
 $profileController->toggleFollow();
 header("Location: ".$_SERVER['HTTP_REFERER']);
 exit;
-?>

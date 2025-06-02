@@ -1,53 +1,72 @@
 <?php
-if (!isset($abs_path)) {
-    require_once "../../path.php";
-}
+namespace php\controller;
 
-require_once $abs_path . "/php/model/Report.php";
-require_once $abs_path . "/php/model/Travelreports.php";
+global $abs_path;
+
+use php\model\exceptions\InternalErrorException;
+use php\model\exceptions\MissingEntryException;
+use php\model\profiles\Profiles;
+use php\model\reports\Rating;
+use php\model\reports\Report;
+use php\model\reports\Reports;
+use php\util\ImageUtils;
+
+
+require_once $abs_path . "/php/model/reports/Reports.php";
+require_once $abs_path . "/php/model/profiles/Profiles.php";
 require_once $abs_path . "/php/controller/AuthController.php";
+require_once $abs_path . "/php/util/ImageUtils.php";
+
 
 class ReportController
 {
+    const LOCATION_INDEX_PHP = "Location: index.php";
+    const LOCATION_REPORT_ID = "Location: report.php?id=";
+
     private function checkId(): void
     {
         if (!isset($_REQUEST["id"]) || !is_numeric($_REQUEST["id"])) {
             $_SESSION["message"] = "invalid_entry_id";
-            header("Location: " . $_SERVER["HTTP_REFERER"] ?? "index.php");
+            header($this->getRefPage());
             exit;
         }
     }
     public function request()
-    {   
-        $this->checkId();        
+    {
+        $this->checkId();
         try {
             $id = intval($_GET["id"]);
-            
-            $travelreports = Travelreports::getInstance();
-            return $travelreports->getReport($id);
+            return Reports::getInstance()->getReport($id);
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
+            exit;
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
+            header(self::LOCATION_INDEX_PHP);
             exit;
         }
     }
     public function getUserRating($reportId, $userId)
     {
         if(!isset($_SESSION["user"])){
-            return new Rating(-1, null, -1); // Return an illegal rating object if user is not logged in
+            return new Rating(-1,$reportId, null, -1); // Return an illegal rating object if user is not logged in
         }
         try {
-            $travelreports = Travelreports::getInstance();
-            $report = $travelreports->getReport($reportId);
+            $report = Reports::getInstance()->getReport($reportId);
             foreach ($report->getRatings() as $rating) {
                 if ($rating->getUser()->getId() == $userId) {
                     return $rating;
                 }
             }
-            return new Rating(-1, null, -1); // Return an illegal rating object if no rating found
+            return new Rating(-1,$reportId, null, -1); // Return an illegal rating object if no rating found
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
+            exit;
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
+            header(self::LOCATION_INDEX_PHP);
             exit;
         }
     }
@@ -59,14 +78,13 @@ class ReportController
         $authController = new AuthController();
         $authController->requireLogin();
         try {
-            $travelreports = Travelreports::getInstance();
-            $profile=$travelreports->getProfile($_SESSION["user"]);
+            $profile=Profiles::getInstance()->getProfile($_SESSION["user"]);
             if(isset($_GET["edit"]) && $_GET["edit"]=="true"){
                 $this->checkId();
-                $report=$travelreports->getReport($_GET["id"]);
+                $report=Reports::getInstance()->getReport($_GET["id"]);
                 if($report->getAuthor()->getId()!=$profile->getId()){
                     $_SESSION["message"] = "not_author";
-                    header("Location: index.php");
+                    header(self::LOCATION_INDEX_PHP);
                     exit;
                 }
                 require_once $abs_path . "/php/view/report_edit.php";
@@ -75,7 +93,11 @@ class ReportController
             }
         }catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
+            exit;
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
+            header(self::LOCATION_INDEX_PHP);
             exit;
         }
 
@@ -165,9 +187,8 @@ class ReportController
             return;
         }
         try {
-            $travelreports = Travelreports::getInstance();
-            $report = $travelreports->addReport(
-                $travelreports->getProfile($_SESSION["user"]),
+            $report = Reports::getInstance()->addReport(
+                Profiles::getInstance()->getProfile($_SESSION["user"]),
                 time(),
                 $_POST["title"],
                 $_POST["location"],
@@ -175,9 +196,11 @@ class ReportController
                 $imagePaths,
                 ($_POST["tags"] ?? [])
             );
-            header("Location: report.php?id=" . urlencode($report->getId()));
+            header(self::LOCATION_REPORT_ID . urlencode($report->getId()));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
         }
     }
     public function editReport(): Report
@@ -187,11 +210,10 @@ class ReportController
 
 
         try{
-            $travelreports = Travelreports::getInstance();
-            $report = $travelreports->getReport($_GET["id"]);
+            $report = Reports::getInstance()->getReport($_GET["id"]);
             if($report->getAuthor()->getId()!=$_SESSION["user"]){
                 $_SESSION["message"] = "not_author";
-                header("Location: index.php");
+                header(self::LOCATION_INDEX_PHP);
                 exit;
             }
             $imagePaths = $this->checkReportInputs(true);
@@ -221,7 +243,8 @@ class ReportController
                     unlink($abs_path . "/" . $picture);
                 }
             }
-            $report->update(
+            Reports::getInstance()->updateReport(
+                $report->getId(),
                 $_POST["title"],
                 $_POST["location"],
                 $_POST["description"],
@@ -229,11 +252,15 @@ class ReportController
                 ($_POST["tags"] ?? [])
             );
             $_SESSION["message"] = "edit_report";
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
             exit;
         }catch (MissingEntryException){
             $_SESSION["message"] = "invalid_entry_id";
-            header("Location: index.php");
+            header(self::LOCATION_INDEX_PHP);
+            exit;
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
+            header(self::LOCATION_INDEX_PHP);
             exit;
         }
     }
@@ -241,69 +268,73 @@ class ReportController
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: " .  $_SERVER["HTTP_REFERER"] ?? "index.php");
+            header($this->getRefPage());
             exit;
         }
         $this->checkId();
         try {
-            $travelreports = Travelreports::getInstance();
-            $report = $travelreports->getReport($_GET["id"]);
+            $reportsDAO = Reports::getInstance();
+            $report = $reportsDAO->getReport($_GET["id"]);
             if ($report->getAuthor()->getId() != $_SESSION["user"]) {
                 $_SESSION["message"] = "not_author";
-                header("Location: " .  $_SERVER["HTTP_REFERER"] ?? "index.php");
+                header($this->getRefPage());
                 exit;
             }
-            $travelreports->deleteReport($_GET["id"]);
+            $reportsDAO->deleteReport($_GET["id"]);
             $_SESSION["message"] = "report_deleted";
-            header("Location: " .  $_SERVER["HTTP_REFERER"] ?? "index.php");
+            header($this->getRefPage());
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
         }
     }
     public function addComment(): void
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
             exit;
         }
         
         $this->checkId();
         try {
-            $travelreports = Travelreports::getInstance();
-            $travelreports->createComment($_GET["id"], $_SESSION["user"], $_POST["comment"]);
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            Reports::getInstance()->createComment($_GET["id"], $_SESSION["user"], $_POST["comment"]);
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
         }
     }
     public function deleteComment(): void
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
             exit;
         }
         
         $this->checkId();
-        $travelreports = Travelreports::getInstance();
+        $reportsDAO = Reports::getInstance();
         #Löschung des Kommentars fehlt
-        header("Location: report.php?id=" . urlencode($_GET["id"]));
+        header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
     }
     public function addRating(): void
     {
         $this->checkId();
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
             exit;
         }
         try {
-            $travelreports = Travelreports::getInstance();
-            $travelreports->createRating($_GET["id"], $_SESSION["user"], $_POST["rating"]);
-            header("Location: report.php?id=" . urlencode($_GET["id"]));
+            Reports::getInstance()->createRating($_GET["id"], $_SESSION["user"], $_POST["rating"]);
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
         }
     }
     private function handleMultipleImageUploads(&$files, $minWidth = 1024, $minHeight = 768, $maxWidth = 1920, $maxHeight = 1080): ?string
@@ -318,7 +349,7 @@ class ReportController
                 'error' => $files['error'][$key],
                 'name' => $files['name'][$key]
             ];
-            $error = $this->handlePictureUpload($file, $minWidth, $minHeight, $maxWidth, $maxHeight);
+            $error = ImageUtils::handlePictureUpload($file, $minWidth, $minHeight, $maxWidth, $maxHeight);
             if ($error !== null) {
                 return $error;
             }
@@ -328,66 +359,12 @@ class ReportController
 
         return null; // All images are valid and processed
     }
-    private function handlePictureUpload(&$file, $minWidth, $minHeight, $maxWidth, $maxHeight): ?string
+
+    /**
+     * @return string
+     */
+    public function getRefPage(): string
     {
-        if (!isset($file) || $file["error"] != UPLOAD_ERR_OK) {
-            return "missing_file";
-        }
-
-        $imageInfo = getimagesize($file["tmp_name"]);
-        if ($imageInfo === false) {
-            return "invalid_image";
-        }
-
-        $width = $imageInfo[0];
-        $height = $imageInfo[1];
-        $mime = $imageInfo['mime'];
-
-        if ($width < $minWidth || $height < $minHeight) {
-            return "invalid_image_size";
-        }
-
-        // Load image resource
-        switch ($mime) {
-            case 'image/jpeg':
-                $srcImage = imagecreatefromjpeg($file["tmp_name"]);
-                break;
-            case 'image/png':
-                $srcImage = imagecreatefrompng($file["tmp_name"]);
-                break;
-            case 'image/gif':
-                $srcImage = imagecreatefromgif($file["tmp_name"]);
-                break;
-            default:
-                return "unsupported_image_type";
-        }
-
-        // Scale down if needed
-        if ($width > $maxWidth || $height > $maxHeight) {
-            $ratio = min($maxWidth / $width, $maxHeight / $height);
-            $newWidth = (int)($width * $ratio);
-            $newHeight = (int)($height * $ratio);
-            $dstImage = imagecreatetruecolor($newWidth, $newHeight);
-
-            // Preserve transparency for PNG and GIF
-            if ($mime === 'image/png' || $mime === 'image/gif') {
-                imagecolortransparent($dstImage, imagecolorallocatealpha($dstImage, 0, 0, 0, 127));
-                imagealphablending($dstImage, false);
-                imagesavealpha($dstImage, true);
-            }
-
-            imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-            imagedestroy($srcImage);
-            $srcImage = $dstImage;
-        }
-
-        // Save as WebP (overwrite tmp file)
-        imagewebp($srcImage, $file["tmp_name"]);
-        imagedestroy($srcImage);
-
-        //update the file extension to .webp for later saving
-        $file['name'] = pathinfo($file['name'], PATHINFO_FILENAME) . '.webp';
-
-        return null; // No error
+        return "Location: " . ($_SERVER["HTTP_REFERER"] ?? "index.php");
     }
 }

@@ -1,4 +1,5 @@
-<?php require_once $abs_path . "/php/include/head.php" ?>
+<?php global $userReports, $profile, $abs_path, $user;
+require_once $abs_path . "/php/include/head.php" ?>
 <title>Öffentliches Profile</title>
 <link rel="stylesheet" href="css/pages/public_profile.css">
 </head>
@@ -23,7 +24,7 @@
                     <div class="meta-body">
                         <p><?=count($profile->getFollowers())?> Follower</p>
                         <p><?=count($profile->getFollowing())?> gefolgt</p>
-                        <p><?=count($profile->getReports())?> Berichte</p>
+                        <p><?=count($userReports)?> Berichte</p>
                     </div>
                     <div class="description">
                         <p><?=$profile->getDescription()?></p>
@@ -31,7 +32,7 @@
                 </div>
             </div>
             <div class="profile-body">
-                <?php foreach ($profile->getReports() as $report): ?>
+                <?php foreach ($userReports as $report): ?>
                     <div class="report-card">
                         <a href="report.php?id=<?= urlencode($report->getId()) ?>" class="report-link">
                             <img src="<?=htmlspecialchars($report->getPictures()[0])?>" alt="Reisebild">
