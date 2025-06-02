@@ -71,8 +71,8 @@ class ProfilesSession implements ProfilesDAO
             foreach ($this->following as $follow) {
                 $follower = $this->getProfile($follow['followerId']);
                 $followed = $this->getProfile($follow['followedId']);
-                $follower->getFollowing()[] = $followed;
-                $followed->getFollowers()[] = $follower;
+                $follower->getFollowing()[] = $follow['followerId'];
+                $followed->getFollowers()[] = $follow['followerId'];
             }
         }
         }catch (InternalErrorException | MissingEntryException) {
@@ -174,7 +174,7 @@ class ProfilesSession implements ProfilesDAO
             $profile->getFollowers(),
             $profile->getFollowing()
         );
-        return $profile;
+        return $this->profiles[$profile->getId()];
     }
 
 

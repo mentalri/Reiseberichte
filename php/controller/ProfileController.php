@@ -31,7 +31,7 @@ class ProfileController
 
     public function request(): void
     {
-        global $abs_path,$profile, $reports, $userReports;
+        global $abs_path,$profile, $reports, $userReports, $userReportsMap, $following, $followers;
         $authController = new AuthController();
         $authController->requireLogin();
         $this->checkParameter("side");
@@ -54,7 +54,23 @@ class ProfileController
                     break;
                 case "friends":
                     $profile = $profilesDAO->getProfile($_SESSION["user"]);
-                    $userReports = $this->requestUserReports($profile->getId());
+                    $userReportsMap = [];
+                    foreach ($profile->getFollowing() as $friend) {
+                        $userReportsMap[$friend] = $this->requestUserReports($friend);
+                    }
+                    foreach ($profile->getFollowers() as $follower) {
+                        if (!isset($userReportsMap[$follower])) {
+                            $userReportsMap[$follower] = $this->requestUserReports($follower);
+                        }
+                    }
+                    $following = array_map(
+                        fn($id) => $profilesDAO->getProfile($id),
+                        $profile->getFollowing()
+                    );
+                    $followers = array_map(
+                        fn($id) => $profilesDAO->getProfile($id),
+                        $profile->getFollowers()
+                    );
                     require_once $abs_path . "/php/view/profile_friends.php";
                     break;
                 case "nav":

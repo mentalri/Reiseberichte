@@ -12,9 +12,9 @@ class Profile {
     private string $password;
     private string $profilePicture;
     private string $description;
-    /** @var Profile[] */
+    /** @var int[] */
     private array $followers;
-    /** @var Profile[] */
+    /** @var int[] */
     private array $following;
 
     public function __construct($id, $username, $email, $password, $profilePicture="resources/profile-icon.png", $description="", $followers = [], $following = []) {
@@ -52,19 +52,19 @@ class Profile {
         return $this->description;
     }
 
-    /** @return Profile[] */
+    /** @return int[] */
     public function &getFollowers(): array
     {
         return $this->followers;
     }
-    /** @return Profile[] */
+    /** @return int[] */
     public function &getFollowing(): array{
         return $this->following;
     }
 
-    public function isFollowing($profile): bool
+    public function isFollowing(Profile $profile): bool
     {
-        return in_array($profile, $this->following);
+        return in_array($profile->getId(), $this->following);
     }
 
 }

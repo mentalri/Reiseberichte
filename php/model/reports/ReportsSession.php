@@ -49,19 +49,21 @@ class ReportsSession implements ReportsDAO
         if (!isset($_SESSION['reports'])) {
             $profiles = Profiles::getInstance();
             try {
-                $this->addReport($profiles->getProfile(0),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
-                $this->addReport($profiles->getProfile(1),strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(2),strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(3),strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(0),strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(1),strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($profiles->getProfile(1),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
+                $this->addReport($profiles->getProfile(2),strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($profiles->getProfile(3),strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport($profiles->getProfile(4),strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($profiles->getProfile(1),strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport($profiles->getProfile(2),strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
 
-                $this->createRating($this->reports[0]->getId(),0, 5);
-                $this->createRating($this->reports[0]->getId(),1, 4);
-                $this->createComment($this->reports[0]->getId(),0, "Das ist ein Dummy-Kommentar");
+                $this->createRating($this->reports[0]->getId(),1, 5);
+                $this->createRating($this->reports[0]->getId(),2, 4);
                 $this->createComment($this->reports[0]->getId(),1, "Das ist ein Dummy-Kommentar");
-            }catch (MissingEntryException | InternalErrorException) {
+                $this->createComment($this->reports[0]->getId(),2, "Das ist ein Dummy-Kommentar");
+                error_log("Dummy reports created successfully.");
+            }catch (MissingEntryException| InternalErrorException $e) {
                 // This should never happen, as we are creating the reports in the constructor
+                error_log("Error while creating dummy reports: " . $e->getMessage());
             }
 
         } else {
