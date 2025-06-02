@@ -8,9 +8,10 @@
     color: white;
     padding: 30px;
     border-radius: 8px;
-    
+
     z-index: 9999; /* Make sure it's on top */
-    
+
+    animation: fadeOut 1s forwards 3s;
 }
 .overlay-toggle-checkbox {
     display: none;
@@ -21,4 +22,14 @@
 }
 .overlay-toggle-checkbox:checked ~ .overlay {
     display: none;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        display: none;
+    }
 }

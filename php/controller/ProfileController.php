@@ -24,6 +24,7 @@ class ProfileController
     {
         if (!isset($_REQUEST[$parameter])) {
             $_SESSION["message"] = "missing_parameter";
+            header(self::LOCATION_INDEX_PHP);
             exit;
         }
     }
@@ -53,6 +54,7 @@ class ProfileController
                     break;
                 case "friends":
                     $profile = $profilesDAO->getProfile($_SESSION["user"]);
+                    $userReports = $this->requestUserReports($profile->getId());
                     require_once $abs_path . "/php/view/profile_friends.php";
                     break;
                 case "nav":

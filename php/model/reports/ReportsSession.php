@@ -72,10 +72,11 @@ class ReportsSession implements ReportsDAO
             $this->tags = unserialize($_SESSION['tags']);
             $this->rateableId = count($this->reports) + count($this->comments);
             $this->ratingId = count($this->ratings);
+            $profilesDao = Profiles::getInstance();
             foreach ($this->reports as $report) {
                 $this->reports[$report->getId()] = new Report(
                     $report->getId(),
-                    $report->getAuthor(),
+                    $profilesDao->getProfile($report->getAuthor()->getId()),
                     $report->getDate(),
                     $report->getTitle(),
                     $report->getLocation(),
@@ -88,9 +89,17 @@ class ReportsSession implements ReportsDAO
                 $this->comments[$comment->getId()] = new Comment(
                     $comment->getId(),
                     $comment->getRateableId(),
-                    $comment->getUser(),
+                    $profilesDao->getProfile($comment->getUser()->getId()),
                     $comment->getText(),
                     $comment->getDate()
+                );
+            }
+            foreach ($this->ratings as $rating) {
+                $this->ratings[$rating->getId()] = new Rating(
+                    $rating->getId(),
+                    $rating->getRateableId(),
+                    $profilesDao->getProfile($rating->getUser()->getId()),
+                    $rating->getRating()
                 );
             }
             foreach ($this->comments as $comment) {
@@ -110,7 +119,7 @@ class ReportsSession implements ReportsDAO
             foreach ($this->ratings as $rating) {
                 foreach ($this->reports as $report) {
                     if ($report->getId() == $rating->getRateableId()) {
-
+                        $report->getRatings()[] = $rating;
                         continue 2;
                     }
                 }
@@ -243,9 +252,11 @@ class ReportsSession implements ReportsDAO
             foreach ($entry->getRatings() as $rating) {
                 if ($rating->getUser()->getId() == $profile_id) {
                     $ratedReports[] = $entry;
+                    continue 2; // Skip to the next report if a rating is found
                 }
             }
         }
+
         return $ratedReports;
     }
 
@@ -294,18 +305,15 @@ class ReportsSession implements ReportsDAO
             }
         }
         foreach ($this->images as $key => $image) {
-            if ($image == $id) {
+            if ($image['id'] == $id) {
                 unset($this->images[$key]);
-                return;
             }
         }
         foreach ($this->tags as $key => $tag) {
-            if ($tag == $id) {
+            if ($tag['id'] == $id) {
                 unset($this->tags[$key]);
-                return;
             }
         }
-        throw new MissingEntryException(self::NO_ENTRY_FOUND_WITH_RATEABLE_ID . $id);
     }
 
     /**
@@ -337,21 +345,11 @@ class ReportsSession implements ReportsDAO
      */
     public function createComment($rateable_id, $user_id, $text): void
     {
-        foreach ($this->reports as $entry) {
-            if ($entry->getId() == $rateable_id) {
-                $comment = new Comment($this->rateableId++,$rateable_id, Profiles::getInstance()->getProfile($user_id), $text, time());
-                $entry->getComments()[$comment->getId()] = $comment;
-                return;
-            }
+        if(!isset($this->reports[$rateable_id]) && !isset($this->comments[$rateable_id])) {
+            throw new MissingEntryException(self::NO_ENTRY_FOUND_WITH_RATEABLE_ID . $rateable_id);
         }
-        foreach ($this->comments as $entry) {
-            if ($entry->getId() == $rateable_id) {
-                $comment = new Comment($this->rateableId++,$rateable_id, Profiles::getInstance()->getProfile($user_id), $text, time());
-                $entry->getComments()[$comment->getId()] = $comment;
-                return;
-            }
-        }
-        throw new MissingEntryException(self::NO_ENTRY_FOUND_WITH_RATEABLE_ID . $rateable_id);
+        $comment = new Comment($this->rateableId++,$rateable_id, Profiles::getInstance()->getProfile($user_id), $text, time());
+        $this->comments[$comment->getId()] = $comment;
     }
 
     /**

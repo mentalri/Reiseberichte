@@ -53,6 +53,7 @@ class ProfilesSession implements ProfilesDAO
             $this->followProfile($max->getId(), $lisa->getId());
             $this->followProfile($max->getId(), $hans->getId());
             $this->followProfile($max->getId(), $sophie->getId());
+
         }else {
             $this->profiles = unserialize($_SESSION['profiles']);
             $this->following = unserialize($_SESSION['following']);
@@ -147,20 +148,13 @@ class ProfilesSession implements ProfilesDAO
     public function deleteProfile($id): void
     {
         $reportsDAO = Reports::getInstance();
-        foreach ($this->profiles as $key => $profile) {
-            if ($profile->getId() == $id) {
-                $reportsDAO->deleteProfileDataFromReports($id);
-                foreach ($profile->getFollowing() as $following) {
-                    Profiles::getInstance()->unfollowProfile($profile->getId(), $following->getId());
-                }
-                foreach ($profile->getFollowers() as $follower) {
-                    Profiles::getInstance()->unfollowProfile($profile, $follower->getId());
-                }
-                unset($this->profiles[$key]);
-                return;
+        $reportsDAO->deleteProfileDataFromReports($id);
+        foreach ($this->following as $key => $follow) {
+            if ($follow['followerId'] == $id || $follow['followedId'] == $id) {
+                unset($this->following[$key]);
             }
         }
-        throw new MissingEntryException("No entry found with profile_ID: " . $id);
+        unset($this->profiles[$id]);
     }
 
     /**

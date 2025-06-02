@@ -41,7 +41,7 @@
                     "report_liked" => "Der Bericht wurde erfolgreich geliked.",
                     "report_unliked" => "Der Bericht wurde erfolgreich entliked.",
                     "cannot_follow_yourself" => "Sie können sich nicht selbst folgen.",
-
+                    "profile_not_found" => "Das Profil wurde nicht gefunden.",
                     default => "Unbekannte Meldung: " . $_SESSION['message'],
                 };
                 ?>

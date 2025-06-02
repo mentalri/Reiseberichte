@@ -50,7 +50,7 @@ class ReportController
     public function getUserRating($reportId, $userId)
     {
         if(!isset($_SESSION["user"])){
-            return new Rating(-1, null, -1); // Return an illegal rating object if user is not logged in
+            return new Rating(-1,$reportId, null, -1); // Return an illegal rating object if user is not logged in
         }
         try {
             $report = Reports::getInstance()->getReport($reportId);
@@ -59,7 +59,7 @@ class ReportController
                     return $rating;
                 }
             }
-            return new Rating(-1, null, -1); // Return an illegal rating object if no rating found
+            return new Rating(-1,$reportId, null, -1); // Return an illegal rating object if no rating found
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
             header(self::LOCATION_INDEX_PHP);
