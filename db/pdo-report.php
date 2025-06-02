@@ -15,21 +15,47 @@ $sql = 'CREATE TABLE report (' . $id_feld .
 $db->exec($sql);
 echo 'Report Tabelle angelegt.<br/>';
 
-$sql = "INSERT INTO report (rateable_id, title, location, description) VALUES (1, 'Schöner Park', 'Hamburg Stadtpark', 'Ein wunderschöner Park zum Spazieren');";
-if ($db->exec($sql)) {
-    $id = $db->lastInsertId();
-    echo "Report mit der ID $id eingetragen.<br />";
+// Transaktion starten
+$db->beginTransaction();
+
+// Statement vorbereiten
+$stmt = $db->prepare("INSERT INTO report (rateable_id, title, location, description)
+                      VALUES (:rateable_id, :title, :location, :description)");
+
+$fehler = false;
+
+// Erster Eintrag
+if ($stmt->execute([
+    ':rateable_id' => 1,
+    ':title'       => 'Schöner Park',
+    ':location'    => 'Hamburg Stadtpark',
+    ':description' => 'Ein wunderschöner Park zum Spazieren'
+])) {
+    echo "Report 1 mit ID " . $db->lastInsertId() . " eingetragen.<br/>";
 } else {
-    echo 'Fehler beim Eintragen des ersten Reports.<br/>';
+    echo "Fehler beim Eintragen von Report 1<br/>";
+    $fehler = true;
 }
 
-$sql = "INSERT INTO report (rateable_id, title, location, description) VALUES (2, 'Tolles Restaurant', 'Berlin Mitte', 'Excellentes Essen und Service');";
-if ($db->exec($sql)) {
-    $id = $db->lastInsertId();
-    echo "Report mit der ID $id eingetragen.<br />";
+// Zweiter Eintrag
+if ($stmt->execute([
+    ':rateable_id' => 2,
+    ':title'       => 'Tolles Restaurant',
+    ':location'    => 'Berlin Mitte',
+    ':description' => 'Exzellentes Essen und Service'
+])) {
+    echo "Report 2 mit ID " . $db->lastInsertId() . " eingetragen.<br/>";
 } else {
-    echo 'Fehler beim Eintragen des zweiten Reports.<br/>';
+    echo "Fehler beim Eintragen von Report 2<br/>";
+    $fehler = true;
 }
 
-echo 'Report Tabelle fertig';
+// Transaktion abschließen oder zurückrollen
+if (!$fehler) {
+    $db->commit();
+    echo "Transaktion erfolgreich abgeschlossen.<br/>";
+} else {
+    $db->rollBack();
+    echo "Transaktion wurde wegen Fehler zurückgerollt.<br/>";
+}
 ?>
