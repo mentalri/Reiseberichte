@@ -4,25 +4,27 @@ namespace php\model\profiles;
 
 use PDO;
 use PDOException;
+use php\model\DatabaseHandler;
 use php\model\exceptions\InternalErrorException;
 use php\model\exceptions\MissingEntryException;
 use php\model\reports\Reports;
 
+require_once $abs_path.'/php/model/DatabaseHandler.php';
 require_once $abs_path.'/php/model/profiles/ProfilesDAO.php';
 require_once $abs_path.'/php/model/profiles/Profile.php';
 require_once $abs_path.'/php/model/reports/Reports.php';
 require_once $abs_path.'/php/model/reports/Report.php';
 require_once $abs_path.'/exceptions.php';
 
-class ProfilesPDO implements ProfilesDAO
+class ProfilesPDOSQLite extends DatabaseHandler implements ProfilesDAO
 {
-    const DB_PATH = "/db/reiseberichte.db";
 
-    public static function getInstance(): ProfilesPDO
+
+    public static function getInstance(): ProfilesPDOSQLite
     {
         static $instance = null;
         if ($instance === null) {
-            $instance = new ProfilesPDO();
+            $instance = new ProfilesPDOSQLite();
         }
         return $instance;
     }
@@ -31,44 +33,14 @@ class ProfilesPDO implements ProfilesDAO
         // Constructor is private to enforce singleton pattern
     }
 
-    /**
-     * @throws InternalErrorException
-     */
-    private function getConnection()
-    {
-        global $abs_path;
-        $dbFile = $abs_path . self::DB_PATH;
-        $dsn = 'sqlite:' . $dbFile;
-        $user = 'root';
-        $pw = null;
 
-        try {
-            $db = new PDO($dsn, $user, $pw);
-            $this->create($db); // Always check for missing tables
-            return $db;
-        } catch (PDOException $e) {
-            throw new InternalErrorException();
-        }
-    }
 
-    private function createTable(PDO $db,string $name,string $sql): bool
-    {
-        // Check if the table already exists
-        $result = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='$name'");
-        if ($result->fetch() === false) {
-            // Create the table if it does not exist
-            $db->exec($sql);
-            return true;
-        }
-        return false;
-    }
-
-    private function create(PDO $db): void
+    protected function create(PDO $db): void
     {
         try {
             // Check and create 'users' table if missing
             if($this->createTable($db, 'users', "
-                CREATE TABLE `users` (
+                CREATE TABLE IF NOT EXISTS `users` (
                   `id` integer PRIMARY KEY,
                   `username` varchar(255) UNIQUE NOT NULL,
                   `email` varchar(255) UNIQUE NOT NULL,
@@ -87,102 +59,23 @@ class ProfilesPDO implements ProfilesDAO
             }
             // Check and create 'followers' table if missing
             if($this->createTable($db, 'followers', "
-                CREATE TABLE `followers` (
+                CREATE TABLE IF NOT EXISTS  `followers` (
                   `follower_id` integer NOT NULL,
                   `followed_id` integer NOT NULL,
-                  FOREIGN KEY (follower_id) REFERENCES users(id),
-                  FOREIGN KEY (followed_id) REFERENCES users(id),
+                  FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+                  FOREIGN KEY (followed_id) REFERENCES users(id) ON DELETE CASCADE,
                   PRIMARY KEY (follower_id, followed_id)
                 );
             ")){
 
             }
 
-        } catch (PDOException $e) {
+        } catch (PDOException|InternalErrorException $e) {
             // Handle error if needed
-        } catch (InternalErrorException|MissingEntryException) {
         }
     }
 
-    /**
-     * @throws InternalErrorException
-     */
-    public function insert($db, $sql, $params = []): int
-    {
-        if (!isset($db)) {
-            $db = $this->getConnection();
-        }
-        try {
-            $command = $db->prepare($sql);
-            $command->execute($params);
-            return (int)$db->lastInsertId();
-        } catch (PDOException) {
-            throw new InternalErrorException();
-        }
-    }
 
-    /**
-     * @throws InternalErrorException
-     */
-    public function select($db, $sql, $params = []): array
-    {
-        if (!isset($db)) {
-            $db = $this->getConnection();
-        }
-        try {
-            $command = $db->prepare($sql);
-            $command->execute($params);
-            return $command->fetchAll();
-        } catch (PDOException) {
-            throw new InternalErrorException();
-        }
-    }
-
-    /**
-     * @throws InternalErrorException
-     * @throws MissingEntryException
-     */
-    public function update($db, $sql, $params = []): void
-    {
-        if (!isset($db)) {
-            $db = $this->getConnection();
-        }
-        try {
-            $db->beginTransaction();
-            $command = $db->prepare($sql);
-            $command->execute($params);
-            $db->commit();
-            if($command->rowCount() === 0) {
-                throw new MissingEntryException("No rows affected by update operation.");
-            }
-        } catch (PDOException) {
-            $db->rollBack();
-            throw new InternalErrorException();
-        }
-    }
-
-    /**
-     * @throws InternalErrorException
-     * @throws MissingEntryException
-     */
-    public function delete($db, $sql, $params = []): void
-    {
-        if (!isset($db)) {
-            $db = $this->getConnection();
-        }
-        try {
-            $db->beginTransaction();
-            $command = $db->prepare($sql);
-            $command->execute($params);
-            $db->commit();
-            if($command->rowCount() === 0) {
-                throw new MissingEntryException("No rows affected by delete operation.");
-            }
-        } catch (PDOException) {
-            $db->rollBack();
-            throw new InternalErrorException();
-        }
-    }
 
     public function getProfiles(): array
     {
@@ -311,6 +204,7 @@ class ProfilesPDO implements ProfilesDAO
         } catch (PDOException) {
             throw new InternalErrorException();
         }
+
     }
 
     public function updateProfile($id, $username, $email, $password, $profile_picture, $description): Profile

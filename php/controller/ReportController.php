@@ -50,7 +50,7 @@ class ReportController
     public function getUserRating($reportId, $userId)
     {
         if(!isset($_SESSION["user"])){
-            return new Rating(-1,$reportId, null, -1); // Return an illegal rating object if user is not logged in
+            return new Rating(-1,$reportId,"report", null, -1); // Return an illegal rating object if user is not logged in
         }
         try {
             $report = Reports::getInstance()->getReport($reportId);
@@ -59,7 +59,7 @@ class ReportController
                     return $rating;
                 }
             }
-            return new Rating(-1,$reportId, null, -1); // Return an illegal rating object if no rating found
+            return new Rating(-1,$reportId,"report", null, -1); // Return an illegal rating object if no rating found
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
             header(self::LOCATION_INDEX_PHP);
@@ -187,8 +187,8 @@ class ReportController
             return;
         }
         try {
-            $report = Reports::getInstance()->addReport(
-                Profiles::getInstance()->getProfile($_SESSION["user"]),
+            $reportId = Reports::getInstance()->addReport(
+                $_SESSION["user"],
                 time(),
                 $_POST["title"],
                 $_POST["location"],
@@ -196,11 +196,12 @@ class ReportController
                 $imagePaths,
                 ($_POST["tags"] ?? [])
             );
-            header(self::LOCATION_REPORT_ID . urlencode($report->getId()));
+            header(self::LOCATION_REPORT_ID . urlencode($reportId));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
-        } catch (InternalErrorException) {
+        } catch (InternalErrorException $e) {
             $_SESSION["message"] = "internal_error";
+            error_log("Error adding report: " . $e->getMessage() . " - " . $e->getTraceAsString());
         }
     }
     public function editReport(): Report
@@ -299,8 +300,23 @@ class ReportController
         
         $this->checkId();
         try {
-            Reports::getInstance()->createComment($_GET["id"], $_SESSION["user"], $_POST["comment"]);
-            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+            if (!isset($_POST["comment"]) || mb_strlen(trim($_POST["comment"])) < 1) {
+                $_SESSION["message"] = "parameter_missing";
+                header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+                exit;
+            }
+            if (mb_strlen(trim($_POST["comment"])) > 1000) {
+                $_SESSION["message"] = "invalid_input_length";
+                header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+                exit;
+            }
+            if (!isset($_GET["type"]) || !in_array($_GET["type"], ["report", "comment"])) {
+                $_SESSION["message"] = "parameter_missing";
+                header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+                exit;
+            }
+            Reports::getInstance()->createComment($_GET["id"],$_GET["type"], $_SESSION["user"], $_POST["comment"]);
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"])."&img=".urlencode($_GET["img"] ?? "0"));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
         } catch (InternalErrorException) {
@@ -311,13 +327,20 @@ class ReportController
     {
         if (!isset($_SESSION["user"])) {
             $_SESSION["message"] = "not_logged_in";
-            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"])."&img=".urlencode($_GET["img"] ?? "0"));
             exit;
         }
         
         $this->checkId();
         $reportsDAO = Reports::getInstance();
-        #Löschung des Kommentars fehlt
+        try {
+            $reportsDAO->deleteComment($_GET["id"]);
+        }catch (MissingEntryException) {
+            $_SESSION["message"] = "invalid_entry_id";
+        } catch (InternalErrorException) {
+            $_SESSION["message"] = "internal_error";
+        }
+
         header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
     }
     public function addRating(): void
@@ -329,8 +352,18 @@ class ReportController
             exit;
         }
         try {
-            Reports::getInstance()->createRating($_GET["id"], $_SESSION["user"], $_POST["rating"]);
-            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+            if (!isset($_POST["rating"]) || !is_numeric($_POST["rating"]) || (int)$_POST["rating"] < 1 || (int)$_POST["rating"] > 5) {
+                $_SESSION["message"] = "parameter_missing";
+                header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+                exit;
+            }
+            if (!isset($_GET["type"]) || !in_array($_GET["type"], ["report", "comment"])) {
+                $_SESSION["message"] = "parameter_missing";
+                header(self::LOCATION_REPORT_ID . urlencode($_GET["id"]));
+                exit;
+            }
+            Reports::getInstance()->createRating($_GET["id"],$_GET["type"], $_SESSION["user"], $_POST["rating"]);
+            header(self::LOCATION_REPORT_ID . urlencode($_GET["id"])."&img=".urlencode($_GET["img"] ?? "0"));
         } catch (MissingEntryException) {
             $_SESSION["message"] = "invalid_entry_id";
         } catch (InternalErrorException) {

@@ -49,17 +49,17 @@ class ReportsSession implements ReportsDAO
         if (!isset($_SESSION['reports'])) {
             $profiles = Profiles::getInstance();
             try {
-                $this->addReport($profiles->getProfile(1),strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
-                $this->addReport($profiles->getProfile(2),strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(3),strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(4),strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(1),strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
-                $this->addReport($profiles->getProfile(2),strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport(1,strtotime("2023-10-07"),"Ein Tag in London","London,England", "Das ist ein Dummy-Eintrag",["resources/picture_icon.png"],["Stadt"]);
+                $this->addReport(2,strtotime("2023-10-06"),"Paris mal anders","Paris,Frankreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport(3,strtotime("2023-10-05"),"Berlin 2025","Berlin,Deutschland", "Das ist ein Dummy-Eintrag");
+                $this->addReport(4,strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport(1,strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
+                $this->addReport(2,strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
 
-                $this->createRating($this->reports[0]->getId(),1, 5);
-                $this->createRating($this->reports[0]->getId(),2, 4);
-                $this->createComment($this->reports[0]->getId(),1, "Das ist ein Dummy-Kommentar");
-                $this->createComment($this->reports[0]->getId(),2, "Das ist ein Dummy-Kommentar");
+                $this->createRating($this->reports[0]->getId(),"report",1, 5);
+                $this->createRating($this->reports[0]->getId(),"report",2, 4);
+                $this->createComment($this->reports[0]->getId(),"report",1, "Das ist ein Dummy-Kommentar");
+                $this->createComment($this->reports[0]->getId(),"report",2, "Das ist ein Dummy-Kommentar");
                 error_log("Dummy reports created successfully.");
             }catch (MissingEntryException| InternalErrorException $e) {
                 // This should never happen, as we are creating the reports in the constructor
@@ -91,6 +91,7 @@ class ReportsSession implements ReportsDAO
                 $this->comments[$comment->getId()] = new Comment(
                     $comment->getId(),
                     $comment->getRateableId(),
+                    $comment->getRateableType(),
                     $profilesDao->getProfile($comment->getUser()->getId()),
                     $comment->getText(),
                     $comment->getDate()
@@ -100,36 +101,23 @@ class ReportsSession implements ReportsDAO
                 $this->ratings[$rating->getId()] = new Rating(
                     $rating->getId(),
                     $rating->getRateableId(),
+                    $rating->getRateableType(),
                     $profilesDao->getProfile($rating->getUser()->getId()),
                     $rating->getRating()
                 );
             }
             foreach ($this->comments as $comment) {
-                foreach ($this->reports as $report) {
-                    if ($report->getId() == $comment->getRateableId()) {
-                        $report->getComments()[] = $comment;
-                        continue 2;
-                    }
-                }
-                foreach ($this->comments as $c) {
-                    if ($c->getId() == $comment->getRateableId()) {
-                        $c->getComments()[] = $comment;
-                        continue 2;
-                    }
+                if($comment->getRateableType()==="report") {
+                    $this->reports[$comment->getRateableId()]->getComments()[] = $comment;
+                } elseif($comment->getRateableType()==="comment") {
+                    $this->comments[$comment->getRateableId()]->getComments()[] = $comment;
                 }
             }
             foreach ($this->ratings as $rating) {
-                foreach ($this->reports as $report) {
-                    if ($report->getId() == $rating->getRateableId()) {
-                        $report->getRatings()[] = $rating;
-                        continue 2;
-                    }
-                }
-                foreach ($this->comments as $c) {
-                    if ($c->getId() == $rating->getRateableId()) {
-                        $c->getRatings()[] = $rating;
-                        continue 2;
-                    }
+                if($rating->getRateableType()==="report") {
+                    $this->reports[$rating->getRateableId()]->getRatings()[] = $rating;
+                } elseif($rating->getRateableType()==="comment") {
+                    $this->comments[$rating->getRateableId()]->getRatings()[] = $rating;
                 }
             }
             foreach ($this->images as $image) {
@@ -275,9 +263,9 @@ class ReportsSession implements ReportsDAO
         throw new MissingEntryException(self::NO_ENTRY_FOUND_WITH_RATEABLE_ID . $id);
     }
 
-    public function addReport($author, $date, $title, $location, $description,$pictures=["resources/picture_icon.png"], $tags=[]): Report
+    public function addReport($author_id, $date, $title, $location, $description,$pictures=["resources/picture_icon.png"], $tags=[]): int
     {
-        $report = new Report($this->rateableId++, $author, $date, $title, $location, $description,$pictures,$tags);
+        $report = new Report($this->rateableId++, Profiles::getInstance()->getProfile($author_id), $date, $title, $location, $description,$pictures,$tags);
         $this->reports[$report->getId()] = $report;
         foreach ($pictures as $picture) {
             $this->images[] = ['id' => $report->getId(), 'path' => $picture];
@@ -285,7 +273,7 @@ class ReportsSession implements ReportsDAO
         foreach ($tags as $tag) {
             $this->tags[] = ['id' => $report->getId(), 'tag' => $tag];
         }
-        return $report;
+        return $report->getId();
     }
 
     /**
@@ -345,23 +333,24 @@ class ReportsSession implements ReportsDAO
      * @throws MissingEntryException
      * @throws InternalErrorException
      */
-    public function createComment($rateable_id, $user_id, $text): void
+    public function createComment(int $rateable_id, string $rateable_type, int $user_id, string $text): void
     {
         if(!isset($this->reports[$rateable_id]) && !isset($this->comments[$rateable_id])) {
             throw new MissingEntryException(self::NO_ENTRY_FOUND_WITH_RATEABLE_ID . $rateable_id);
         }
-        $comment = new Comment($this->rateableId++,$rateable_id, Profiles::getInstance()->getProfile($user_id), $text, time());
+        $comment = new Comment($this->rateableId++,$rateable_id,$rateable_type, Profiles::getInstance()->getProfile($user_id), $text, time());
         $this->comments[$comment->getId()] = $comment;
     }
 
     /**
+     * @inheritDoc
      * @throws MissingEntryException
      * @throws InternalErrorException
      */
-    public function createRating($rateable_id, $user_id, $rating): void
+    public function createRating(int $rateable_id, string $rateable_type, int $user_id, int $rating): void
     {
-        if($this->handleRating($this->reports,$rateable_id, $user_id,$rating)) {return;}
-        if($this->handleRating($this->comments,$rateable_id, $user_id,$rating)) {return;}
+        if($rateable_type==="report" && $this->handleRating($this->reports,$rateable_id,$rateable_type, $user_id,$rating)) {return;}
+        if($rateable_type==="comment" && $this->handleRating($this->comments,$rateable_id,$rateable_type, $user_id,$rating)) {return;}
         throw new MissingEntryException(self::NO_ENTRY_FOUND_WITH_RATEABLE_ID . $rateable_id);
     }
 
@@ -370,7 +359,7 @@ class ReportsSession implements ReportsDAO
      * @throws MissingEntryException
      * @throws InternalErrorException
      */
-    private function handleRating(array $array, int $rateable_id, int $user_id, int $rating): bool
+    private function handleRating(array $array, int $rateable_id, string $rateable_type, int $user_id, int $rating): bool
     {
 
         foreach ($array as $entry) {
@@ -381,7 +370,7 @@ class ReportsSession implements ReportsDAO
                         return true;
                     }
                 }
-                $rating = new Rating($this->ratingId++,$rateable_id, Profiles::getInstance()->getProfile($user_id), $rating);
+                $rating = new Rating($this->ratingId++,$rateable_id,$rateable_type, Profiles::getInstance()->getProfile($user_id), $rating);
                 $this->ratings[$rating->getId()] = $rating;
                 return true;
             }
@@ -408,7 +397,7 @@ class ReportsSession implements ReportsDAO
         unset($this->ratings[$rating_id]);
     }
 
-    public function updateReport($id, $title, $location, $description, $pictures, $tags): Report
+    public function updateReport($id, $title, $location, $description, $pictures, $tags): void
     {
         $report = $this->getReport($id);
         foreach ($this->images as $key => $image) {
@@ -437,7 +426,6 @@ class ReportsSession implements ReportsDAO
         foreach ($tags as $tag) {
             $this->tags[] = ['id' => $report->getId(), 'tag' => $tag];
         }
-        return $this->reports[$id];
     }
     /**
      * @throws MissingEntryException
@@ -447,10 +435,12 @@ class ReportsSession implements ReportsDAO
         if(!isset($this->ratings[$id])) {
             throw new MissingEntryException("No entry found with rating_id: " . $id);
         }
+        $oldRating = $this->ratings[$id];
         $this->ratings[$id] = new Rating(
             $id,
-            $this->ratings[$id]->getRateableId(),
-            $this->ratings[$id]->getUser(),
+            $oldRating->getRateableId(),
+            $oldRating->getRateableType(),
+            $oldRating->getUser(),
             $rating
         );
     }

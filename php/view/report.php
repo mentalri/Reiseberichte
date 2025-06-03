@@ -35,7 +35,7 @@ require_once $abs_path . "/php/include/head.php"
 
                 <div class="bewertung-bereich">
                     <h3>Bewertung abgeben:</h3>
-                    <form action="rating_add.php?id=<?= $report->getId() ?>" method="POST" class="bewertung-formular">
+                    <form action="rating_add.php?type=report&id=<?= $report->getId() ?>&img=<?=urlencode($_GET["img"]??0)?>" method="POST" class="bewertung-formular">
                         <button id="submit" name="submit" type="submit" value="Bewertung absenden">
                             <div class="rating">
                                 <?php for ($i = 5; $i >= 1; $i--): ?>
@@ -49,7 +49,7 @@ require_once $abs_path . "/php/include/head.php"
                 <div class="kommentarbereich">
                     <h3>Kommentare</h3>
 
-                    <form action="comment_add.php?id=<?= $report->getId() ?>" class="kommentar-formular" method="POST">
+                    <form action="comment_add.php?type=report&id=<?= $report->getId() ?>&img=<?=urlencode($_GET["img"]??0)?>" class="kommentar-formular" method="POST">
                         <textarea id="comment" name="comment" placeholder="Dein Kommentar schreiben..." required></textarea>
                         <button type="submit">Kommentar absenden</button>
                     </form>

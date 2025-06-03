@@ -15,7 +15,7 @@ class Report extends Rateable
     /** @var string[] */
     private array $tags;
     
-    public function __construct($id, $author, $date, $title, $location, $description, $pictures, $tags){
+    public function __construct(int $id, Profile $author, int $date, string $title, string $location, string $description, array $pictures, array $tags){
         parent::__construct($id, $author, $date);
         $this->id = $id;
         $this->title = $title;

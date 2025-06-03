@@ -24,8 +24,9 @@ class IndexController
             $count = $_GET["count"] ?? 10;
             return Reports::getInstance()
                 ->getReports($location, $perimeter, $rating, $tags, $date, $date2, $sorting, $count, $page, null);
-        } catch (InternalErrorException) {
+        } catch (InternalErrorException $e) {
             $_SESSION["message"] = "internal_error";
+            error_log("Internal error in IndexController.php: " . $e->getMessage() . " at " . $e->getFile() . ":" . $e->getLine());
             return [];
         }
     }
