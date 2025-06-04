@@ -62,6 +62,9 @@ class ReportsPDOSQLite extends DatabaseHandler implements ReportsDAO
                 ["resources/picture_icon.png"], // pictures
                 ["Stadt", "Sightseeing"] // tags
             );
+            $this->addReport(4,strtotime("2023-10-04"),"Wiener Schnitzel","Wien,Österreich", "Das ist ein Dummy-Eintrag");
+            $this->addReport(1,strtotime("2023-10-03"),"Die Alpen","Alpen,Österreich", "Das ist ein Dummy-Eintrag");
+            $this->addReport(2,strtotime("2023-10-02"),"Die Nordsee","Nordsee,Deutschland", "Das ist ein Dummy-Eintrag");
         }
 
         $this->createTable($db, 'ratings', "
@@ -271,7 +274,7 @@ class ReportsPDOSQLite extends DatabaseHandler implements ReportsDAO
 
         return array_map(fn($row) => new Report(
             $row['id'],
-            $row['author'],
+            Profiles::getInstance()->getProfile($row['author']),
             $row['date'],
             $row['title'],
             $row['location'],

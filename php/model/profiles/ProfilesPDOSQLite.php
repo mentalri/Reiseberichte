@@ -67,7 +67,21 @@ class ProfilesPDOSQLite extends DatabaseHandler implements ProfilesDAO
                   PRIMARY KEY (follower_id, followed_id)
                 );
             ")){
+                // Hans follows Lisa, Max, Anna, Tom
+                $this->followProfile(1, 2);
+                $this->followProfile(1, 3);
+                $this->followProfile(1, 4);
+                $this->followProfile(1, 5);
 
+                // Lisa follows Max, Hans, Tom
+                $this->followProfile(2, 3);
+                $this->followProfile(2, 1);
+                $this->followProfile(2, 5);
+
+                // Max follows Lisa, Hans, Sophie
+                $this->followProfile(3, 2);
+                $this->followProfile(3, 1);
+                $this->followProfile(3, 6);
             }
 
         } catch (PDOException|InternalErrorException $e) {
@@ -92,7 +106,7 @@ class ProfilesPDOSQLite extends DatabaseHandler implements ProfilesDAO
                     $row['profile_picture'] ?? "resources/profile-icon.png",
                     $row['description'] ?? "",
                 );
-                $profiles[] = $profile;
+                $profiles[$profile->getId()] = $profile;
             }
             $result = $this->select($db, "SELECT * FROM `followers`");
             foreach ($result as $row) {
